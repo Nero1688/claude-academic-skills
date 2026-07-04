@@ -1,0 +1,166 @@
+# Academic Claude Skills · 學術研究 Claude 技能包
+
+**🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
+
+<p align="left">
+  <img alt="skills" src="https://img.shields.io/badge/skills-18-blue">
+  <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
+  <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
+  <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
+</p>
+
+> 一組給**商管、財金、社會科學量化研究者**的 Claude Skills，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
+> A curated bundle of Claude Skills for **quantitative research in business, finance, and social science**, covering the full research workflow. Built on the shoulders of several open-source authors (see Credits).
+
+---
+---
+
+## 繁體中文
+
+### 📌 這是什麼 / 給誰用
+一組可掛到 Claude 上的「技能（Skills）」。掛上後，當你在對話中談到相關任務，Claude 會**自動載入對應技能**、套用該領域的專業框架，不必每次重打長提示詞。
+
+**適合對象**：商管／財金／社會科學的量化研究者（碩、博士生與研究人員），特別是**台灣學術脈絡**（繁體中文、APA 7、口試委員意見回覆格式）的使用者。
+
+> ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
+
+### 🧭 運作原則（三條底線）
+1. **資料由你自己抓。** 資料類技能一律假設**你（或你的機構）擁有合法訂閱／授權帳號，由你自己登入下載**。技能只教「在哪找、怎麼判斷、怎麼分析」，**不代抓資料、不散布任何資料庫的專屬目錄**。
+2. **教方法，重識別假設。** 找到資料後，技能會建議**最恰當的研究設計與估計方法**（先講清楚識別假設會不會成立，再談跑哪個模型），並產出可重現的 R／SPSS／Stata 語法。
+3. **資料庫中立、歡迎擴充。** 框架適用於任何資料庫（TEJ 只是內建範例）。歡迎社群依 [`docs/ADD_A_DATABASE.md`](docs/ADD_A_DATABASE.md) 新增 WRDS/Compustat、CSMAR、World Bank 等 profile。
+
+### 🗂 技能總覽（依研究流程分組）
+| 研究階段 | 技能 | 一句話功能 | 觸發詞（示例） | 授權 |
+|---|---|---|---|---|
+| **① 選題・文獻・資料** | `research-orchestrator` | 研究大腦總管，替你分派合適的子技能 | 不知道從何著手、綜合任務 | 原創 |
+| | `phd-researcher` | 文獻分析、方法論逆向、研究缺口、PRISMA、後設分析 | 文獻分析、系統性回顧、meta-analysis | 混合 🔒 |
+| | `tej-data-scout` | 資料可行性偵察＋研究設計/估計方法建議（以 TEJ 為範例，資料庫中立） | 選題、資料可行性、這題能不能做 | 原創 |
+| | `tej-variable-mapper` | 把 Compustat／CRSP 變數定義映射到 TEJ 對應欄位 | 變數對應、TEJ 欄位、Compustat | 原創 |
+| | `tej-data-wrangler` | TEJ 原始 Excel/CSV 清理、遺漏值分析、格式標準化 | 資料清理、遺漏值、格式標準化 | 原創 |
+| **② 分析・語法・量表** | `r-spss-syntax-architect` | 依假說生成可重現的 R／SPSS／Stata 語法 | R 語法、SPSS 語法、可重現 | 原創 |
+| | `ob-hrm-scale-adaptor` | 量表跨文化改編（合規版）＋測量恆等性檢定語法 | 量表改編、測量恆等性、lavaan | 原創 |
+| | `qualitative-thematic-coder` | Braun & Clarke 主題分析，深度訪談逐字稿編碼 | 主題分析、逐字稿編碼、質性 | 原創 |
+| | `management-figure` | 出版級統計圖：倒 U 轉折點、係數森林圖、交互作用、邊際效果 | 出版級圖、forest plot、交互作用圖 | 📎 MIT |
+| **③ 寫作・潤飾** | `academic-journal-polisher` | 台灣學術環境文句潤飾，杜絕 AI 慣用語 | 潤飾、去 AI 味、學術文句 | 原創 |
+| | `q1-journal-polisher` | Q1–Q4 國際期刊英文潤飾＋APA 7＋模擬審查 | 期刊潤飾、投稿前、APA 7 | 原創 |
+| **④ 投稿前品管** | `thesis-consistency-audit` | 六維度一致性稽核：假設↔迴歸表、樣本數、文字↔表格、引用 | 一致性稽核、論文對帳、投稿前檢查 | 🔒 CC BY-NC-SA |
+| | `q1-journal-reviewer` | 模擬 ABS 3*/4* 匿名審查委員的批判 | 審稿、peer review、審查意見 | 原創 |
+| | `citation-verifier` | 揪出 AI 捏造假文獻、孤兒引用、引用不貼合主張 | 引用查核、假文獻、孤兒引用 | 原創 |
+| **⑤ 口試・簡報** | `academic-pptx` | 學術簡報內容與結構標準：行動式標題、論證式編排 | 口試簡報、conference talk | 📎 MIT |
+| | `academic-slides` | Beamer 風格、零依賴單檔 HTML 學術簡報（含 KaTeX） | 學術投影片、Beamer、HTML 簡報 | 📎 MIT |
+| **⑥ 博士修業（模板）** | `phd-milestone-tracker` | 博士修業里程碑與 deadline 追蹤（規則為範例，請換成你系所的） | 修業里程碑、資格考期限、畢業時程 | 原創 |
+| | `qual-exam-coach` | 學科資格考備考教練（可依你的考科調整） | 資格考、備考、記憶卡、模擬考 | 原創 |
+
+**授權圖例**：原創＝作者本人著作（採根 `LICENSE`）；`📎`＝改作／收錄他人開源作品（保留原授權與姓名標示）；`🔒`＝含非商業（NC）條款。詳見 [NOTICE.md](NOTICE.md)。
+
+> **關於引用查核**：另有優秀開源工具 [`PHY041/claude-skill-citation-checker`](https://github.com/PHY041/claude-skill-citation-checker)（比對 CrossRef／Semantic Scholar／OpenAlex）。因其上游未附授權（預設保留一切權利），本 repo **不重製其程式碼**，建議直接前往取用，與本包 `citation-verifier` 搭配。
+
+### 🚀 安裝
+**claude.ai**：Code → Download ZIP → [claude.ai](https://claude.ai) Customize → Skills → 逐一上傳你要的技能資料夾 → Settings → Capabilities 開啟 Code execution。
+**Claude Code**：clone 後把 `skills/` 下要的資料夾複製到 `~/.claude/skills/`。詳見 [`docs/INSTALL.md`](docs/INSTALL.md)。
+
+### 💡 使用範例
+**範例 1 — 發想期問「這題能不能做」＋方法建議**
+> **你**：我想做「董事會性別多元化對創新產出（專利數）的影響」，TEJ 做得起來嗎？
+> **Claude**（`tej-data-scout`）：拆構念、給「變數 × 資料對照表」，標示董監資料【直接】、專利數【外部】（建議 TIPO）；判定為公司-年 panel，因專利為計數且過度離散 → 建議**負二項固定效果**；再交棒 `/r-spss-syntax-architect` 產語法。
+
+**範例 2 — 投稿前一致性稽核**
+> **你**：這是我的迴歸章節（.docx），投稿前幫我抓內部矛盾。
+> **Claude**（`thesis-consistency-audit`）：逐一比對假設↔迴歸表、樣本數、文字↔表格數字、APA 引用，列出會被審查委員圈起來的矛盾點與修正建議。
+
+**範例 3 — 模擬 Q1 期刊審查**
+> **你**：用 ABS 3* 審查委員的角度狠一點審這篇 introduction 與 hypotheses。
+> **Claude**（`q1-journal-reviewer`）：以匿名審查口吻指出理論貢獻、假設推導斷點、identification 威脅，並給 Major/Minor Revision 的具體要求。
+
+### 📜 授權
+本 repo 是**合輯（collection）**，採**逐資料夾授權**：原創技能採根 [`LICENSE`](LICENSE)；改作／收錄他人作品的技能，各資料夾內**保留原作者 LICENSE 與 `ATTRIBUTION.md`**。完整對照見 **[NOTICE.md](NOTICE.md)**。🔒 標示 Non-Commercial 的技能僅供非商業學術用途。
+
+### 🙏 致謝
+- **Zara Zhang** — `academic-slides`（MIT）
+- **Yuan Yizhe（Yuan1z0825）** — `nature-skills`，`management-figure` 的出版級繪圖底子（MIT）
+- **Cheng-I Wu（Imbad0202）** — `academic-research-skills`，`phd-researcher` 的系統性回顧／後設分析模組（CC BY-NC 4.0）
+- **qqfly1to19** — `awesome_proofreading_auto`，`thesis-consistency-audit` 的稽核框架理念（CC BY-NC-SA 4.0）
+- **PHY041** — `claude-skill-citation-checker`，推薦搭配的引用查核工具（本 repo 未重製其程式碼）
+- `academic-pptx` 內容準則參考 Barbara Minto《Pyramid Principle》、Naegle (2021) *PLOS Comput Biol* 等公開學術實務。
+
+若你是上述任一作者、對收錄或標示有任何意見，**歡迎開 issue，我會立即配合調整。**
+
+### 🤝 貢獻 / ⚖️ 免責
+歡迎 issue 與 PR，特別是新增資料庫 profile（見 [`docs/ADD_A_DATABASE.md`](docs/ADD_A_DATABASE.md)）。請先讀 [`CONTRIBUTING.md`](CONTRIBUTING.md)。本專案與 Anthropic 無官方關聯；技能輸出僅供研究輔助，**最終學術判斷與責任在使用者本人**。`phd-milestone-tracker`／`qual-exam-coach` 內的規則為**範例模板**，務必以你所屬系所公告為準。部分技能需付費資料庫（TEJ）。
+
+---
+---
+
+## English
+
+### 📌 What it is / Who it's for
+A bundle of **Claude Skills** for the full research workflow. Once installed, Claude **auto-loads the relevant skill** when your conversation touches a matching task, applying a domain-specific framework so you don't have to re-type long prompts.
+
+**Audience:** quantitative researchers in business, finance, and social science (master's/PhD students and faculty), especially those working in the **Taiwanese academic context** (Traditional Chinese, APA 7). Many skills are usable in any context.
+
+> ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
+
+### 🧭 Operating principles (three ground rules)
+1. **You fetch your own data.** Every data skill assumes **you (or your institution) hold a legitimate subscription/license and download the data yourself**. Skills only teach *where to look, how to judge feasibility, and how to analyze* — they never fetch data for you and never redistribute any database's proprietary catalog.
+2. **Teach method, foreground identification.** After data is located, skills recommend the **appropriate research design and estimator** (is the identifying assumption plausible *first*, model choice second) and generate reproducible R/SPSS/Stata syntax.
+3. **Database-agnostic and extensible.** The framework applies to any database (TEJ is just the built-in example). Contribute profiles for WRDS/Compustat, CSMAR, World Bank, etc. via [`docs/ADD_A_DATABASE.md`](docs/ADD_A_DATABASE.md).
+
+### 🗂 Skills overview (grouped by research stage)
+| Stage | Skill | What it does | License |
+|---|---|---|---|
+| **① Ideation・Literature・Data** | `research-orchestrator` | A router "research brain" that dispatches the right sub-skill | Original |
+| | `phd-researcher` | Literature analysis, methodology reverse-engineering, research gaps, PRISMA systematic reviews, meta-analysis | Mixed 🔒 |
+| | `tej-data-scout` | Data-feasibility scouting + research-design/estimator advice (TEJ as example; database-agnostic) | Original |
+| | `tej-variable-mapper` | Maps Compustat/CRSP variable definitions to TEJ fields | Original |
+| | `tej-data-wrangler` | Cleans raw TEJ Excel/CSV: missing values, outliers, formatting | Original |
+| **② Analysis・Syntax・Scales** | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses | Original |
+| | `ob-hrm-scale-adaptor` | Cross-cultural scale adaptation (copyright-compliant) + measurement-invariance syntax | Original |
+| | `qualitative-thematic-coder` | Braun & Clarke thematic analysis for interview transcripts | Original |
+| | `management-figure` | Publication-grade figures: inverted-U turning points, coefficient forest plots, interaction & marginal-effects plots | 📎 MIT |
+| **③ Writing・Polishing** | `academic-journal-polisher` | Prose polishing for Taiwanese academic writing; removes AI-tells | Original |
+| | `q1-journal-polisher` | Q1–Q4 journal English polishing + APA 7 + mock review | Original |
+| **④ Pre-submission QA** | `thesis-consistency-audit` | Six-dimension consistency audit: hypotheses↔tables, sample sizes, text↔tables, citations | 🔒 CC BY-NC-SA |
+| | `q1-journal-reviewer` | Simulates an ABS 3*/4* anonymous reviewer's critique | Original |
+| | `citation-verifier` | Catches AI-fabricated references, orphan citations, claim–citation mismatches | Original |
+| **⑤ Defense・Slides** | `academic-pptx` | Academic slide content & structure standards: action titles, argument-driven decks | 📎 MIT |
+| | `academic-slides` | Beamer-style, zero-dependency single-file HTML academic slides (KaTeX) | 📎 MIT |
+| **⑥ PhD milestones (templates)** | `phd-milestone-tracker` | PhD milestone & deadline tracker (rules are a **template** — replace with your program's) | Original |
+| | `qual-exam-coach` | Qualifying-exam prep coach (adaptable to your subjects) | Original |
+
+**Legend:** *Original* = authored by this project (root `LICENSE`); `📎` = adapted from / includes third-party open-source work (original license & attribution preserved in-folder); `🔒` = includes a Non-Commercial (NC) clause. See [NOTICE.md](NOTICE.md).
+
+> **On citation checking:** there's an excellent open-source tool, [`PHY041/claude-skill-citation-checker`](https://github.com/PHY041/claude-skill-citation-checker) (checks CrossRef/Semantic Scholar/OpenAlex). Because its upstream ships **no license (all rights reserved)**, this repo **does not reproduce its code** — please get it from the original repo and pair it with this bundle's `citation-verifier`.
+
+### 🚀 Install
+**claude.ai:** Code → Download ZIP → [claude.ai](https://claude.ai) → Customize → Skills → upload each skill folder → Settings → Capabilities → enable Code execution.
+**Claude Code:** clone, then copy the folders you want from `skills/` into `~/.claude/skills/`. See [`docs/INSTALL.md`](docs/INSTALL.md).
+
+### 💡 Usage examples
+**1 — "Is this topic feasible?" + method advice**
+> **You:** I want to study board gender diversity → innovation output (patent counts). Can TEJ support this?
+> **Claude** (`tej-data-scout`): decomposes the constructs, gives a variable×data table (board data = *direct*; patent counts = *external*, suggest TIPO), identifies it as a firm-year panel, and — since patents are over-dispersed counts — recommends a **negative-binomial fixed-effects** model, then hands off to `/r-spss-syntax-architect` for runnable syntax.
+
+**2 — Pre-submission consistency audit**
+> **You:** Here's my results chapter (.docx). Find internal contradictions before I submit.
+> **Claude** (`thesis-consistency-audit`): cross-checks hypotheses↔tables, sample-size flow, text↔table numbers, and APA citations; lists the contradictions a reviewer would circle, with fixes.
+
+**3 — Mock Q1 journal review**
+> **You:** Review this introduction and hypotheses as a tough ABS 3* reviewer.
+> **Claude** (`q1-journal-reviewer`): in an anonymous-reviewer voice, flags gaps in theoretical contribution, breaks in hypothesis logic, and identification threats, with Major/Minor-Revision-level requests.
+
+### 📜 License
+This repo is a **collection** under **per-directory licensing**: original skills follow the root [`LICENSE`](LICENSE); adapted/included third-party skills keep their own LICENSE and `ATTRIBUTION.md` in-folder. Full map in **[NOTICE.md](NOTICE.md)**. Skills marked 🔒 Non-Commercial are for non-commercial academic use only.
+
+### 🙏 Credits
+Deep thanks to the open-source authors this work stands on:
+- **Zara Zhang** — `academic-slides` (MIT)
+- **Yuan Yizhe (Yuan1z0825)** — `nature-skills`, the publication-grade plotting foundation of `management-figure` (MIT)
+- **Cheng-I Wu (Imbad0202)** — `academic-research-skills`, the systematic-review / meta-analysis module of `phd-researcher` (CC BY-NC 4.0)
+- **qqfly1to19** — `awesome_proofreading_auto`, the audit-framework concept behind `thesis-consistency-audit` (CC BY-NC-SA 4.0)
+- **PHY041** — `claude-skill-citation-checker`, a recommended companion tool (its code is **not** reproduced here)
+- `academic-pptx`'s content guidelines draw on Barbara Minto's *Pyramid Principle* and Naegle (2021, *PLOS Comput Biol*).
+
+**If you are any of these authors and have any concern about inclusion or attribution, please open an issue — I will adjust immediately.**
+
+### 🤝 Contributing / ⚖️ Disclaimer
+Issues and PRs welcome — especially new database profiles ([`docs/ADD_A_DATABASE.md`](docs/ADD_A_DATABASE.md)). Please read [`CONTRIBUTING.md`](CONTRIBUTING.md). Not affiliated with Anthropic; skill outputs are research aids — **final academic judgment and responsibility rest with the user**. The `phd-milestone-tracker` / `qual-exam-coach` rules are **templates** — verify against your own institution. Some skills require a paid database (TEJ).

@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+# 編輯器
+.vscode/
+.idea/
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# 認證 / 私密（保險起見，絕不進版控）
+*auth.json
+.env
+*.key
+*.pem
+secrets.*
+# 私密維護包(絕不進版控)
+PRIVATE_do_not_upload/
+private_patterns.txt
+private_substitutions.txt
