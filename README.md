@@ -9,6 +9,10 @@
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
 </p>
 
+<p align="center">
+  <img alt="demo — thesis-consistency-audit 投稿前一致性稽核實況" src="docs/assets/demo.gif" width="720">
+</p>
+
 > 一組給**商管、財金、社會科學量化研究者**的 Claude Skills，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
 > A curated bundle of Claude Skills for **quantitative research in business, finance, and social science**, covering the full research workflow. Built on the shoulders of several open-source authors (see Credits).
 
