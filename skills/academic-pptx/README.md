@@ -1,6 +1,6 @@
-# Academic Presentations Skill for Claude
+# Academic Presentations Skill for Claude (plus basic PDF summary of general advice)
 
-A Claude Skill for creating high-quality academic presentations: conference talks, seminar slides, thesis defenses, and grant briefings.
+A Claude Skill for creating high-quality academic presentations: conference talks, seminar slides, thesis defenses, and grant briefings.  Also includes a PDF which summarizes the advice (does not require use of Claude). 
 
 ## What It Does
 
@@ -56,5 +56,3 @@ The guidelines in this skill draw on:
 ## License
 
 MIT — free to use, adapt, and share.
-
-> Note: The original bundled PDF summary was omitted from this redistribution out of licensing caution. The skill itself is unaffected.
