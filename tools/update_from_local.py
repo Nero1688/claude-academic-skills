@@ -93,7 +93,7 @@ def main():
             subs.append((old_s, new_s))
         changed = 0
         for p in skills.rglob("*"):
-            if p.suffix.lower() not in (".md", ".txt"):
+            if p.suffix.lower() not in (".md", ".txt", ".py", ".js", ".json"):
                 continue
             try:
                 t = p.read_text(encoding="utf-8")

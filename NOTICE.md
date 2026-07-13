@@ -22,6 +22,11 @@
 | academic-slides | **MIT** | Zara Zhang (© 2025) | 保留資料夾內原 `LICENSE`；**勿更換版權人姓名** |
 | academic-pptx | **MIT** | 原技能作者（README 標示 MIT） | 保留 SKILL 與 MIT 聲明；**為授權審慎已移除原附的 PDF**（不影響功能） |
 | thesis-consistency-audit | **CC BY-NC-SA 4.0** | 框架理念改作自 qqfly1to19 / `awesome_proofreading_auto` | 🔒 非商業 + 相同方式分享（ShareAlike，整支維持 CC BY-NC-SA） |
+| academic-deck-animator | 作者原創（根 LICENSE） | 本專案作者 | 融合式原創，程式全自撰；概念來源見資料夾內 `ATTRIBUTION.md`（lewislulu/html-ppt-skill MIT、hugohe3/ppt-master 等，僅借鑑方法概念，未搬程式碼） |
+| academic-poster | 作者原創（根 LICENSE） | 本專案作者 | — |
+| defense-qa-coach | 作者原創（根 LICENSE） | 本專案作者 | — |
+| nstc-grant-writer | 作者原創（根 LICENSE） | 本專案作者 | 行政規則（頁數/經費科目）以當年度公告為準，本技能不編造 |
+| response-letter-craftsman | 作者原創（根 LICENSE） | 本專案作者 | — |
 
 ## 未收錄（但推薦）
 | 工具 | 狀態 | 說明 |
