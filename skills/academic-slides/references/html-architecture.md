@@ -12,15 +12,25 @@ Follow this structure for all presentations:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presentation Title</title>
 
-    <!-- Academic Fonts -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/computer-modern@0.1.2/cmu-serif.css">
-    <!-- OR Google Fonts alternative -->
+    <!-- Academic Fonts — 釘死版本 + SRI(子資源完整性)；CDN 內容若被竄改，瀏覽器會拒絕載入 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/computer-modern@0.1.2/cmu-serif.css"
+        integrity="sha384-bmXwZFPTzbsTyqOUN+esSEAvRmtdAGP8q+IH0WCmlP6Y5TwLwS7PWaZWX6ylJujF"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- OR Google Fonts alternative
+         ⚠️ 隱私提醒：Google Fonts 的 CSS 為動態產生，無法加 SRI，且載入時會把觀眾 IP 送給 Google。
+         隱私敏感或離線(氣隙)場合，請刪掉下面這行、只用上面的 Computer-Modern，或把字型檔自帶進專案。 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
 
-    <!-- KaTeX for equation rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js"
+    <!-- KaTeX for equation rendering — 釘死 0.16.47 + SRI -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css"
+        integrity="sha384-nH0MfJ44wi1dd7w6jinlyBgljjS8EJAh2JBoRad8a3VDw2K69vfaaqm4WnR+gXtA"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js"
+        integrity="sha384-CwjPRVHTvLiMBFjEoij+QZViMV5rhTOIp7CJzl24JEqpRDA1sJFHVXXLURktbYYp"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
+        crossorigin="anonymous" referrerpolicy="no-referrer"
         onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
     <style>
