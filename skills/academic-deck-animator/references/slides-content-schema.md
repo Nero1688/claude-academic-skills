@@ -131,7 +131,7 @@
 
 #### `closing`(結尾/致謝)
 ```json
-"content": { "headline": "敬請指教", "contact": "email@example.edu" }
+"content": { "headline": "敬請指教", "contact": "(講者聯絡方式)" }
 ```
 
 ### animation(元素級)

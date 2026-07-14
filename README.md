@@ -3,7 +3,7 @@
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-23-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-27-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -13,8 +13,8 @@
   <img alt="demo — thesis-consistency-audit 投稿前一致性稽核實況" src="docs/assets/demo.gif" width="720">
 </p>
 
-> 一組給**商管、財金、社會科學量化研究者**的 Claude Skills，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
-> A curated bundle of Claude Skills for **quantitative research in business, finance, and social science**, covering the full research workflow. Built on the shoulders of several open-source authors (see Credits).
+> 一組給**商管、財金、社會科學研究者**的 Claude Skills，量化、質化、實驗、混合方法全典範，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
+> A curated bundle of Claude Skills for **quantitative, qualitative & experimental research in business, finance, and social science**, covering the full research workflow. Built on the shoulders of several open-source authors (see Credits).
 
 ---
 ---
@@ -37,11 +37,15 @@
 | 研究階段 | 技能 | 一句話功能 | 觸發詞（示例） | 授權 |
 |---|---|---|---|---|
 | **① 選題・文獻・資料** | `research-orchestrator` | 研究大腦總管，替你分派合適的子技能 | 不知道從何著手、綜合任務 | 原創 |
+| | `research-method-selector` | 方法論適配：判量化/質化/實驗/混合＋Q1 過程套模；含新手小白引導模式 | 該用什麼方法、不知道要研究什麼 | 原創 |
 | | `phd-researcher` | 文獻分析、方法論逆向、研究缺口、PRISMA、後設分析 | 文獻分析、系統性回顧、meta-analysis | 混合 🔒 |
 | | `tej-data-scout` | 資料可行性偵察＋研究設計/估計方法建議（以 TEJ 為範例，資料庫中立） | 選題、資料可行性、這題能不能做 | 原創 |
 | | `tej-variable-mapper` | 把 Compustat／CRSP 變數定義映射到 TEJ 對應欄位 | 變數對應、TEJ 欄位、Compustat | 原創 |
 | | `tej-data-wrangler` | TEJ 原始 Excel/CSV 清理、遺漏值分析、格式標準化 | 資料清理、遺漏值、格式標準化 | 原創 |
-| **② 分析・語法・量表** | `r-spss-syntax-architect` | 依假說生成可重現的 R／SPSS／Stata 語法 | R 語法、SPSS 語法、可重現 | 原創 |
+| **② 分析・語法・量表** | `survey-research-architect` | 問卷研究全流程：設計、先驗檢定力抽樣、發放回收、CMV 攻防 | 問卷設計、樣本數、CMV | 原創 |
+| | `interview-method-designer` | 深度訪談設計：三層大綱、理論抽樣與飽和、倫理知情同意 | 訪談大綱、訪幾個人、飽和 | 原創 |
+| | `experiment-design-architect` | 實驗設計：組間/組內、counterbalancing、情境實驗、操弄檢核 | 實驗設計、vignette、操弄檢核 | 原創 |
+| | `r-spss-syntax-architect` | 依假說生成可重現的 R／SPSS／Stata 語法 | R 語法、SPSS 語法、可重現 | 原創 |
 | | `ob-hrm-scale-adaptor` | 量表跨文化改編（合規版）＋測量恆等性檢定語法 | 量表改編、測量恆等性、lavaan | 原創 |
 | | `qualitative-thematic-coder` | Braun & Clarke 主題分析，深度訪談逐字稿編碼 | 主題分析、逐字稿編碼、質性 | 原創 |
 | | `management-figure` | 出版級統計圖：倒 U 轉折點、係數森林圖、交互作用、邊際效果 | 出版級圖、forest plot、交互作用圖 | 📎 MIT |
@@ -118,11 +122,15 @@ A bundle of **Claude Skills** for the full research workflow. Once installed, Cl
 | Stage | Skill | What it does | License |
 |---|---|---|---|
 | **① Ideation・Literature・Data** | `research-orchestrator` | A router "research brain" that dispatches the right sub-skill | Original |
+| | `research-method-selector` | Methodological-fit advisor (quant/qual/experiment/mixed) + Q1 process templates + beginner guidance mode | Original |
 | | `phd-researcher` | Literature analysis, methodology reverse-engineering, research gaps, PRISMA systematic reviews, meta-analysis | Mixed 🔒 |
 | | `tej-data-scout` | Data-feasibility scouting + research-design/estimator advice (TEJ as example; database-agnostic) | Original |
 | | `tej-variable-mapper` | Maps Compustat/CRSP variable definitions to TEJ fields | Original |
 | | `tej-data-wrangler` | Cleans raw TEJ Excel/CSV: missing values, outliers, formatting | Original |
-| **② Analysis・Syntax・Scales** | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses | Original |
+| **② Analysis・Syntax・Scales** | `survey-research-architect` | End-to-end survey research: design, a-priori power & sampling, fielding plan, CMV defenses | Original |
+| | `interview-method-designer` | In-depth interview design: layered protocols, theoretical sampling & saturation, ethics | Original |
+| | `experiment-design-architect` | Experimental design: between/within, counterbalancing, vignettes, manipulation checks | Original |
+| | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses | Original |
 | | `ob-hrm-scale-adaptor` | Cross-cultural scale adaptation (copyright-compliant) + measurement-invariance syntax | Original |
 | | `qualitative-thematic-coder` | Braun & Clarke thematic analysis for interview transcripts | Original |
 | | `management-figure` | Publication-grade figures: inverted-U turning points, coefficient forest plots, interaction & marginal-effects plots | 📎 MIT |

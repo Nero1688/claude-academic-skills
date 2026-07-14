@@ -28,6 +28,11 @@
 | nstc-grant-writer | 作者原創（根 LICENSE） | 本專案作者 | 行政規則（頁數/經費科目）以當年度公告為準，本技能不編造 |
 | response-letter-craftsman | 作者原創（根 LICENSE） | 本專案作者 | — |
 
+| research-method-selector | 作者原創（根 LICENSE） | 本專案作者 | 方法論適配框架引用 Edmondson & McManus (2007) 之公開學術文獻（概念引用，非程式碼） |
+| survey-research-architect | 作者原創（根 LICENSE） | 本專案作者 | CMV 攻防依 Podsakoff 系列公開文獻 |
+| interview-method-designer | 作者原創（根 LICENSE） | 本專案作者 | — |
+| experiment-design-architect | 作者原創（根 LICENSE） | 本專案作者 | 情境實驗準則依 Aguinis & Bradley (2014) 公開文獻 |
+
 ## 未收錄（但推薦）
 | 工具 | 狀態 | 說明 |
 |---|---|---|

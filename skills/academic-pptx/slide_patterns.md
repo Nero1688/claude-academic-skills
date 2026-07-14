@@ -394,7 +394,7 @@ slide.addText([
 });
 
 // Contact + link
-slide.addText("jane.smith@university.edu  |  Working paper: bit.ly/smith2025", {
+slide.addText("(作者信箱)  |  Working paper: (短連結)", {
   x: MARGIN, y: 4.8, w: 7.0, h: 0.4,
   fontSize: 14, fontFace: FONTS.face, color: "A0BBDD", align: "left"
 });
