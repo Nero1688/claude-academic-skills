@@ -13,6 +13,7 @@
 | 3 | 變數操作化 | 對齊國際定義+揭露台灣落差 | tej-variable-mapper |
 | 4 | 清理 | 縮尾/遺漏處理全揭露可重現 | tej-data-wrangler |
 | 5 | 主檢定 | FE+叢集SE 起跳;內生性至少兩手(工具/配對/DiD其一+穩健性矩陣) | r-spss-syntax-architect |
+| 5b | 因果識別深化 | 交錯採用禁單獨 TWFE;現代估計量+事件研究圖 | causal-inference-architect |
 | 6 | 圖表 | 出版級向量圖+APA 表直出 | management-figure |
 
 ## 路線 B|量化・問卷(survey)

@@ -1,6 +1,6 @@
 ---
 name: qualitative-thematic-coder
-description: "組織管理與人資領域深度訪談逐字稿的主題分析（Thematic Analysis）協作技能，落地 Braun & Clarke 六階段。用於：熟悉資料、初始編碼、搜尋主題、檢視主題、定義命名、產出報告；生成結構化編碼簿（代碼/定義/納入排除判準/逐字例句）、建立編碼矩陣、把 code 對接策略/HRM 理論、規劃雙人編碼信度與審計軌跡。逐字稿引文一字不改、絕不代造訪談內容。觸發詞：主題分析、thematic analysis、Braun Clarke、質性編碼、逐字稿、訪談分析、編碼簿、codebook、code、主題、theme、開放編碼、編碼矩陣、跨案例、雙人編碼、編碼信度、Cohen's kappa、質性資料、紮根、審計軌跡。"
+description: "組織管理與人資領域深度訪談逐字稿的主題分析（Thematic Analysis）協作技能，落地 Braun & Clarke 六階段。用於：熟悉資料、初始編碼、搜尋主題、檢視主題、定義命名、產出報告；生成結構化編碼簿（代碼/定義/納入排除判準/逐字例句）、建立編碼矩陣、把 code 對接策略/HRM 理論、規劃雙人編碼信度與審計軌跡。逐字稿引文一字不改、絕不代造訪談內容。觸發詞：主題分析、thematic analysis、Braun Clarke、質性編碼、逐字稿、訪談分析、編碼簿、codebook、code、主題、theme、開放編碼、編碼矩陣、跨案例、雙人編碼、編碼信度、Cohen's kappa、質性資料、紮根、審計軌跡、Gioia、資料結構圖、data structure、一階概念、二階主題、聚合構面。另含 Gioia 方法論模組（references/gioia-methodology.md）。"
 ---
 
 <role>

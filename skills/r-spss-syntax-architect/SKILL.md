@@ -1,6 +1,6 @@
 ---
 name: r-spss-syntax-architect
-description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel FE/RE＋Hausman、調節（交乘項＋簡單斜率）、二次項轉折點 -β₁/(2β₂)、中介（bootstrap）。每段語法先附前置資料檢查（遺漏、極端值、相關矩陣，相關逾 0.9 紅旗）、逐行中文註解、再現性聲明（seed、套件版本），並附執行後與迴歸表對帳步驟。何時用：你有資料欄位與假說、要產生實際能跑的分析語法時。與 tej-data-wrangler 劃界：wrangler 負責把 RAW 檔洗成乾淨面板，本技能負責洗好之後的建模語法。觸發詞：R 語法、SPSS syntax、迴歸語法、固定效果、FE、RE、Hausman、VIF、共線性、調節效果、交乘項、簡單斜率、二次項、轉折點、倒U、中介效果、bootstrap、穩健標準誤、叢集標準誤、可重現、reproducible、Python 迴歸、linearmodels、PanelOLS、迴歸表輸出、APA 表格、modelsummary。第三軌 Python(linearmodels)適用 tejapi 直撈資料的全 Python 管線;另附迴歸表直出 Word 配方。"
+description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel FE/RE＋Hausman、調節（交乘項＋簡單斜率）、二次項轉折點 -β₁/(2β₂)、中介（bootstrap）。每段語法先附前置資料檢查（遺漏、極端值、相關矩陣，相關逾 0.9 紅旗）、逐行中文註解、再現性聲明（seed、套件版本），並附執行後與迴歸表對帳步驟。何時用：你有資料欄位與假說、要產生實際能跑的分析語法時。與 tej-data-wrangler 劃界：wrangler 負責把 RAW 檔洗成乾淨面板，本技能負責洗好之後的建模語法。觸發詞：R 語法、SPSS syntax、迴歸語法、固定效果、FE、RE、Hausman、VIF、共線性、調節效果、交乘項、簡單斜率、二次項、轉折點、倒U、中介效果、bootstrap、穩健標準誤、叢集標準誤、可重現、reproducible、Python 迴歸、linearmodels、PanelOLS、迴歸表輸出、APA 表格、modelsummary、SEM、結構方程、lavaan SEM、PLS、PLS-SEM、SmartPLS、seminr、HTMT、形成性構念。第三軌 Python(linearmodels)適用 tejapi 直撈資料的全 Python 管線;另附迴歸表直出 Word 配方。"
 ---
 
 # R / SPSS 語法建構師（Syntax Architect）
@@ -75,6 +75,7 @@ description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel 
 ## 何時讀 references/(2026-07 新增兩檔)
 
 - **`references/python-panel-lane.md`**:第三軌 Python/linearmodels。何時走:資料來自 tejapi 直撈、要與 pandas 清理同腳本、或使用者環境只有 Python。含雙向 FE+叢集 SE 骨架、手工 Hausman、簡單斜率、轉折點、與 TEJ API 的無縫接軌。Step 0 的問題從「R 還是 SPSS」擴為三選一。
+- **`references/sem-pls-lane.md`**:SEM 第四軌——CB-SEM(lavaan)與 PLS-SEM(seminr)選型對照、HTMT、bootstrap 5000、資管行銷期刊語言。
 - **`references/apa-tables-recipe.md`**:迴歸表直出 Word。產完語法一律建議使用者用直出而非手抄(R modelsummary/apaTables、SPSS OUTPUT EXPORT、Python 手工組表),防 L-003 抄寫錯誤。
 
 <examples>

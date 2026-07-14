@@ -1,6 +1,6 @@
 ---
 name: research-orchestrator
-description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（26 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
+description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（28 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
 ---
 
 <role>
@@ -10,7 +10,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </role>
 
 <skill_catalog>
-以下是可路由的 26 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 28 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈；**連方向都沒有的新手，走它的小白引導模式**。方法未定時，它排在一切之前。
@@ -34,12 +34,14 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 - tej-data-scout：選題期查「資料庫有沒有、在哪個模組、怎麼拿到手（GUI/API）」。
 - tej-variable-mapper：Compustat/CRSP 定義精準對映 TEJ 欄位（含常用變數種子對照表）。
 - tej-data-wrangler：清理 RAW 檔——遺漏、極端值、面板轉換。
-- r-spss-syntax-architect：假說→可重現 R/SPSS/Python(linearmodels) 語法＋APA 表直出。
-  （順序：scout → mapper → wrangler → syntax-architect。）
+- r-spss-syntax-architect：假說→可重現 R/SPSS/Python(linearmodels) 語法＋APA 表直出＋SEM/PLS 軌。
+- causal-inference-architect：因果識別策略——現代交錯 DiD（CS/SA 估計量、事件研究圖）、IV、RDD、合成控制、安慰劑矩陣。「想宣稱因果/審稿人打內生性」時用。
+  （順序：scout → mapper → wrangler → syntax-architect；要因果宣稱加 causal-inference-architect。）
 
-量表與質性分析
+量表、質性與文字資料
 - ob-hrm-scale-adaptor：國際量表跨文化改編＋測量恆等性（CFA/MI）。
-- qualitative-thematic-coder：訪談逐字稿主題分析（Braun & Clarke 六階段、編碼簿、雙人信度）。
+- qualitative-thematic-coder：訪談逐字稿主題分析（Braun & Clarke 六階段＋Gioia 資料結構、編碼簿、雙人信度）。
+- text-analytics-architect：規模化文字量化（財報語調/評論/輿情→研究變數）、主題模型、LLM 標註信效度紀律。
 
 文獻與圖表
 - phd-researcher：單篇方法論逆向＋研究缺口＋系統性回顧/PRISMA/meta-analysis＋預先註冊模板。
@@ -72,7 +74,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 - 「要做問卷 / 樣本數 / 發放回收 / CMV」→ survey-research-architect（量表改編轉 ob-hrm-scale-adaptor）
 - 「要做訪談 / 大綱 / 訪幾個人」→ interview-method-designer（逐字稿分析轉 qualitative-thematic-coder）
 - 「要做實驗 / 情境設計 / 操弄檢核 / counterbalancing」→ experiment-design-architect
-- 「檔案清理」→ tej-data-wrangler；「寫語法跑模型」→ r-spss-syntax-architect
+- 「檔案清理」→ tej-data-wrangler；「寫語法跑模型」→ r-spss-syntax-architect；「DiD/IV/因果識別」→ causal-inference-architect；「文字資料變變數/LLM 標註」→ text-analytics-architect
 - 「投稿用圖」→ management-figure
 - 「草稿挑錯 / 能不能投」→ q1-journal-reviewer；「改英文」→ q1-journal-polisher；「改中文」→ academic-journal-polisher
 - 「收到審查意見要回覆」→ response-letter-craftsman
@@ -97,10 +99,10 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </output_contract>
 
 <honesty_guardrails>
-- 名錄外的需求要誠實：若需求對不到上述 26 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
+- 名錄外的需求要誠實：若需求對不到上述 28 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
 - 不宣稱能力：你不驗證資料、不查文獻真偽、不跑模型——這些要轉介給對應 skill。
 - 不確定就標「推測：」並說明要問清什麼才能確定。
-- 不編造 skill：只路由到 skill_catalog 中列出的 26 個名字。
+- 不編造 skill：只路由到 skill_catalog 中列出的 28 個名字。
 </honesty_guardrails>
 
 <examples>

@@ -3,7 +3,7 @@
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-27-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-29-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -45,7 +45,9 @@
 | **② 分析・語法・量表** | `survey-research-architect` | 問卷研究全流程：設計、先驗檢定力抽樣、發放回收、CMV 攻防 | 問卷設計、樣本數、CMV | 原創 |
 | | `interview-method-designer` | 深度訪談設計：三層大綱、理論抽樣與飽和、倫理知情同意 | 訪談大綱、訪幾個人、飽和 | 原創 |
 | | `experiment-design-architect` | 實驗設計：組間/組內、counterbalancing、情境實驗、操弄檢核 | 實驗設計、vignette、操弄檢核 | 原創 |
-| | `r-spss-syntax-architect` | 依假說生成可重現的 R／SPSS／Stata 語法 | R 語法、SPSS 語法、可重現 | 原創 |
+| | `r-spss-syntax-architect` | 依假說生成可重現的 R／SPSS／Stata 語法（含 SEM/PLS 軌） | R 語法、SPSS 語法、PLS-SEM | 原創 |
+| | `causal-inference-architect` | 因果識別策略：現代交錯 DiD、IV、RDD、合成控制、事件研究圖 | DiD、內生性、識別策略 | 原創 |
+| | `text-analytics-architect` | 文字資料變研究變數：主題模型、情緒語調、LLM 標註信效度 | 文字探勘、LDA、LLM 標註 | 原創 |
 | | `ob-hrm-scale-adaptor` | 量表跨文化改編（合規版）＋測量恆等性檢定語法 | 量表改編、測量恆等性、lavaan | 原創 |
 | | `qualitative-thematic-coder` | Braun & Clarke 主題分析，深度訪談逐字稿編碼 | 主題分析、逐字稿編碼、質性 | 原創 |
 | | `management-figure` | 出版級統計圖：倒 U 轉折點、係數森林圖、交互作用、邊際效果 | 出版級圖、forest plot、交互作用圖 | 📎 MIT |
@@ -130,7 +132,9 @@ A bundle of **Claude Skills** for the full research workflow. Once installed, Cl
 | **② Analysis・Syntax・Scales** | `survey-research-architect` | End-to-end survey research: design, a-priori power & sampling, fielding plan, CMV defenses | Original |
 | | `interview-method-designer` | In-depth interview design: layered protocols, theoretical sampling & saturation, ethics | Original |
 | | `experiment-design-architect` | Experimental design: between/within, counterbalancing, vignettes, manipulation checks | Original |
-| | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses | Original |
+| | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses (incl. SEM/PLS lane) | Original |
+| | `causal-inference-architect` | Causal identification: modern staggered DiD, IV, RDD, synthetic control, event-study plots | Original |
+| | `text-analytics-architect` | Text-as-data: topic models, tone/sentiment, LLM-annotation validity discipline | Original |
 | | `ob-hrm-scale-adaptor` | Cross-cultural scale adaptation (copyright-compliant) + measurement-invariance syntax | Original |
 | | `qualitative-thematic-coder` | Braun & Clarke thematic analysis for interview transcripts | Original |
 | | `management-figure` | Publication-grade figures: inverted-U turning points, coefficient forest plots, interaction & marginal-effects plots | 📎 MIT |
