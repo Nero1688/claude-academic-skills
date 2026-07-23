@@ -3,7 +3,7 @@
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-31-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-32-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -27,6 +27,20 @@
 **適合對象**：商管／財金／社會科學的量化研究者（碩、博士生與研究人員），特別是**台灣學術脈絡**（繁體中文、APA 7、口試委員意見回覆格式）的使用者。
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
+
+### 🆕 最新更新（v0.7.0 · 2026-07）
+
+本版把技能包從「單一資料庫的量化工具組」擴充為**跨典範、多資料源、可重現的完整研究系統**。近期新增與強化：
+
+- **資料策略升級：從單源到多源結合。** 新增三支資料線技能，讓付費庫（如 TEJ）與免費官方揭露能嚴謹地互補互證：
+  - `public-disclosure-scout` — 免費官方公開揭露偵察（公開資訊觀測站 MOPS 重大訊息／年報／股東會／裁罰、TWSE/TPEx、政府開放資料、TIPO 專利）；是付費庫的免費姊妹線，也是公司治理／揭露**事件研究的標準事件源**。
+  - `multi-source-data-integrator` — **多源結合方法論架構師**：實體解析（統編為主鍵、代號隨轉板/更名/下市變動的對接陷阱）、跨源值調解（來源優先序／容差／衝突揭露，事前訂規則不看結果挑）、來源譜系（每格資料配 `_src`/`_asof` 可回溯）、三角驗證（多源互證構念效度）、合併損耗與選擇偏誤對帳。
+  - `reproducibility-architect` — **複製包架構師**：對齊 2026 頂刊資料編輯（data editor）要求，把整個研究打包成陌生人能一鍵重跑的複製包；特別處理**授權資料（如 TEJ）不可散布時的可重現困境**（程式碼公開＋存取指引＋合成資料）、資料／程式碼／AI 使用三聲明、Zenodo/OSF 的 DOI 封存。
+- **方法典範全覆蓋。** 除原有量化檔案線外，補齊質化（訪談設計＋Gioia 資料結構）、問卷（CMV 攻防）、實驗（counterbalancing／情境實驗）、混合方法；`research-method-selector` 依理論成熟度為你選對方法，並含**新手小白引導模式**（連題目都沒有也給得出方向）。
+- **量化前緣強化。** `causal-inference-architect`（現代交錯 DiD 的 TWFE 陷阱與 Callaway-Sant'Anna／Sun-Abraham 估計量、事件研究圖、IV/RDD/合成控制、審稿攻防表，並附方法與軟體正確引用清單）；`r-spss-syntax-architect` 增 Python(linearmodels) 與 SEM/PLS 第四軌；`text-analytics-architect` 把文字變研究變數並規範 LLM 標註信效度。
+- **一條龍串接。** `research-orchestrator` 升級為全家族分診：偵察各源 → 各自清理 → 多源整合 → 因果識別／建模 → 出圖 → 投稿前對帳 → 複製包封存。
+
+> 完整版本歷史見各 [Releases](../../releases)。技能總數：**32**。
 
 ### 🧭 運作原則（三條底線）
 1. **資料由你自己抓。** 資料類技能一律假設**你（或你的機構）擁有合法訂閱／授權帳號，由你自己登入下載**。技能只教「在哪找、怎麼判斷、怎麼分析」，**不代抓資料、不散布任何資料庫的專屬目錄**。
@@ -58,6 +72,7 @@
 | | `nstc-grant-writer` | 國科會計畫申請書寫作：結構化撰寫＋審查人視角自評 | 國科會、NSTC、計畫書、預期成果 | 原創 |
 | | `response-letter-craftsman` | 投稿修訂（R&R）逐點回覆信＋Response to Reviewers | 審查回覆、response letter、R&R、逐點回覆 | 原創 |
 | **④ 投稿前品管** | `thesis-consistency-audit` | 六維度一致性稽核：假設↔迴歸表、樣本數、文字↔表格、引用 | 一致性稽核、論文對帳、投稿前檢查 | 🔒 CC BY-NC-SA |
+| | `reproducibility-architect` | 複製包架構：可重現專案結構、環境鎖定、授權資料可重現困境、資料/程式碼/AI 使用聲明、DOI 封存 | 複製包、可重現、資料可用性聲明、AI 使用揭露 | 原創 |
 | | `q1-journal-reviewer` | 模擬 ABS 3*/4* 匿名審查委員的批判 | 審稿、peer review、審查意見 | 原創 |
 | | `citation-verifier` | 揪出 AI 捏造假文獻、孤兒引用、引用不貼合主張 | 引用查核、假文獻、孤兒引用 | 原創 |
 | **⑤ 口試・簡報** | `academic-pptx` | 學術簡報內容與結構標準：行動式標題、論證式編排 | 口試簡報、conference talk | 📎 MIT |
@@ -117,6 +132,20 @@ A bundle of **Claude Skills** for the full research workflow. Once installed, Cl
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
+### 🆕 What's new (v0.7.0 · 2026-07)
+
+This release grows the bundle from a single-database quantitative toolkit into a **cross-paradigm, multi-source, reproducible research system**. Recent additions and upgrades:
+
+- **Data strategy: from single-source to rigorous multi-source integration.** Three new data-line skills let a paid database (e.g., TEJ) and free official disclosures complement and cross-validate each other:
+  - `public-disclosure-scout` — scouting of free official disclosures (Taiwan's MOPS material announcements / annual reports / shareholder meetings / sanctions, TWSE/TPEx, government open data, TIPO patents). A free counterpart to paid databases, and the **standard event source for corporate-governance / disclosure event studies**.
+  - `multi-source-data-integrator` — a **multi-source integration methodology architect**: entity resolution (unified business ID as primary key; the pitfalls of tickers changing on re-listing/renaming/delisting), cross-source value reconciliation (source priority / tolerance / conflict disclosure, rules set *before* seeing results), data lineage (`_src`/`_asof` on every cell), triangulation for construct validity, and merge-loss + selection-bias accounting.
+  - `reproducibility-architect` — a **replication-package architect** aligned with 2026 top-journal data editors: package a whole study so a stranger can re-run it in one command, with special treatment of the **restricted-data reproducibility problem** (licensed data like TEJ can't be redistributed → public code + access instructions + synthetic data), plus data/code/AI-use statements and Zenodo/OSF DOI archiving.
+- **Full methodological-paradigm coverage.** Beyond the original archival-quant line: qualitative (interview design + Gioia data structure), survey (CMV defenses), experiment (counterbalancing / vignettes), and mixed methods. `research-method-selector` picks the right method by theoretical maturity and includes a **beginner-guidance mode** (gives direction even when you have no topic yet).
+- **Frontier-quant reinforcement.** `causal-inference-architect` (modern staggered-DiD TWFE pitfalls and Callaway-Sant'Anna / Sun-Abraham estimators, event-study plots, IV/RDD/synthetic control, a reviewer-defense table, plus a correct method-and-software citation list); `r-spss-syntax-architect` adds Python (linearmodels) and a SEM/PLS lane; `text-analytics-architect` turns text into research variables with LLM-annotation validity discipline.
+- **End-to-end chaining.** `research-orchestrator` now routes the whole family: scout each source → clean each → integrate → identify/model → figures → pre-submission reconciliation → replication-package archiving.
+
+> Full version history in [Releases](../../releases). Total skills: **32**.
+
 ### 🧭 Operating principles (three ground rules)
 1. **You fetch your own data.** Every data skill assumes **you (or your institution) hold a legitimate subscription/license and download the data yourself**. Skills only teach *where to look, how to judge feasibility, and how to analyze* — they never fetch data for you and never redistribute any database's proprietary catalog.
 2. **Teach method, foreground identification.** After data is located, skills recommend the **appropriate research design and estimator** (is the identifying assumption plausible *first*, model choice second) and generate reproducible R/SPSS/Stata syntax.
@@ -139,6 +168,7 @@ A bundle of **Claude Skills** for the full research workflow. Once installed, Cl
 | | `r-spss-syntax-architect` | Generates reproducible R/SPSS/Stata syntax from hypotheses (incl. SEM/PLS lane) | Original |
 | | `causal-inference-architect` | Causal identification: modern staggered DiD, IV, RDD, synthetic control, event-study plots | Original |
 | | `text-analytics-architect` | Text-as-data: topic models, tone/sentiment, LLM-annotation validity discipline | Original |
+| | `reproducibility-architect` | Replication packages: reproducible project structure, environment locking, restricted-data reproducibility, data/code/AI-use statements, DOI archiving | Original |
 | | `ob-hrm-scale-adaptor` | Cross-cultural scale adaptation (copyright-compliant) + measurement-invariance syntax | Original |
 | | `qualitative-thematic-coder` | Braun & Clarke thematic analysis for interview transcripts | Original |
 | | `management-figure` | Publication-grade figures: inverted-U turning points, coefficient forest plots, interaction & marginal-effects plots | 📎 MIT |

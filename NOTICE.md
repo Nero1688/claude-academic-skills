@@ -38,6 +38,7 @@
 
 | public-disclosure-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至官方免費公開揭露源;抓取需自行遵循各站台服務條款與政府開放資料授權 |
 | multi-source-data-integrator | 作者原創（根 LICENSE） | 本專案作者 | 資料整合方法論指引;實體解析/調解概念為通用資料工程與計量方法 |
+| reproducibility-architect | 作者原創（根 LICENSE） | 本專案作者 | 可重現性方法論指引;引用 renv/conda/Zenodo 等開源工具與頂刊資料編輯規範(概念引用) |
 
 ## 未收錄（但推薦）
 | 工具 | 狀態 | 說明 |
