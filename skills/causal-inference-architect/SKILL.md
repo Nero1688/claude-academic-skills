@@ -1,6 +1,6 @@
 ---
 name: causal-inference-architect
-description: "因果推論架構師(頂刊識別策略,2026 前緣標準):現代差異中之差異 DiD——交錯採用(staggered adoption)下 TWFE 的偏誤、Goodman-Bacon 分解、Callaway & Sant'Anna / Sun & Abraham 等異質穩健估計量、事件研究圖與平行趨勢診斷(含 Rambachan & Roth 誠實區間);工具變數 IV(弱工具診斷、排除限制論證);斷點迴歸 RDD;合成控制 SCM;安慰劑檢定矩陣。輸出:識別策略選擇書+對應 R 語法(fixest/did/rdrobust)+審稿人攻防表。何時用:政策/制度/揭露的採用效果、任何想宣稱因果的檔案資料研究、審稿人質疑內生性與識別。觸發詞:DiD、差異中之差異、雙重差分、交錯採用、staggered、平行趨勢、事件研究圖、event study、工具變數、IV、弱工具、2SLS、斷點迴歸、RDD、合成控制、synthetic control、因果推論、識別策略、內生性、自然實驗、政策評估、處理效應、Callaway、Goodman-Bacon、TWFE 偏誤。與 r-spss-syntax-architect 劃界:那個管一般面板 FE/調節/中介的建模語法,本 skill 專攻『因果識別設計』——先在這裡定策略與估計量,一般語法細節可回它。與 research-method-selector 劃界:它判斷量化/質化大方向,本 skill 是量化檔案線內的識別深化。"
+description: "因果推論架構師(頂刊識別策略,2026 前緣標準):現代差異中之差異 DiD——交錯採用(staggered adoption)下 TWFE 的偏誤、Goodman-Bacon 分解、Callaway & Sant'Anna / Sun & Abraham 等異質穩健估計量、事件研究圖與平行趨勢診斷(含 Rambachan & Roth 誠實區間);工具變數 IV(弱工具診斷、排除限制論證);斷點迴歸 RDD;合成控制 SCM;安慰劑檢定矩陣。輸出:識別策略選擇書+對應 R 語法(fixest/did/rdrobust)+審稿人攻防表。何時用:政策/制度/揭露的採用效果、任何想宣稱因果的檔案資料研究、審稿人質疑內生性與識別。觸發詞:DiD、差異中之差異、雙重差分、交錯採用、staggered、平行趨勢、事件研究圖、event study、事件源、重大訊息事件、MOPS 事件、工具變數、IV、弱工具、2SLS、斷點迴歸、RDD、合成控制、synthetic control、因果推論、識別策略、內生性、自然實驗、政策評估、處理效應、Callaway、Goodman-Bacon、TWFE 偏誤。與 r-spss-syntax-architect 劃界:那個管一般面板 FE/調節/中介的建模語法,本 skill 專攻『因果識別設計』——先在這裡定策略與估計量,一般語法細節可回它。與 research-method-selector 劃界:它判斷量化/質化大方向,本 skill 是量化檔案線內的識別深化。"
 ---
 
 # 因果推論架構師(Causal Inference Architect)
@@ -19,6 +19,10 @@ description: "因果推論架構師(頂刊識別策略,2026 前緣標準):現代
 - D 的變異來源是什麼?(政策強制/自願採用/門檻規則)——變異來源決定策略。
 - 自願採用=自選擇,DiD 只處理「時間不變」的選擇,時變選擇要正面交代。
 - 預期效果的時間形狀?(立即/漸進/暫時)——決定事件窗與動態設定。
+
+**事件日哪裡來(台灣研究)**:短窗事件研究的事件日,首選公司官方揭露——
+MOPS 重大訊息(公司「宣布」那一刻=事件日),乾淨且免費。要取得乾淨事件檔
+先走 public-disclosure-scout,它把揭露整成 `ticker, event_date, subject` 直接餵本 skill。
 
 ## Step 2|識別策略決策樹
 

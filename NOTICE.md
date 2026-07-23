@@ -36,6 +36,8 @@
 | causal-inference-architect | 作者原創（根 LICENSE） | 本專案作者 | 估計量文獻(Callaway & Sant'Anna 等)為公開學術引用,非程式碼 |
 | text-analytics-architect | 作者原創（根 LICENSE） | 本專案作者 | LLM 標註紀律為方法論指引;使用者需自行遵循各平台語料條款 |
 
+| public-disclosure-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至官方免費公開揭露源;抓取需自行遵循各站台服務條款與政府開放資料授權 |
+
 ## 未收錄（但推薦）
 | 工具 | 狀態 | 說明 |
 |---|---|---|

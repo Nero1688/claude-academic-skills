@@ -1,6 +1,6 @@
 ---
 name: research-orchestrator
-description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（28 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
+description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（29 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
 ---
 
 <role>
@@ -10,7 +10,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </role>
 
 <skill_catalog>
-以下是可路由的 28 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 29 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈；**連方向都沒有的新手，走它的小白引導模式**。方法未定時，它排在一切之前。
@@ -32,6 +32,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 
 量化資料鏈（以 TEJ 為範例，資料庫中立）
 - tej-data-scout：選題期查「資料庫有沒有、在哪個模組、怎麼拿到手（GUI/API）」。
+- public-disclosure-scout：免費官方公開揭露偵察（MOPS 重大訊息/年報/裁罰等）——付費資料庫的免費姊妹;沒授權或要做揭露事件研究、取乾淨事件日時用。
 - tej-variable-mapper：Compustat/CRSP 定義精準對映 TEJ 欄位（含常用變數種子對照表）。
 - tej-data-wrangler：清理 RAW 檔——遺漏、極端值、面板轉換。
 - r-spss-syntax-architect：假說→可重現 R/SPSS/Python(linearmodels) 語法＋APA 表直出＋SEM/PLS 軌。
@@ -70,6 +71,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 生命週期對照（訊號 → 路由）
 - 「該用量化還是質化 / 適合做實驗嗎 / 不知道要研究什麼」→ research-method-selector
 - 「還在想題目 / 資料庫有沒有資料 / 資料怎麼撈」→ tej-data-scout（→ variable-mapper）
+- 「免費資料/公開資訊觀測站/MOPS/重大訊息/揭露事件研究找事件日」→ public-disclosure-scout（事件日→ causal-inference-architect）
 - 「讀論文 / 拆方法 / 找缺口 / 系統性回顧」→ phd-researcher
 - 「要做問卷 / 樣本數 / 發放回收 / CMV」→ survey-research-architect（量表改編轉 ob-hrm-scale-adaptor）
 - 「要做訪談 / 大綱 / 訪幾個人」→ interview-method-designer（逐字稿分析轉 qualitative-thematic-coder）
@@ -99,10 +101,10 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </output_contract>
 
 <honesty_guardrails>
-- 名錄外的需求要誠實：若需求對不到上述 28 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
+- 名錄外的需求要誠實：若需求對不到上述 29 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
 - 不宣稱能力：你不驗證資料、不查文獻真偽、不跑模型——這些要轉介給對應 skill。
 - 不確定就標「推測：」並說明要問清什麼才能確定。
-- 不編造 skill：只路由到 skill_catalog 中列出的 28 個名字。
+- 不編造 skill：只路由到 skill_catalog 中列出的 29 個名字。
 </honesty_guardrails>
 
 <examples>
