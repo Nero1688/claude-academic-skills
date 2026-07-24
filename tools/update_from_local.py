@@ -8,15 +8,57 @@
     --keep-local-compliant                      若你本機已自行維護合規版 SKILL.md,不覆蓋
 
 處理內容:
-  1. 複製 --src 下所有技能資料夾進 skills/(排除 check-citations:上游無授權,不可重製)
+  1. 複製 --src 下所有技能資料夾進 skills/(排除 EXCLUDED 清單內的技能,各有原因)
   2. 去除技能名中的機構前綴(*-phd-researcher -> phd-researcher)
   3. 換上 tools/compliant/ 的合規版 SKILL.md(ob-hrm-scale-adaptor、tej-data-scout)
   4. 剝除 tej-catalog.md 的 Part E(訂閱介面導航樹)並改寫檔頭
   5. 依私密置換表去識別化(檔案本身不含任何個資)
   6. 為 milestone/資格考/phd-researcher 加「範例模板」聲明
+  7. orchestrator 一致性檢查:偵測指向「公開包不存在技能」的 dangling reference,
+     並核對「可路由 N 個」是否等於實際技能數 −1;不一致則以 exit 1 中止,不讓壞包成形
 完成後請務必再跑: bash scripts/sanitize_check.sh
 """
 import argparse, os, re, shutil, pathlib, sys
+
+# 不納入公開包的技能(每一項都要註明原因)
+EXCLUDED = {
+    "check-citations": "上游無授權,不可重製;README 已連結原 repo",
+    "tw-opendata-scout": "使用者決定僅留私人庫(2026-07-24 v2.5.0)",
+}
+
+
+def check_dangling_refs(skills: pathlib.Path) -> int:
+    """偵測 orchestrator 名錄裡指到『公開包不存在的技能』的 dangling reference。
+
+    排除某支技能後,orchestrator 仍會沿用私人版內容而指向它——這種不一致
+    在名錄型 skill 上很難用肉眼發現,故自動檢查。回傳問題數。
+    """
+    orch = skills / "research-orchestrator" / "SKILL.md"
+    if not orch.exists():
+        return 0
+    text = orch.read_text(encoding="utf-8")
+    present = {d.name for d in skills.iterdir() if d.is_dir()}
+    dangling = sorted(n for n in EXCLUDED if n in text and n not in present)
+
+    problems = 0
+    if dangling:
+        problems += len(dangling)
+        print(f"[7][錯誤] orchestrator 指向公開包不存在的技能: {', '.join(dangling)}")
+        print("        → 請改寫 skills/research-orchestrator/SKILL.md,移除該技能條目與路由行,")
+        print("          並把『可路由 N 個』的數字改成公開包實際數字。")
+
+    # 名錄宣稱的可路由數,應等於 skills 總數 − 1(orchestrator 不路由自己)
+    expected = len(present) - 1
+    for m in re.finditer(r"(?:可路由的|列出的)\s*(\d+)\s*個|家族（\s*(\d+)\s*個可路由成員", text):
+        claimed = int(m.group(1) or m.group(2))
+        if claimed != expected:
+            problems += 1
+            print(f"[7][錯誤] orchestrator 宣稱可路由 {claimed} 個,但公開包實際應為 {expected} 個")
+            break
+    if not problems:
+        print(f"[7] orchestrator 一致性檢查通過(可路由 {expected} 個,無 dangling reference)")
+    return problems
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -37,8 +79,8 @@ def main():
     for d in sorted(src.iterdir()):
         if not d.is_dir():
             continue
-        if d.name == "check-citations":
-            print("[skip] check-citations(上游無授權,不重製;README 已連結原 repo)")
+        if d.name in EXCLUDED:
+            print(f"[skip] {d.name}({EXCLUDED[d.name]})")
             continue
         dst = skills / d.name
         if dst.exists():
@@ -124,6 +166,13 @@ def main():
             t = t[:pos] + "\n" + BANNER + t[pos:]
             p.write_text(t, encoding="utf-8"); print(f"[6] 已加模板聲明: {rel}")
 
+    # 7) orchestrator 一致性(dangling reference 偵測)
+    problems = check_dangling_refs(skills)
+
+    if problems:
+        print("\n[未完成] 上列 orchestrator 不一致必須先修,否則公開包會指向不存在的技能。")
+        print("         修好後再跑一次本工具,或手動確認後執行: bash scripts/sanitize_check.sh")
+        sys.exit(1)
     print("\n[完成] 下一步請務必執行:  bash scripts/sanitize_check.sh")
 
 if __name__ == "__main__":
