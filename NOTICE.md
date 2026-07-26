@@ -5,6 +5,8 @@
 | 技能 | 授權 | 原作者 / 來源 | 備註 |
 |---|---|---|---|
 | research-orchestrator | 作者原創（根 LICENSE） | 本專案作者 | 已去機構識別 |
+| literature-matrix-builder | 作者原創 | 本專案作者 | 使用 CrossRef REST API（免金鑰公開服務）；摘要著作權屬各出版社，技能內已載明僅供個人研究閱讀、勿公開重製 |
+| bilingual-paper-reader | 作者原創 | 本專案作者 | 零第三方相依；高亮持久化以瀏覽器原生 Selection/Range API 自行實作，未內嵌任何 JS 函式庫 |
 | phd-researcher | **混合**：階段 1–3 原創；階段 4 模組 **CC BY-NC 4.0** | 階段 4：Cheng-I Wu (Imbad0202) / `academic-research-skills` | 🔒 非商業；保留資料夾內 `ATTRIBUTION.md`；原技能名已更名去識別 |
 | tej-data-scout | 作者原創（方法論） | 本專案作者 | 已移除 catalog 的 TEJ Pro 訂閱介面完整導航樹與其來源標示；改為導覽方向＋官方公開連結；加入資料庫中立與方法建議 |
 | tej-variable-mapper | 作者原創 | 本專案作者 | — |

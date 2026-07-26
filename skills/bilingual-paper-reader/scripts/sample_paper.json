@@ -1,0 +1,65 @@
+{
+  "id": "55cc55f8fd481ffa",
+  "title": "Family Ownership and ESG Performance: A Socioemotional Wealth Perspective",
+  "source_file": "test_paper.pdf",
+  "created": "2026-07-26",
+  "glossary": {
+    "socioemotional wealth (SEW)": "社會情感財富",
+    "inverted U-shaped": "倒 U 型",
+    "firm-year observations": "公司—年觀察值",
+    "turning point": "轉折點"
+  },
+  "paragraphs": [
+    {
+      "i": 0,
+      "orig": "Family firms constitute the dominant organizational form worldwide, yet their approach to corporate social responsibility remains theoretically contested. We draw on the socioemotional wealth (SEW) perspective to argue that family owners weigh non-financial utilities differently from non-family owners.",
+      "trans": "家族企業是全球最主要的組織形式，然而其從事企業社會責任的取向在理論上仍有爭議。本文採用社會情感財富（socioemotional wealth, SEW）觀點，主張家族股東對非財務效用的權衡方式與非家族股東不同。",
+      "marks": [
+        {
+          "side": "orig",
+          "s": 0,
+          "e": 73,
+          "cat": "core"
+        },
+        {
+          "side": "trans",
+          "s": 92,
+          "e": 128,
+          "cat": "method"
+        }
+      ]
+    },
+    {
+      "i": 1,
+      "orig": "Using a panel of 1,842 firm-year observations from Taiwanese listed companies over 2012-2021, we find an inverted U-shaped relationship between family ownership and ESG performance, with a turning point at 38.2 percent.",
+      "trans": "本研究以 2012 至 2021 年間臺灣上市公司 1,842 筆公司—年觀察值構成的追蹤資料進行分析，發現家族持股與 ESG 表現呈倒 U 型關係，轉折點落在 38.2%。",
+      "marks": [
+        {
+          "side": "orig",
+          "s": 0,
+          "e": 95,
+          "cat": "method"
+        },
+        {
+          "side": "trans",
+          "s": 48,
+          "e": 90,
+          "cat": "novel"
+        }
+      ]
+    },
+    {
+      "i": 2,
+      "orig": "Our study is limited to a single institutional context, and we cannot fully rule out that unobserved family-specific governance practices drive the observed curvilinearity.",
+      "trans": "本研究僅涵蓋單一制度情境，且無法完全排除未觀察到的家族特有治理實務才是造成上述曲線關係的真正原因。",
+      "marks": [
+        {
+          "side": "orig",
+          "s": 0,
+          "e": 48,
+          "cat": "limit"
+        }
+      ]
+    }
+  ]
+}

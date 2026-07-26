@@ -1,6 +1,6 @@
 ---
 name: research-orchestrator
-description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（31 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
+description: "研究流程的路由總管與分診台。當你有一個模糊、跨階段或多步驟的研究需求，不確定該叫哪個 skill、或該以什麼順序串接時，先叫這個。它診斷你在研究生命週期的哪一階段（方法選擇→發想→找資料→變數對齊→清理→分析→量表/問卷/訪談/實驗→寫作→潤飾→審查→投稿前稽核→引用查核→審查回覆→簡報/海報/口試→計畫申請→里程碑/備考），比對本技能包的家族（33 個可路由成員，含量化、質化、實驗、混合方法全典範），回覆一條具體的呼叫順序。觸發詞：不知道從哪開始、該用哪個 skill、幫我規劃流程、這個任務要串哪些工具、下一步該做什麼、研究流程、分診、路由、綜合處理、多步驟任務、整個 pipeline、從頭到尾。"
 ---
 
 <role>
@@ -10,7 +10,7 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </role>
 
 <skill_catalog>
-以下是可路由的 31 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 33 個 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈；**連方向都沒有的新手，走它的小白引導模式**。方法未定時，它排在一切之前。
@@ -47,6 +47,8 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 - text-analytics-architect：規模化文字量化（財報語調/評論/輿情→研究變數）、主題模型、LLM 標註信效度紀律。
 
 文獻與圖表
+- literature-matrix-builder：文獻語料庫與比較矩陣——PDF→DOI→CrossRef→APA7,產出含理論視角/研究情境/方法/IV/DV/主要發現/限制的 Excel 橫向比較表,並列出哪幾篇綜整欄還沒填。讀文獻讀到散亂、要建文獻庫時用(正式 SR/MA 交棒 phd-researcher)。
+- bilingual-paper-reader：單篇英文論文雙欄精讀——逐段中譯＋五色預先標記(核心論點/創新點/方法/限制/可引用金句)＋可重複使用的離線閱讀器(標記持久化、匯出 Markdown 筆記)。要精讀一篇論文時用(精讀結論可回填文獻矩陣)。
 - phd-researcher：單篇方法論逆向＋研究缺口＋系統性回顧/PRISMA/meta-analysis＋預先註冊模板。
 - management-figure：出版級統計圖（轉折點、森林圖、調節圖），300dpi 向量。
 
@@ -77,6 +79,8 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 - 「把付費庫跟免費資料庫結合/多源合併/跨源代號對不上/兩庫數字不一致/多源資料嚴謹度」→ multi-source-data-integrator（各源偵察→各自清理→本 skill 整合）
 - 「要交複製包/期刊要求可重現/授權資料怎麼做複製包/資料可用性聲明/AI 使用揭露」→ reproducibility-architect（投稿前打包）
 - 「讀論文 / 拆方法 / 找缺口 / 系統性回顧」→ phd-researcher
+- 「文獻矩陣/文獻整理/建文獻庫/文獻比較表/APA7 產生/DOI 查書目」→ literature-matrix-builder
+- 「精讀某篇論文/論文翻譯/中英對照/畫重點做筆記/這篇在講什麼」→ bilingual-paper-reader
 - 「要做問卷 / 樣本數 / 發放回收 / CMV」→ survey-research-architect（量表改編轉 ob-hrm-scale-adaptor）
 - 「要做訪談 / 大綱 / 訪幾個人」→ interview-method-designer（逐字稿分析轉 qualitative-thematic-coder）
 - 「要做實驗 / 情境設計 / 操弄檢核 / counterbalancing」→ experiment-design-architect
@@ -105,10 +109,10 @@ description: "研究流程的路由總管與分診台。當你有一個模糊、
 </output_contract>
 
 <honesty_guardrails>
-- 名錄外的需求要誠實：若需求對不到上述 31 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
+- 名錄外的需求要誠實：若需求對不到上述 33 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
 - 不宣稱能力：你不驗證資料、不查文獻真偽、不跑模型——這些要轉介給對應 skill。
 - 不確定就標「推測：」並說明要問清什麼才能確定。
-- 不編造 skill：只路由到 skill_catalog 中列出的 31 個名字。
+- 不編造 skill：只路由到 skill_catalog 中列出的 33 個名字。
 </honesty_guardrails>
 
 <examples>

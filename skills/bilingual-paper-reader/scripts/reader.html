@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>雙欄論文閱讀器</title>
+<!--
+  雙欄論文閱讀器（Bilingual Paper Reader）
+  ─────────────────────────────────────────
+  這是一個**可重複使用**的閱讀器：把任何論文轉成的 paper.json 拖進來就能讀，
+  不是一篇論文一個檔。標記存在瀏覽器 localStorage，以論文 id 分辨。
+
+  技術說明：高亮的儲存與還原使用瀏覽器原生 Selection / Range API，
+  以「段落索引 + 字元位移」序列化。因為段落 DOM 由本程式自己產生、結構受控，
+  不需要 Rangy 這類處理任意 DOM 的函式庫。無任何第三方相依，離線可用。
+
+  ⚠️ 標記存在 localStorage：清除瀏覽器資料會一併清掉。
+     重要標記請用「匯出筆記」存成 Markdown 檔備份。
+-->
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e0e0e0;
+    --panel:#f7f7f5; --accent:#2b5797;
+    --c-core:#fff3a3; --c-novel:#b8e6c4; --c-method:#bcd8f5;
+    --c-limit:#f8c4c4; --c-quote:#e0c8f0;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#1c1c1e; --fg:#e8e8e8; --muted:#9a9a9a; --line:#3a3a3c;
+           --panel:#2a2a2c; --accent:#7aa7e0;
+           --c-core:#7a6b1f; --c-novel:#2f5a3a; --c-method:#274a6b;
+           --c-limit:#6b2f2f; --c-quote:#4a2f5a; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:"Times New Roman",'標楷體',DFKai-SB,serif;line-height:1.75}
+  header{position:sticky;top:0;z-index:20;background:var(--panel);
+         border-bottom:1px solid var(--line);padding:10px 16px;
+         display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  h1{font-size:16px;margin:0;font-weight:700;flex:1;min-width:200px;
+     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  button{font-family:inherit;font-size:13px;padding:5px 11px;cursor:pointer;
+         border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:5px}
+  button:hover{border-color:var(--accent)}
+  #drop{margin:40px auto;max-width:680px;padding:48px 24px;text-align:center;
+        border:2px dashed var(--line);border-radius:12px;color:var(--muted)}
+  #drop.hot{border-color:var(--accent);background:var(--panel)}
+  main{max-width:1500px;margin:0 auto;padding:0 16px 80px}
+  .para{display:grid;grid-template-columns:1fr 1fr;gap:26px;
+        padding:14px 0;border-bottom:1px solid var(--line)}
+  .col{white-space:pre-wrap;word-break:break-word}
+  .col.trans{color:var(--fg)}
+  .col.trans:empty::before{content:"（尚未翻譯）";color:var(--muted);font-style:italic}
+  .pnum{grid-column:1/-1;font-size:11px;color:var(--muted);font-family:monospace}
+  mark{padding:1px 0;border-radius:2px}
+  mark[data-cat=core]{background:var(--c-core)}
+  mark[data-cat=novel]{background:var(--c-novel)}
+  mark[data-cat=method]{background:var(--c-method)}
+  mark[data-cat=limit]{background:var(--c-limit)}
+  mark[data-cat=quote]{background:var(--c-quote)}
+  #bar{position:fixed;z-index:50;display:none;gap:4px;padding:6px;
+       background:var(--panel);border:1px solid var(--line);border-radius:8px;
+       box-shadow:0 3px 14px rgba(0,0,0,.18)}
+  #bar button{padding:4px 9px;font-size:12px}
+  #legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);
+          padding:8px 16px;border-bottom:1px solid var(--line);background:var(--bg)}
+  #legend span{display:inline-flex;align-items:center;gap:5px}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block}
+  #gloss{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+         padding:10px 14px;margin:14px 0;font-size:13px}
+  #gloss table{border-collapse:collapse;width:100%}
+  #gloss td{padding:2px 8px;border-bottom:1px solid var(--line)}
+  .hide{display:none}
+  @media(max-width:900px){.para{grid-template-columns:1fr;gap:8px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="title">雙欄論文閱讀器</h1>
+  <button id="btnOpen">開啟論文 JSON</button>
+  <button id="btnExport">匯出筆記 (Markdown)</button>
+  <button id="btnClear">清除本篇標記</button>
+  <input type="file" id="file" accept=".json" class="hide">
+</header>
+
+<div id="legend" class="hide">
+  <span><i class="sw" style="background:var(--c-core)"></i>核心論點</span>
+  <span><i class="sw" style="background:var(--c-novel)"></i>創新點／貢獻</span>
+  <span><i class="sw" style="background:var(--c-method)"></i>方法／資料</span>
+  <span><i class="sw" style="background:var(--c-limit)"></i>限制／缺口</span>
+  <span><i class="sw" style="background:var(--c-quote)"></i>可引用金句</span>
+  <span style="margin-left:auto" id="stat"></span>
+</div>
+
+<div id="drop">
+  <p style="font-size:15px">把 <b>paper.json</b> 拖進來，或按上方「開啟論文 JSON」</p>
+  <p style="font-size:13px">JSON 由 <code>pdf_to_paper.py</code> 從 PDF 產生，譯文與預先標記由 Claude 填入。</p>
+</div>
+
+<main id="main"></main>
+
+<div id="bar">
+  <button data-cat="core">核心</button>
+  <button data-cat="novel">創新</button>
+  <button data-cat="method">方法</button>
+  <button data-cat="limit">限制</button>
+  <button data-cat="quote">金句</button>
+  <button data-cat="__del">清除</button>
+</div>
+
+<script>
+"use strict";
+const CATS = {core:"核心論點", novel:"創新點／貢獻", method:"方法／資料",
+              limit:"限制／缺口", quote:"可引用金句"};
+let doc = null;              // 論文資料
+let marks = [];              // [{i, side, s, e, cat}]
+let sel = null;              // 目前選取資訊
+
+const $ = id => document.getElementById(id);
+const storeKey = () => "bpr:" + (doc ? doc.id : "none");
+
+/* ── 載入 ───────────────────────────────────────────── */
+function loadDoc(obj){
+  if(!obj || !Array.isArray(obj.paragraphs)){
+    alert("這個 JSON 不是有效的論文資料檔（缺 paragraphs 陣列）。");
+    return;
+  }
+  doc = obj;
+  $("title").textContent = doc.title || "（無標題）";
+  document.title = (doc.title||"論文") + " — 雙欄閱讀器";
+
+  // 標記來源：localStorage 優先（使用者自己畫的），否則用 JSON 內的預先標記
+  const saved = localStorage.getItem(storeKey());
+  if(saved){
+    try{ marks = JSON.parse(saved); }catch(e){ marks = []; }
+  }else{
+    marks = [];
+    doc.paragraphs.forEach(p=>{
+      (p.marks||[]).forEach(m=>{
+        if(typeof m.s==="number" && typeof m.e==="number" && CATS[m.cat])
+          marks.push({i:p.i, side:m.side||"orig", s:m.s, e:m.e, cat:m.cat});
+      });
+    });
+  }
+  $("drop").classList.add("hide");
+  $("legend").classList.remove("hide");
+  render();
+}
+
+function readFile(f){
+  const r = new FileReader();
+  r.onload = e => { try{ loadDoc(JSON.parse(e.target.result)); }
+                    catch(err){ alert("JSON 解析失敗："+err.message); } };
+  r.readAsText(f, "utf-8");
+}
+
+/* ── 渲染 ───────────────────────────────────────────── */
+function esc(s){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+// 依標記把純文字切成 <mark> 片段（標記重疊時後者優先，避免巢狀出錯）
+function paint(text, ms){
+  if(!ms.length) return esc(text);
+  const pts = ms.slice().sort((a,b)=>a.s-b.s);
+  let out = "", cur = 0;
+  pts.forEach(m=>{
+    const s = Math.max(cur, Math.min(m.s, text.length));
+    const e = Math.max(s, Math.min(m.e, text.length));
+    if(s > cur) out += esc(text.slice(cur, s));
+    if(e > s) out += `<mark data-cat="${m.cat}">${esc(text.slice(s,e))}</mark>`;
+    cur = Math.max(cur, e);
+  });
+  if(cur < text.length) out += esc(text.slice(cur));
+  return out;
+}
+
+function render(){
+  const m = $("main");
+  m.innerHTML = "";
+
+  if(doc.glossary && Object.keys(doc.glossary).length){
+    const g = document.createElement("div");
+    g.id = "gloss";
+    g.innerHTML = "<b>術語對照（全文譯名一致）</b><table>" +
+      Object.entries(doc.glossary).map(([k,v])=>
+        `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("") + "</table>";
+    m.appendChild(g);
+  }
+
+  doc.paragraphs.forEach(p=>{
+    const d = document.createElement("div");
+    d.className = "para";
+    const mo = marks.filter(x=>x.i===p.i && x.side==="orig");
+    const mt = marks.filter(x=>x.i===p.i && x.side==="trans");
+    d.innerHTML =
+      `<div class="pnum">¶${p.i}</div>` +
+      `<div class="col orig" data-i="${p.i}" data-side="orig">${paint(p.orig||"", mo)}</div>` +
+      `<div class="col trans" data-i="${p.i}" data-side="trans">${paint(p.trans||"", mt)}</div>`;
+    m.appendChild(d);
+  });
+
+  const done = doc.paragraphs.filter(p=>p.trans && p.trans.trim()).length;
+  $("stat").textContent = `已譯 ${done}/${doc.paragraphs.length} 段　標記 ${marks.length} 處`;
+}
+
+/* ── 選取 → 計算字元位移 ───────────────────────────── */
+function offsetIn(container, node, off){
+  const w = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  let n, total = 0;
+  while((n = w.nextNode())){
+    if(n === node) return total + off;
+    total += n.nodeValue.length;
+  }
+  return total;
+}
+
+document.addEventListener("mouseup", ()=>{
+  const s = window.getSelection();
+  if(!s || s.isCollapsed || !s.rangeCount){ $("bar").style.display="none"; sel=null; return; }
+  const r = s.getRangeAt(0);
+  const col = r.startContainer.parentElement?.closest(".col");
+  const col2 = r.endContainer.parentElement?.closest(".col");
+  if(!col || col !== col2){ $("bar").style.display="none"; sel=null; return; }
+
+  const a = offsetIn(col, r.startContainer, r.startOffset);
+  const b = offsetIn(col, r.endContainer, r.endOffset);
+  if(b <= a){ $("bar").style.display="none"; sel=null; return; }
+
+  sel = { i:+col.dataset.i, side:col.dataset.side, s:Math.min(a,b), e:Math.max(a,b) };
+  const rect = r.getBoundingClientRect();
+  const bar = $("bar");
+  bar.style.display = "flex";
+  bar.style.left = Math.max(8, Math.min(rect.left, window.innerWidth-330)) + "px";
+  bar.style.top  = (rect.top + window.scrollY - 44) + "px";
+});
+
+$("bar").addEventListener("click", e=>{
+  const cat = e.target.dataset.cat;
+  if(!cat || !sel) return;
+  if(cat === "__del"){
+    marks = marks.filter(m => !(m.i===sel.i && m.side===sel.side &&
+                                m.s < sel.e && m.e > sel.s));
+  }else{
+    marks = marks.filter(m => !(m.i===sel.i && m.side===sel.side &&
+                                m.s === sel.s && m.e === sel.e));
+    marks.push({i:sel.i, side:sel.side, s:sel.s, e:sel.e, cat});
+  }
+  localStorage.setItem(storeKey(), JSON.stringify(marks));
+  $("bar").style.display = "none";
+  window.getSelection().removeAllRanges();
+  sel = null;
+  render();
+});
+
+/* ── 匯出筆記 ───────────────────────────────────────── */
+function exportMd(){
+  if(!doc) return;
+  const byCat = {};
+  marks.forEach(m=>{ (byCat[m.cat] = byCat[m.cat] || []).push(m); });
+
+  let md = `# 閱讀筆記：${doc.title}\n\n`;
+  md += `- 來源檔：${doc.source_file||"—"}\n- 論文 id：${doc.id}\n`;
+  md += `- 匯出日期：${new Date().toISOString().slice(0,10)}\n- 標記數：${marks.length}\n\n`;
+
+  if(doc.glossary && Object.keys(doc.glossary).length){
+    md += `## 術語對照\n\n| 原文 | 譯名 |\n|---|---|\n`;
+    Object.entries(doc.glossary).forEach(([k,v])=>{ md += `| ${k} | ${v} |\n`; });
+    md += `\n`;
+  }
+
+  Object.keys(CATS).forEach(cat=>{
+    const list = (byCat[cat]||[]).sort((a,b)=>a.i-b.i || a.s-b.s);
+    if(!list.length) return;
+    md += `## ${CATS[cat]}\n\n`;
+    list.forEach(m=>{
+      const p = doc.paragraphs.find(x=>x.i===m.i);
+      if(!p) return;
+      const txt = (m.side==="orig" ? p.orig : p.trans) || "";
+      md += `- **¶${m.i}**（${m.side==="orig"?"原文":"譯文"}）：${txt.slice(m.s,m.e).trim()}\n`;
+    });
+    md += `\n`;
+  });
+
+  const blob = new Blob([md], {type:"text/markdown;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `notes_${doc.id}.md`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ── 事件綁定 ───────────────────────────────────────── */
+$("btnOpen").onclick = ()=> $("file").click();
+$("file").onchange = e => e.target.files[0] && readFile(e.target.files[0]);
+$("btnExport").onclick = exportMd;
+$("btnClear").onclick = ()=>{
+  if(!doc) return;
+  if(confirm("確定清除本篇的所有標記？（此動作無法復原，建議先匯出筆記）")){
+    marks = []; localStorage.removeItem(storeKey()); render();
+  }
+};
+["dragover","dragenter"].forEach(ev=>
+  document.addEventListener(ev, e=>{ e.preventDefault(); $("drop").classList.add("hot"); }));
+["dragleave","drop"].forEach(ev=>
+  document.addEventListener(ev, e=>{ e.preventDefault(); $("drop").classList.remove("hot"); }));
+document.addEventListener("drop", e=>{
+  const f = e.dataTransfer.files[0];
+  if(f && f.name.endsWith(".json")) readFile(f);
+});
+</script>
+</body>
+</html>

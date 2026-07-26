@@ -28,19 +28,23 @@
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
-### 🆕 最新更新（v0.7.0 · 2026-07）
+### 🆕 最新更新（v0.8.0 · 2026-07）
 
-本版把技能包從「單一資料庫的量化工具組」擴充為**跨典範、多資料源、可重現的完整研究系統**。近期新增與強化：
+本版補上研究流程中**最早、也最常被工具忽略的一段：讀文獻**。先前版本已能處理「找資料 → 分析 → 寫作 → 投稿 → 複製包」，但「把幾十篇 PDF 讀完並整理成能用的東西」一直是空白。新增兩支：
 
-- **資料策略升級：從單源到多源結合。** 新增三支資料線技能，讓付費庫（如 TEJ）與免費官方揭露能嚴謹地互補互證：
-  - `public-disclosure-scout` — 免費官方公開揭露偵察（公開資訊觀測站 MOPS 重大訊息／年報／股東會／裁罰、TWSE/TPEx、政府開放資料、TIPO 專利）；是付費庫的免費姊妹線，也是公司治理／揭露**事件研究的標準事件源**。
-  - `multi-source-data-integrator` — **多源結合方法論架構師**：實體解析（統編為主鍵、代號隨轉板/更名/下市變動的對接陷阱）、跨源值調解（來源優先序／容差／衝突揭露，事前訂規則不看結果挑）、來源譜系（每格資料配 `_src`/`_asof` 可回溯）、三角驗證（多源互證構念效度）、合併損耗與選擇偏誤對帳。
-  - `reproducibility-architect` — **複製包架構師**：對齊 2026 頂刊資料編輯（data editor）要求，把整個研究打包成陌生人能一鍵重跑的複製包；特別處理**授權資料（如 TEJ）不可散布時的可重現困境**（程式碼公開＋存取指引＋合成資料）、資料／程式碼／AI 使用三聲明、Zenodo/OSF 的 DOI 封存。
-- **方法典範全覆蓋。** 除原有量化檔案線外，補齊質化（訪談設計＋Gioia 資料結構）、問卷（CMV 攻防）、實驗（counterbalancing／情境實驗）、混合方法；`research-method-selector` 依理論成熟度為你選對方法，並含**新手小白引導模式**（連題目都沒有也給得出方向）。
-- **量化前緣強化。** `causal-inference-architect`（現代交錯 DiD 的 TWFE 陷阱與 Callaway-Sant'Anna／Sun-Abraham 估計量、事件研究圖、IV/RDD/合成控制、審稿攻防表，並附方法與軟體正確引用清單）；`r-spss-syntax-architect` 增 Python(linearmodels) 與 SEM/PLS 第四軌；`text-analytics-architect` 把文字變研究變數並規範 LLM 標註信效度。
-- **一條龍串接。** `research-orchestrator` 升級為全家族分診：偵察各源 → 各自清理 → 多源整合 → 因果識別／建模 → 出圖 → 投稿前對帳 → 複製包封存。
+- **`literature-matrix-builder` — 文獻語料庫與比較矩陣。** 把散落的 PDF 變成有結構的文獻庫：自動抓 DOI → 查 CrossRef（免金鑰）取書目 → 產 APA 7 參考文獻 → 組成 20 欄的 Excel 橫向比較矩陣（理論視角／研究情境／方法／IV／DV／中介調節／主要發現／限制／與本研究關聯／可引用金句），並自動列出哪幾篇的綜整欄還沒填。
+  - **防幻覺文獻是刻意設計**：CrossRef 查無該 DOI 時**直接報錯，絕不用模型記憶補書目**——那正是假文獻的來源。
+  - **不代填綜整欄**：理論視角、主要發現這些欄位一律留空並標黃底。工具可以陪你讀完一起填，但**絕不憑摘要臆測**；猜出來的內容會一路錯進文獻回顧。
+  - 矩陣的真正用法是**縱向讀**：縱讀「理論視角」看領域被誰壟斷、縱讀「研究情境」找出你的缺口、縱讀「操作型定義」判斷結論分歧是否其實是測量問題。
 
-> 完整版本歷史見各 [Releases](../../releases)。技能總數：**32**。
+- **`bilingual-paper-reader` — 單篇英文論文的雙欄精讀。** PDF → 逐段資料檔 → 逐段中譯＋五色預先標記（核心論點／創新點／方法／限制／可引用金句）→ 用一個**可重複使用的離線 HTML 閱讀器**左右對照閱讀；可自己再畫螢光筆，標記持久保存並一鍵匯出成 Markdown 讀書筆記。
+  - **閱讀器是一支、論文是資料檔**——不是一篇論文一個檔。
+  - **零第三方相依、完全離線**：高亮的儲存與還原用瀏覽器原生 Selection / Range API，以「段落索引＋字元位移」序列化，不引入任何 JS 函式庫。
+  - **翻譯紀律**：術語對照表先行確保全文譯名一致；人名／期刊名／統計符號不翻；數字與係數原樣照抄；因果強度用詞不可弱化（`suggests` ≠ 證明）；**看不懂就標示不確定，不生出通順的錯譯**——通順的錯譯比明顯的空白危險得多，因為讀者不會察覺。
+
+- **兩支天然接力**：`bilingual-paper-reader` 精讀單篇得出的判斷（核心主張、創新之處、最大弱點），可直接回填 `literature-matrix-builder` 矩陣的綜整欄。`research-orchestrator` 已更新路由。
+
+> 完整版本歷史見各 [Releases](../../releases)。技能總數：**34**。
 
 ### 🧭 運作原則（三條底線）
 1. **資料由你自己抓。** 資料類技能一律假設**你（或你的機構）擁有合法訂閱／授權帳號，由你自己登入下載**。技能只教「在哪找、怎麼判斷、怎麼分析」，**不代抓資料、不散布任何資料庫的專屬目錄**。
@@ -53,6 +57,8 @@
 | **① 選題・文獻・資料** | `research-orchestrator` | 研究大腦總管，替你分派合適的子技能 | 不知道從何著手、綜合任務 | 原創 |
 | | `research-method-selector` | 方法論適配：判量化/質化/實驗/混合＋Q1 過程套模；含新手小白引導模式 | 該用什麼方法、不知道要研究什麼 | 原創 |
 | | `phd-researcher` | 文獻分析、方法論逆向、研究缺口、PRISMA、後設分析 | 文獻分析、系統性回顧、meta-analysis | 混合 🔒 |
+| | `literature-matrix-builder` | 文獻語料庫與比較矩陣：PDF→DOI→CrossRef→APA 7→Excel 橫向比較表 | 文獻矩陣、文獻整理、建文獻庫、APA7、DOI 查書目 | 原創 |
+| | `bilingual-paper-reader` | 單篇論文雙欄精讀：逐段中譯＋五色預先標記＋離線閱讀器（標記可持久化/匯出） | 精讀論文、論文翻譯、中英對照、畫重點做筆記 | 原創 |
 | | `tej-data-scout` | 資料可行性偵察＋研究設計/估計方法建議（以 TEJ 為範例，資料庫中立） | 選題、資料可行性、這題能不能做 | 原創 |
 | | `public-disclosure-scout` | 免費官方公開揭露偵察（MOPS 重大訊息/年報/裁罰）＋事件研究事件源整備 | 公開資訊觀測站、MOPS、免費資料、事件源 | 原創 |
 | | `multi-source-data-integrator` | 多源嚴謹結合：實體解析、跨源值調解、來源譜系、三角驗證、合併損耗對帳 | 多源結合、跨源、統編對接、三角驗證 | 原創 |
@@ -132,19 +138,23 @@ A bundle of **Claude Skills** for the full research workflow. Once installed, Cl
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
-### 🆕 What's new (v0.7.0 · 2026-07)
+### 🆕 What's new (v0.8.0 · 2026-07)
 
-This release grows the bundle from a single-database quantitative toolkit into a **cross-paradigm, multi-source, reproducible research system**. Recent additions and upgrades:
+This release fills in the **earliest stage of research — and the one tooling most often skips: actually reading the literature.** Earlier versions covered "find data → analyze → write → submit → replication package," but "read forty PDFs and turn them into something usable" was a blank. Two new skills:
 
-- **Data strategy: from single-source to rigorous multi-source integration.** Three new data-line skills let a paid database (e.g., TEJ) and free official disclosures complement and cross-validate each other:
-  - `public-disclosure-scout` — scouting of free official disclosures (Taiwan's MOPS material announcements / annual reports / shareholder meetings / sanctions, TWSE/TPEx, government open data, TIPO patents). A free counterpart to paid databases, and the **standard event source for corporate-governance / disclosure event studies**.
-  - `multi-source-data-integrator` — a **multi-source integration methodology architect**: entity resolution (unified business ID as primary key; the pitfalls of tickers changing on re-listing/renaming/delisting), cross-source value reconciliation (source priority / tolerance / conflict disclosure, rules set *before* seeing results), data lineage (`_src`/`_asof` on every cell), triangulation for construct validity, and merge-loss + selection-bias accounting.
-  - `reproducibility-architect` — a **replication-package architect** aligned with 2026 top-journal data editors: package a whole study so a stranger can re-run it in one command, with special treatment of the **restricted-data reproducibility problem** (licensed data like TEJ can't be redistributed → public code + access instructions + synthetic data), plus data/code/AI-use statements and Zenodo/OSF DOI archiving.
-- **Full methodological-paradigm coverage.** Beyond the original archival-quant line: qualitative (interview design + Gioia data structure), survey (CMV defenses), experiment (counterbalancing / vignettes), and mixed methods. `research-method-selector` picks the right method by theoretical maturity and includes a **beginner-guidance mode** (gives direction even when you have no topic yet).
-- **Frontier-quant reinforcement.** `causal-inference-architect` (modern staggered-DiD TWFE pitfalls and Callaway-Sant'Anna / Sun-Abraham estimators, event-study plots, IV/RDD/synthetic control, a reviewer-defense table, plus a correct method-and-software citation list); `r-spss-syntax-architect` adds Python (linearmodels) and a SEM/PLS lane; `text-analytics-architect` turns text into research variables with LLM-annotation validity discipline.
-- **End-to-end chaining.** `research-orchestrator` now routes the whole family: scout each source → clean each → integrate → identify/model → figures → pre-submission reconciliation → replication-package archiving.
+- **`literature-matrix-builder` — literature corpus and comparison matrix.** Turns scattered PDFs into a structured library: auto-extract the DOI → query CrossRef (no API key) for bibliographic metadata → generate APA 7 references → assemble a 20-column Excel comparison matrix (theoretical lens / setting / method / IV / DV / mediator-moderator / key findings / limitations / relevance to your study / quotable lines), plus an auto-generated list of which entries still have blanks.
+  - **Hallucinated-reference prevention is deliberate**: when CrossRef has no record for a DOI, the tool **fails loudly and never fills in bibliographic data from model memory** — that is precisely where fabricated references come from.
+  - **It will not fill the synthesis columns for you.** Theoretical lens, key findings and the like are left blank and highlighted. The skill can help you fill them *after* you've read the paper, but it **never infers them from an abstract**; a guess there propagates straight into your literature review.
+  - The matrix pays off when read **down a column**: scan "theoretical lens" to see which theories dominate the field, "setting" to locate your own gap, and "operationalization" to judge whether conflicting findings are really a measurement problem.
 
-> Full version history in [Releases](../../releases). Total skills: **32**.
+- **`bilingual-paper-reader` — side-by-side close reading of a single paper.** PDF → per-paragraph data file → paragraph-aligned translation plus five-colour pre-marking (core claim / novelty / method / limitation / quotable line) → read it in a **reusable offline HTML reader**; add your own highlights, which persist and export to a Markdown reading note in one click.
+  - **One reader, many papers** — not one HTML file per paper.
+  - **Zero third-party dependencies, fully offline**: highlight persistence uses the browser's native Selection / Range APIs, serializing `{paragraph index, column, character offsets}`. No JS library is bundled.
+  - **Translation discipline**: a term glossary comes first so terminology stays consistent throughout; names, journal titles and statistical symbols are left untranslated; numbers and coefficients are copied verbatim; causal-strength wording must not be softened or strengthened (`suggests` ≠ *proves*); and **when a sentence is genuinely unclear, it is flagged rather than smoothed over** — a fluent mistranslation is far more dangerous than a visible gap, because the reader never notices it.
+
+- **The two hand off naturally**: the judgments you reach while close-reading one paper (core claim, real novelty, biggest weakness) drop straight into the synthesis columns of the matrix. `research-orchestrator` routing has been updated.
+
+> Full version history in [Releases](../../releases). Total skills: **34**.
 
 ### 🧭 Operating principles (three ground rules)
 1. **You fetch your own data.** Every data skill assumes **you (or your institution) hold a legitimate subscription/license and download the data yourself**. Skills only teach *where to look, how to judge feasibility, and how to analyze* — they never fetch data for you and never redistribute any database's proprietary catalog.
@@ -157,6 +167,8 @@ This release grows the bundle from a single-database quantitative toolkit into a
 | **① Ideation・Literature・Data** | `research-orchestrator` | A router "research brain" that dispatches the right sub-skill | Original |
 | | `research-method-selector` | Methodological-fit advisor (quant/qual/experiment/mixed) + Q1 process templates + beginner guidance mode | Original |
 | | `phd-researcher` | Literature analysis, methodology reverse-engineering, research gaps, PRISMA systematic reviews, meta-analysis | Mixed 🔒 |
+| | `literature-matrix-builder` | Literature corpus + comparison matrix: PDF→DOI→CrossRef→APA 7→Excel synthesis table | Original |
+| | `bilingual-paper-reader` | Side-by-side close reading of one paper: paragraph-aligned translation + five-colour pre-marking + offline reader (persistent highlights, note export) | Original |
 | | `tej-data-scout` | Data-feasibility scouting + research-design/estimator advice (TEJ as example; database-agnostic) | Original |
 | | `public-disclosure-scout` | Free official public-disclosure scouting (MOPS filings/annual reports/sanctions) + event-study event source | Original |
 | | `multi-source-data-integrator` | Rigorous multi-source integration: entity resolution, cross-source reconciliation, data lineage, triangulation, merge-loss accounting | Original |
