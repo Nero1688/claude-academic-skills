@@ -3,7 +3,7 @@
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-32-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-34-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -13,8 +13,8 @@
   <img alt="demo — thesis-consistency-audit 投稿前一致性稽核實況" src="docs/assets/demo.gif" width="720">
 </p>
 
-> 一組給**商管、財金、社會科學研究者**的 Claude Skills，量化、質化、實驗、混合方法全典範，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
-> A curated bundle of Claude Skills for **quantitative, qualitative & experimental research in business, finance, and social science**, covering the full research workflow. Built on the shoulders of several open-source authors (see Credits).
+> 一組給**商管、財金、社會科學研究者**的 Claude Skills：從選題、找資料、**讀文獻**，到分析、寫作、投稿與複製包封存——量化／質化／實驗／混合方法全典範，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
+> A curated bundle of Claude Skills for **research in business, finance, and the social sciences** — from framing a question, finding data and **reading the literature**, through analysis, writing, submission, and replication-package archiving. Quantitative, qualitative, experimental, and mixed methods. Built on the shoulders of several open-source authors (see Credits).
 
 ---
 ---
@@ -22,9 +22,11 @@
 ## 繁體中文
 
 ### 📌 這是什麼 / 給誰用
-一組可掛到 Claude 上的「技能（Skills）」。掛上後，當你在對話中談到相關任務，Claude 會**自動載入對應技能**、套用該領域的專業框架，不必每次重打長提示詞。
+一組可掛到 Claude 上的「技能（Skills）」。掛上後，當你在對話中談到相關任務，Claude 會**自動載入對應技能**、套用該領域的專業框架與紀律，不必每次重打長提示詞。
 
-**適合對象**：商管／財金／社會科學的量化研究者（碩、博士生與研究人員），特別是**台灣學術脈絡**（繁體中文、APA 7、口試委員意見回覆格式）的使用者。
+**適合對象**：商管／財金／社會科學的研究者（碩、博士生與研究人員）。原本依**台灣學術脈絡**設計（繁體中文、APA 7、口試與審查意見回覆格式），但多數技能在任何脈絡都適用。**方法典範不限量化**——質化、實驗、混合方法均有對應技能。
+
+**這個包在意什麼**：不只把答案生出來，更在意**答案站不站得住**。數字要能指回出處、引用要能查證真偽、識別假設要先講清楚、不確定就標示不確定。技能寧可回報「查無」，也不生一個看起來合理的東西——因為看起來合理的錯誤最難被發現。
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
@@ -132,9 +134,11 @@
 ## English
 
 ### 📌 What it is / Who it's for
-A bundle of **Claude Skills** for the full research workflow. Once installed, Claude **auto-loads the relevant skill** when your conversation touches a matching task, applying a domain-specific framework so you don't have to re-type long prompts.
+A bundle of **Claude Skills** covering the full research workflow. Once installed, Claude **auto-loads the relevant skill** when your conversation touches a matching task, applying that field's framework and discipline — no need to re-type long prompts.
 
-**Audience:** quantitative researchers in business, finance, and social science (master's/PhD students and faculty), especially those working in the **Taiwanese academic context** (Traditional Chinese, APA 7). Many skills are usable in any context.
+**Audience:** researchers in business, finance, and the social sciences (master's/PhD students and faculty). Built around the **Taiwanese academic context** (Traditional Chinese, APA 7, oral-defense and reviewer-response conventions), though most skills work anywhere. **Not limited to quantitative work** — qualitative, experimental, and mixed-methods skills are included.
+
+**What this bundle optimizes for:** not just producing an answer, but whether the answer holds up. Numbers should trace back to a source; citations should be checkable; identification assumptions get stated before models get run; uncertainty gets labelled as uncertainty. These skills would rather report "not found" than return something that merely looks plausible — because a plausible-looking error is the hardest kind to catch.
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
