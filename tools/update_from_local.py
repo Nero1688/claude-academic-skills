@@ -24,6 +24,10 @@ import argparse, os, re, shutil, pathlib, sys
 EXCLUDED = {
     "check-citations": "上游無授權,不可重製;README 已連結原 repo",
     "tw-opendata-scout": "使用者決定僅留私人庫(2026-07-24 v2.5.0)",
+    # 留一手政策第三層(時間差):新技能先進私人庫,延後一個 minor 版才進公開包。
+    # 要釋出時把該項從本清單移除,並同步改 orchestrator 名錄與 README/NOTICE。
+    "research-framework-figure": "留一手:延後釋出(2026-07-26 v2.6.0);另 scripts/examples/ 含真實研究模型,釋出前須先換成匿名模板",
+    "global-opendata-scout": "留一手:延後釋出(2026-07-26 v2.9.0)",
 }
 
 
