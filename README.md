@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img alt="demo — thesis-consistency-audit 投稿前一致性稽核實況" src="docs/assets/demo.gif" width="720">
+  <img alt="demo — Academic Claude Skills 研究流程示範(讀文獻/因果識別/投稿前稽核)" src="docs/assets/demo.gif" width="720">
 </p>
 
 > 一組給**商管、財金、社會科學研究者**的 Claude Skills：從選題、找資料、**讀文獻**，到分析、寫作、投稿與複製包封存——量化／質化／實驗／混合方法全典範，涵蓋研究全流程。站在多位開源作者的肩膀上（見致謝）。
@@ -30,23 +30,18 @@
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
-### 🆕 最新更新（v0.8.0 · 2026-07）
+### 🆕 最新更新（v0.10.0 · 2026-08）
 
-本版補上研究流程中**最早、也最常被工具忽略的一段：讀文獻**。先前版本已能處理「找資料 → 分析 → 寫作 → 投稿 → 複製包」，但「把幾十篇 PDF 讀完並整理成能用的東西」一直是空白。新增兩支：
+近期把重心放在**資料取得的穩健度**與**文件前處理**——研究流程最前段、也最容易「髒進髒出」的兩塊。
 
-- **`literature-matrix-builder` — 文獻語料庫與比較矩陣。** 把散落的 PDF 變成有結構的文獻庫：自動抓 DOI → 查 CrossRef（免金鑰）取書目 → 產 APA 7 參考文獻 → 組成 20 欄的 Excel 橫向比較矩陣（理論視角／研究情境／方法／IV／DV／中介調節／主要發現／限制／與本研究關聯／可引用金句），並自動列出哪幾篇的綜整欄還沒填。
-  - **防幻覺文獻是刻意設計**：CrossRef 查無該 DOI 時**直接報錯，絕不用模型記憶補書目**——那正是假文獻的來源。
-  - **不代填綜整欄**：理論視角、主要發現這些欄位一律留空並標黃底。工具可以陪你讀完一起填，但**絕不憑摘要臆測**；猜出來的內容會一路錯進文獻回顧。
-  - 矩陣的真正用法是**縱向讀**：縱讀「理論視角」看領域被誰壟斷、縱讀「研究情境」找出你的缺口、縱讀「操作型定義」判斷結論分歧是否其實是測量問題。
+- **v0.10.0 — 複雜揭露文件前處理（`text-analytics-architect`）。** 語料若是版面複雜的揭露文件（10-K、年報、ESG 永續報告、掃描檔），`pdftotext` 直抽會把表格壓平、多欄交錯、頁尾混進正文——**髒進髒出**，污染後面的斷詞與情緒分析。新增 Step 0 指引：先用版面感知抽取轉成保留語意結構的乾淨文字（並驗抽取品質、保 source map、遮罩 PII）再分析。融合 [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark)（Apache 2.0）的語意化文件處理概念，**只取概念不取依賴**。
+- **v0.9.0 — 動態網站抓取升級階梯（`public-disclosure-scout`）。** `requests` 抓不到 JS 動態頁時的**由輕到重升級階梯**（先找背後 API → 官方批次 → 無頭瀏覽器）。融合 [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai)（Apache 2.0）「把網頁轉成 LLM 可讀結構」概念，只取概念不取依賴，並**明訂 🚫 禁用其 stealth 反偵測功能**——學術研究抓不到就升級到官方管道／申請／人工，不是躲過偵測。
+- **v0.8.0 — 讀文獻線（`literature-matrix-builder` + `bilingual-paper-reader`）。** 把幾十篇 PDF 變成有結構的東西:文獻比較矩陣(PDF→DOI→CrossRef 免金鑰→APA 7→20 欄 Excel,**CrossRef 查無 DOI 直接報錯不憑記憶補書目**),與單篇論文雙欄精讀(逐段中譯+五色標記+離線閱讀器)。兩支天然接力,精讀結論回填矩陣綜整欄。
 
-- **`bilingual-paper-reader` — 單篇英文論文的雙欄精讀。** PDF → 逐段資料檔 → 逐段中譯＋五色預先標記（核心論點／創新點／方法／限制／可引用金句）→ 用一個**可重複使用的離線 HTML 閱讀器**左右對照閱讀；可自己再畫螢光筆，標記持久保存並一鍵匯出成 Markdown 讀書筆記。
-  - **閱讀器是一支、論文是資料檔**——不是一篇論文一個檔。
-  - **零第三方相依、完全離線**：高亮的儲存與還原用瀏覽器原生 Selection / Range API，以「段落索引＋字元位移」序列化，不引入任何 JS 函式庫。
-  - **翻譯紀律**：術語對照表先行確保全文譯名一致；人名／期刊名／統計符號不翻；數字與係數原樣照抄；因果強度用詞不可弱化（`suggests` ≠ 證明）；**看不懂就標示不確定，不生出通順的錯譯**——通順的錯譯比明顯的空白危險得多，因為讀者不會察覺。
-
-- **兩支天然接力**：`bilingual-paper-reader` 精讀單篇得出的判斷（核心主張、創新之處、最大弱點），可直接回填 `literature-matrix-builder` 矩陣的綜整欄。`research-orchestrator` 已更新路由。
+一貫紀律不變:**融合外部開源都只取概念、不吞依賴、遇 copyleft 就規避、用了就在 `NOTICE.md` 與各技能 `ATTRIBUTION.md` 誠實致謝**。
 
 > 完整版本歷史見各 [Releases](../../releases)。技能總數：**34**。
+> **安裝**:整個 repo 的 ZIP 無法直接當單一技能上傳;請到 [`dist/`](dist/) 下載你要的個別 `.zip`(見下方安裝說明)。
 
 ### 🧭 運作原則（三條底線）
 1. **資料由你自己抓。** 資料類技能一律假設**你（或你的機構）擁有合法訂閱／授權帳號，由你自己登入下載**。技能只教「在哪找、怎麼判斷、怎麼分析」，**不代抓資料、不散布任何資料庫的專屬目錄**。
@@ -96,8 +91,17 @@
 > **關於引用查核**：另有優秀開源工具 [`PHY041/claude-skill-citation-checker`](https://github.com/PHY041/claude-skill-citation-checker)（比對 CrossRef／Semantic Scholar／OpenAlex）。因其上游未附授權（預設保留一切權利），本 repo **不重製其程式碼**，建議直接前往取用，與本包 `citation-verifier` 搭配。
 
 ### 🚀 安裝
-**claude.ai**：Code → Download ZIP → [claude.ai](https://claude.ai) Customize → Skills → 逐一上傳你要的技能資料夾 → Settings → Capabilities 開啟 Code execution。
-**Claude Code**：clone 後把 `skills/` 下要的資料夾複製到 `~/.claude/skills/`。詳見 [`docs/INSTALL.md`](docs/INSTALL.md)。
+
+> ⚠️ **不能**把整個 repo 的 ZIP(Code → Download ZIP)當成一個技能上傳——那裡面有 34 個 `SKILL.md`、深層巢狀,Claude 一次只吃一個技能。也**不能只給網址**讓 claude.ai 自己抓;技能上傳是「上傳檔案」。**請用個別的 `.zip`。**
+
+**claude.ai(逐支安裝)**
+1. 到 [`dist/`](dist/) 點你要的技能 `.zip`(例 `literature-matrix-builder.zip`)→ 右側 **Download**。
+2. claude.ai → 頭像 → **Settings → Capabilities**,開啟 **Code execution**(含腳本的技能需要)。
+3. **Settings → Skills → Add / Upload** → 選剛下載的 `.zip` → 完成。要幾支重複幾次(平台一次一支)。上傳後跨裝置自動同步。
+
+**Claude Code**:clone 後把 `skills/<名稱>/` 資料夾複製到 `~/.claude/skills/`(不需打包)。詳見 [`dist/README.md`](dist/README.md) 與 [`docs/INSTALL.md`](docs/INSTALL.md)。
+
+**其他 AI 代理(Codex 等)**:技能的「內容」(SKILL.md 指引+scripts+references)是可攜的 markdown 與 Python;技能的「自動載入」機制是 Claude 專屬。在 Codex/其他代理要用,見 [`docs/USE_WITH_OTHER_AGENTS.md`](docs/USE_WITH_OTHER_AGENTS.md)。
 
 ### 💡 使用範例
 **範例 1 — 發想期問「這題能不能做」＋方法建議**
@@ -142,23 +146,18 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
-### 🆕 What's new (v0.8.0 · 2026-07)
+### 🆕 What's new (v0.10.0 · 2026-08)
 
-This release fills in the **earliest stage of research — and the one tooling most often skips: actually reading the literature.** Earlier versions covered "find data → analyze → write → submit → replication package," but "read forty PDFs and turn them into something usable" was a blank. Two new skills:
+Recent work focused on **data-acquisition robustness** and **document preprocessing** — the earliest stage of research, and the one most prone to "garbage in, garbage out."
 
-- **`literature-matrix-builder` — literature corpus and comparison matrix.** Turns scattered PDFs into a structured library: auto-extract the DOI → query CrossRef (no API key) for bibliographic metadata → generate APA 7 references → assemble a 20-column Excel comparison matrix (theoretical lens / setting / method / IV / DV / mediator-moderator / key findings / limitations / relevance to your study / quotable lines), plus an auto-generated list of which entries still have blanks.
-  - **Hallucinated-reference prevention is deliberate**: when CrossRef has no record for a DOI, the tool **fails loudly and never fills in bibliographic data from model memory** — that is precisely where fabricated references come from.
-  - **It will not fill the synthesis columns for you.** Theoretical lens, key findings and the like are left blank and highlighted. The skill can help you fill them *after* you've read the paper, but it **never infers them from an abstract**; a guess there propagates straight into your literature review.
-  - The matrix pays off when read **down a column**: scan "theoretical lens" to see which theories dominate the field, "setting" to locate your own gap, and "operationalization" to judge whether conflicting findings are really a measurement problem.
+- **v0.10.0 — complex-disclosure preprocessing (`text-analytics-architect`).** When the corpus is layout-heavy disclosure (10-Ks, annual reports, ESG/sustainability reports, scans), naive `pdftotext` flattens tables, scrambles columns and mixes footers into the body — **garbage in, garbage out**, poisoning downstream tokenization and sentiment. A new Step 0 says: run layout-aware extraction into clean, structure-preserving text first (verify extraction quality, keep a source map, mask PII), then analyze. Adopts the concept from [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark) (Apache 2.0) — **concept only, no dependency**.
+- **v0.9.0 — dynamic-scraping escalation ladder (`public-disclosure-scout`).** When `requests` can't reach a JS-rendered page, a **lightest-to-heaviest escalation ladder** (find the underlying API first → official batch files → headless browser only if needed). Adopts the "turn web pages into LLM-readable structure" concept from [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) (Apache 2.0) — concept only, no dependency — and **explicitly forbids its stealth / anti-detection features**: scholarly scraping that can't reach a page escalates to official channels / a request / manual work, not to evading detection.
+- **v0.8.0 — the literature-reading line (`literature-matrix-builder` + `bilingual-paper-reader`).** Turn dozens of PDFs into something structured: a comparison matrix (PDF→DOI→CrossRef, no key→APA 7→20-column Excel; **CrossRef miss fails loudly, never fills bibliography from memory**) and side-by-side close reading of a single paper (paragraph translation + five-colour marking + offline reader). The two hand off naturally.
 
-- **`bilingual-paper-reader` — side-by-side close reading of a single paper.** PDF → per-paragraph data file → paragraph-aligned translation plus five-colour pre-marking (core claim / novelty / method / limitation / quotable line) → read it in a **reusable offline HTML reader**; add your own highlights, which persist and export to a Markdown reading note in one click.
-  - **One reader, many papers** — not one HTML file per paper.
-  - **Zero third-party dependencies, fully offline**: highlight persistence uses the browser's native Selection / Range APIs, serializing `{paragraph index, column, character offsets}`. No JS library is bundled.
-  - **Translation discipline**: a term glossary comes first so terminology stays consistent throughout; names, journal titles and statistical symbols are left untranslated; numbers and coefficients are copied verbatim; causal-strength wording must not be softened or strengthened (`suggests` ≠ *proves*); and **when a sentence is genuinely unclear, it is flagged rather than smoothed over** — a fluent mistranslation is far more dangerous than a visible gap, because the reader never notices it.
-
-- **The two hand off naturally**: the judgments you reach while close-reading one paper (core claim, real novelty, biggest weakness) drop straight into the synthesis columns of the matrix. `research-orchestrator` routing has been updated.
+The standing discipline holds: **external open source is adopted as concept only, never as a bundled dependency; copyleft is avoided; and every borrowing is credited honestly in `NOTICE.md` and each skill's `ATTRIBUTION.md`.**
 
 > Full version history in [Releases](../../releases). Total skills: **34**.
+> **Install**: the whole-repo ZIP is not a single installable skill — grab the individual `.zip` you want from [`dist/`](dist/) (see Install below).
 
 ### 🧭 Operating principles (three ground rules)
 1. **You fetch your own data.** Every data skill assumes **you (or your institution) hold a legitimate subscription/license and download the data yourself**. Skills only teach *where to look, how to judge feasibility, and how to analyze* — they never fetch data for you and never redistribute any database's proprietary catalog.
@@ -208,8 +207,17 @@ This release fills in the **earliest stage of research — and the one tooling m
 > **On citation checking:** there's an excellent open-source tool, [`PHY041/claude-skill-citation-checker`](https://github.com/PHY041/claude-skill-citation-checker) (checks CrossRef/Semantic Scholar/OpenAlex). Because its upstream ships **no license (all rights reserved)**, this repo **does not reproduce its code** — please get it from the original repo and pair it with this bundle's `citation-verifier`.
 
 ### 🚀 Install
-**claude.ai:** Code → Download ZIP → [claude.ai](https://claude.ai) → Customize → Skills → upload each skill folder → Settings → Capabilities → enable Code execution.
-**Claude Code:** clone, then copy the folders you want from `skills/` into `~/.claude/skills/`. See [`docs/INSTALL.md`](docs/INSTALL.md).
+
+> ⚠️ The whole-repo ZIP (Code → Download ZIP) is **not** a single installable skill — it holds 34 nested `SKILL.md` files, and Claude ingests one skill at a time. You also **can't just give claude.ai a URL**; skill upload is a file upload. **Use the individual `.zip` files.**
+
+**claude.ai (one skill at a time)**
+1. In [`dist/`](dist/), click the skill `.zip` you want (e.g. `literature-matrix-builder.zip`) → **Download** on the right.
+2. claude.ai → avatar → **Settings → Capabilities**, enable **Code execution** (needed for skills with scripts).
+3. **Settings → Skills → Add / Upload** → pick the downloaded `.zip` → done. Repeat per skill (the platform takes one at a time). Uploads sync across devices.
+
+**Claude Code:** clone, then copy the `skills/<name>/` folder into `~/.claude/skills/` (no packaging needed). See [`dist/README.md`](dist/README.md) and [`docs/INSTALL.md`](docs/INSTALL.md).
+
+**Other AI agents (Codex, etc.):** a skill's *content* (SKILL.md guidance + scripts + references) is portable Markdown and Python; the *auto-loading* mechanism is Claude-specific. To use these with Codex or another agent, see [`docs/USE_WITH_OTHER_AGENTS.md`](docs/USE_WITH_OTHER_AGENTS.md).
 
 ### 💡 Usage examples
 **1 — "Is this topic feasible?" + method advice**
