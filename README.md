@@ -36,6 +36,10 @@
 - **一條龍、由「研究大腦」分派。** 從方法選擇→找資料→清理→分析→寫作→投稿→複製包封存，`research-orchestrator` 會判斷你在哪一階段、該叫哪幾支、什麼順序，不必自己記 35 支各做什麼。
 - **四大方法範式齊全，還能交複製包。** 量化／質化／實驗／混合都有對應技能；`reproducibility-architect` 直接把研究打包成可重跑的複製包（環境鎖定、授權資料的可重現困境、資料／程式碼／AI 使用三聲明、DOI 封存），對接頂刊資料編輯要求。
 
+### ⭐ 給顆星 = 我們的 impact factor
+
+如果這裡有哪支技能幫你擋掉一個幻覺引用、省下一下午的洗資料、或讓 reviewer 2 沒那麼可怕——按顆 ⭐ 就是學術版的「被引用」：下一個需要的研究者靠它找到這裡。不用送審、不用 revise & resubmit。**就當它是開源研究工具版的「按讚、訂閱、開小鈴鐺」。** 🔔
+
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
 ### 🆕 最新更新（v0.11.0 · 2026-08）
@@ -161,6 +165,10 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 - **Anti-hallucination — answers that hold up.** Numbers trace back to a source; citations are checkable; a CrossRef miss fails loudly instead of filling a bibliography from memory — it would rather report "not found" than return a plausible-looking error.
 - **End-to-end, dispatched by a "research brain."** From method selection → finding data → cleaning → analysis → writing → submission → replication-package archiving, `research-orchestrator` works out which stage you're in and which skills to call in what order — you don't have to memorize what all 35 do.
 - **All four method paradigms, plus a replication package.** Quantitative, qualitative, experimental and mixed methods are all covered; `reproducibility-architect` packages the study into a re-runnable replication bundle (environment locking, restricted-data reproducibility, data/code/AI-use statements, DOI archiving) that meets top-journal data-editor requirements.
+
+### ⭐ A star is our impact factor
+
+If a skill here caught a hallucinated citation, saved you an afternoon of data-wrangling, or made Reviewer 2 a little less terrifying — a ⭐ is the academic equivalent of a citation: it's how the next researcher finds this. No peer review, no revise-and-resubmit required. **Think of it as the "like, subscribe, and hit the bell" of open-source research tools.** 🔔
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
