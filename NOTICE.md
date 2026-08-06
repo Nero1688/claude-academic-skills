@@ -38,7 +38,7 @@
 | causal-inference-architect | 作者原創（根 LICENSE） | 本專案作者 | 估計量文獻(Callaway & Sant'Anna 等)為公開學術引用,非程式碼 |
 | text-analytics-architect | 作者原創（根 LICENSE） | 本專案作者 | LLM 標註紀律為方法論指引;使用者需自行遵循各平台語料條款 |
 
-| public-disclosure-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至官方免費公開揭露源;抓取需自行遵循各站台服務條款與政府開放資料授權 |
+| public-disclosure-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至官方免費公開揭露源;抓取需自行遵循各站台服務條款與政府開放資料授權。動態抓取升級階梯之「網頁轉 LLM 可讀結構」概念借鑑 unclecode/crawl4ai（Apache 2.0），僅取概念未取依賴，並明訂禁用其 stealth 反偵測功能 |
 | multi-source-data-integrator | 作者原創（根 LICENSE） | 本專案作者 | 資料整合方法論指引;實體解析/調解概念為通用資料工程與計量方法 |
 | reproducibility-architect | 作者原創（根 LICENSE） | 本專案作者 | 可重現性方法論指引;引用 renv/conda/Zenodo 等開源工具與頂刊資料編輯規範(概念引用) |
 

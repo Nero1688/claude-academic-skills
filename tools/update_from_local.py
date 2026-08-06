@@ -28,6 +28,7 @@ EXCLUDED = {
     # 要釋出時把該項從本清單移除,並同步改 orchestrator 名錄與 README/NOTICE。
     "research-framework-figure": "留一手:延後釋出(2026-07-26 v2.6.0);另 scripts/examples/ 含真實研究模型,釋出前須先換成匿名模板",
     "global-opendata-scout": "留一手:延後釋出(2026-07-26 v2.9.0)",
+    "spatial-data-architect": "留一手:延後釋出(2026-08-08 v2.10.0);依賴 h3/geopandas,釋出前補安裝說明",
 }
 
 
