@@ -3,7 +3,7 @@
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-34-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-35-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -28,19 +28,28 @@
 
 **這個包在意什麼**：不只把答案生出來，更在意**答案站不站得住**。數字要能指回出處、引用要能查證真偽、識別假設要先講清楚、不確定就標示不確定。技能寧可回報「查無」，也不生一個看起來合理的東西——因為看起來合理的錯誤最難被發現。
 
+### ✨ 為什麼是這個包（而不是一堆零散提示詞）
+
+- **腳本會真的跑，不只是給指引。** 資料與圖表類技能附**實測過的 Python／R 腳本**——你電腦裝了 Python 或 R，就能實際連線抓書目、清資料、建資料表、出圖（例：`literature-matrix-builder` 連 CrossRef 抓 DOI 直接建 Excel 比較矩陣；`r-spss-syntax-architect` 產出可貼上就跑的 R／SPSS／Stata 語法；`management-figure` 直出 300dpi 出版級圖）。
+- **不只本國資料，也做跨國。** 除了台灣公開資料，`global-opendata-scout` 內建 World Bank／Eurostat／ILOSTAT／IMF／UN Data 的**免金鑰、已實測端點與撈取腳本**，並主動提醒跨國比較的陷阱（國家代碼三套不可混、幣別／PPP／基期、產業分類不可直接對應），讓你做**他國與跨國分析**不被本國資料綁死。
+- **反幻覺，答案要站得住。** 數字能指回出處、引用能查真偽、CrossRef 查無就報錯不憑記憶補書目——**寧可回報查無，也不生一個看似合理的錯誤**。
+- **一條龍、由「研究大腦」分派。** 從方法選擇→找資料→清理→分析→寫作→投稿→複製包封存，`research-orchestrator` 會判斷你在哪一階段、該叫哪幾支、什麼順序，不必自己記 35 支各做什麼。
+- **四大方法範式齊全，還能交複製包。** 量化／質化／實驗／混合都有對應技能；`reproducibility-architect` 直接把研究打包成可重跑的複製包（環境鎖定、授權資料的可重現困境、資料／程式碼／AI 使用三聲明、DOI 封存），對接頂刊資料編輯要求。
+
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
-### 🆕 最新更新（v0.10.0 · 2026-08）
+### 🆕 最新更新（v0.11.0 · 2026-08）
 
-近期把重心放在**資料取得的穩健度**與**文件前處理**——研究流程最前段、也最容易「髒進髒出」的兩塊。
+近期把重心放在**資料涵蓋的廣度（跨國）**、**取得的穩健度**與**文件前處理**——研究流程最前段、也最容易「髒進髒出」的幾塊。
 
+- **v0.11.0 — 跨國／國際比較資料（`global-opendata-scout`）。** 研究要做他國或跨國比較時，內建 World Bank／Eurostat／ILOSTAT／IMF／UN Data 的**免金鑰、已實測端點與撈取腳本**，另附「如何找到任一國家官方統計機構」的五步方法論。核心價值不在找到數字，而在**主動點出跨國資料的可比性陷阱**（國家代碼三套、幣別／PPP／基期、會計年度、產業分類 ISIC／NACE／NAICS 不可直接對應、涵蓋率遺漏造成選擇偏誤）。台灣資料不涵蓋（World Bank／OECD 皆無台灣），走官方來源。
 - **v0.10.0 — 複雜揭露文件前處理（`text-analytics-architect`）。** 語料若是版面複雜的揭露文件（10-K、年報、ESG 永續報告、掃描檔），`pdftotext` 直抽會把表格壓平、多欄交錯、頁尾混進正文——**髒進髒出**，污染後面的斷詞與情緒分析。新增 Step 0 指引：先用版面感知抽取轉成保留語意結構的乾淨文字（並驗抽取品質、保 source map、遮罩 PII）再分析。融合 [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark)（Apache 2.0）的語意化文件處理概念，**只取概念不取依賴**。
 - **v0.9.0 — 動態網站抓取升級階梯（`public-disclosure-scout`）。** `requests` 抓不到 JS 動態頁時的**由輕到重升級階梯**（先找背後 API → 官方批次 → 無頭瀏覽器）。融合 [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai)（Apache 2.0）「把網頁轉成 LLM 可讀結構」概念，只取概念不取依賴，並**明訂 🚫 禁用其 stealth 反偵測功能**——學術研究抓不到就升級到官方管道／申請／人工，不是躲過偵測。
 - **v0.8.0 — 讀文獻線（`literature-matrix-builder` + `bilingual-paper-reader`）。** 把幾十篇 PDF 變成有結構的東西:文獻比較矩陣(PDF→DOI→CrossRef 免金鑰→APA 7→20 欄 Excel,**CrossRef 查無 DOI 直接報錯不憑記憶補書目**),與單篇論文雙欄精讀(逐段中譯+五色標記+離線閱讀器)。兩支天然接力,精讀結論回填矩陣綜整欄。
 
 一貫紀律不變:**融合外部開源都只取概念、不吞依賴、遇 copyleft 就規避、用了就在 `NOTICE.md` 與各技能 `ATTRIBUTION.md` 誠實致謝**。
 
-> 完整版本歷史見各 [Releases](../../releases)。技能總數：**34**。
+> 完整版本歷史見各 [Releases](../../releases)。技能總數：**35**。
 > **安裝**:整個 repo 的 ZIP 無法直接當單一技能上傳;請到 [`dist/`](dist/) 下載你要的個別 `.zip`(見下方安裝說明)。
 
 ### 🧭 運作原則（三條底線）
@@ -58,6 +67,7 @@
 | | `bilingual-paper-reader` | 單篇論文雙欄精讀：逐段中譯＋五色預先標記＋離線閱讀器（標記可持久化/匯出） | 精讀論文、論文翻譯、中英對照、畫重點做筆記 | 原創 |
 | | `tej-data-scout` | 資料可行性偵察＋研究設計/估計方法建議（以 TEJ 為範例，資料庫中立） | 選題、資料可行性、這題能不能做 | 原創 |
 | | `public-disclosure-scout` | 免費官方公開揭露偵察（MOPS 重大訊息/年報/裁罰）＋事件研究事件源整備 | 公開資訊觀測站、MOPS、免費資料、事件源 | 原創 |
+| | `global-opendata-scout` | 跨國/國際公開統計偵察：World Bank/Eurostat/ILOSTAT/IMF/UN Data 免金鑰端點＋撈取腳本＋可比性陷阱 | 跨國、國際比較、World Bank、他國統計、cross-country | 原創 |
 | | `multi-source-data-integrator` | 多源嚴謹結合：實體解析、跨源值調解、來源譜系、三角驗證、合併損耗對帳 | 多源結合、跨源、統編對接、三角驗證 | 原創 |
 | | `tej-variable-mapper` | 把 Compustat／CRSP 變數定義映射到 TEJ 對應欄位 | 變數對應、TEJ 欄位、Compustat | 原創 |
 | | `tej-data-wrangler` | TEJ 原始 Excel/CSV 清理、遺漏值分析、格式標準化 | 資料清理、遺漏值、格式標準化 | 原創 |
@@ -92,7 +102,7 @@
 
 ### 🚀 安裝
 
-> ⚠️ **不能**把整個 repo 的 ZIP(Code → Download ZIP)當成一個技能上傳——那裡面有 34 個 `SKILL.md`、深層巢狀,Claude 一次只吃一個技能。也**不能只給網址**讓 claude.ai 自己抓;技能上傳是「上傳檔案」。**請用個別的 `.zip`。**
+> ⚠️ **不能**把整個 repo 的 ZIP(Code → Download ZIP)當成一個技能上傳——那裡面有 35 個 `SKILL.md`、深層巢狀,Claude 一次只吃一個技能。也**不能只給網址**讓 claude.ai 自己抓;技能上傳是「上傳檔案」。**請用個別的 `.zip`。**
 
 **claude.ai(逐支安裝)**
 1. 到 [`dist/`](dist/) 點你要的技能 `.zip`(例 `literature-matrix-builder.zip`)→ 右側 **Download**。
@@ -144,19 +154,28 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 
 **What this bundle optimizes for:** not just producing an answer, but whether the answer holds up. Numbers should trace back to a source; citations should be checkable; identification assumptions get stated before models get run; uncertainty gets labelled as uncertainty. These skills would rather report "not found" than return something that merely looks plausible — because a plausible-looking error is the hardest kind to catch.
 
+### ✨ Why this bundle (not a pile of loose prompts)
+
+- **The scripts actually run — not just guidance.** Data and figure skills ship **tested Python/R scripts**: if your machine has Python or R, they genuinely fetch bibliographic data, clean data, build tables and render figures (e.g. `literature-matrix-builder` pulls DOIs from CrossRef straight into an Excel comparison matrix; `r-spss-syntax-architect` emits paste-and-run R/SPSS/Stata syntax; `management-figure` outputs 300 dpi publication-grade figures).
+- **Not just domestic data — cross-country too.** Beyond Taiwan's public data, `global-opendata-scout` ships **key-free, tested endpoints and fetch scripts** for World Bank / Eurostat / ILOSTAT / IMF / UN Data, and proactively flags cross-country comparability traps (three country-code schemes that mustn't be mixed, currency/PPP/base-year, non-mappable industry classifications) — so **international and cross-country analysis** isn't tied to home-country data.
+- **Anti-hallucination — answers that hold up.** Numbers trace back to a source; citations are checkable; a CrossRef miss fails loudly instead of filling a bibliography from memory — it would rather report "not found" than return a plausible-looking error.
+- **End-to-end, dispatched by a "research brain."** From method selection → finding data → cleaning → analysis → writing → submission → replication-package archiving, `research-orchestrator` works out which stage you're in and which skills to call in what order — you don't have to memorize what all 35 do.
+- **All four method paradigms, plus a replication package.** Quantitative, qualitative, experimental and mixed methods are all covered; `reproducibility-architect` packages the study into a re-runnable replication bundle (environment locking, restricted-data reproducibility, data/code/AI-use statements, DOI archiving) that meets top-journal data-editor requirements.
+
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
-### 🆕 What's new (v0.10.0 · 2026-08)
+### 🆕 What's new (v0.11.0 · 2026-08)
 
-Recent work focused on **data-acquisition robustness** and **document preprocessing** — the earliest stage of research, and the one most prone to "garbage in, garbage out."
+Recent work focused on **data coverage (cross-country)**, **data-acquisition robustness**, and **document preprocessing** — the earliest stages of research, and the ones most prone to "garbage in, garbage out."
 
+- **v0.11.0 — cross-country / international-comparison data (`global-opendata-scout`).** For studies that need other-country or cross-country comparisons, it ships **key-free, tested endpoints and fetch scripts** for World Bank / Eurostat / ILOSTAT / IMF / UN Data, plus a five-step method for locating any country's official statistics office. Its core value isn't finding numbers but **proactively flagging cross-country comparability traps** (three country-code schemes, currency/PPP/base-year, fiscal-year differences, non-mappable industry classifications ISIC/NACE/NAICS, coverage gaps causing selection bias). Taiwan isn't covered (neither World Bank nor OECD includes it) — use official domestic sources.
 - **v0.10.0 — complex-disclosure preprocessing (`text-analytics-architect`).** When the corpus is layout-heavy disclosure (10-Ks, annual reports, ESG/sustainability reports, scans), naive `pdftotext` flattens tables, scrambles columns and mixes footers into the body — **garbage in, garbage out**, poisoning downstream tokenization and sentiment. A new Step 0 says: run layout-aware extraction into clean, structure-preserving text first (verify extraction quality, keep a source map, mask PII), then analyze. Adopts the concept from [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark) (Apache 2.0) — **concept only, no dependency**.
 - **v0.9.0 — dynamic-scraping escalation ladder (`public-disclosure-scout`).** When `requests` can't reach a JS-rendered page, a **lightest-to-heaviest escalation ladder** (find the underlying API first → official batch files → headless browser only if needed). Adopts the "turn web pages into LLM-readable structure" concept from [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) (Apache 2.0) — concept only, no dependency — and **explicitly forbids its stealth / anti-detection features**: scholarly scraping that can't reach a page escalates to official channels / a request / manual work, not to evading detection.
 - **v0.8.0 — the literature-reading line (`literature-matrix-builder` + `bilingual-paper-reader`).** Turn dozens of PDFs into something structured: a comparison matrix (PDF→DOI→CrossRef, no key→APA 7→20-column Excel; **CrossRef miss fails loudly, never fills bibliography from memory**) and side-by-side close reading of a single paper (paragraph translation + five-colour marking + offline reader). The two hand off naturally.
 
 The standing discipline holds: **external open source is adopted as concept only, never as a bundled dependency; copyleft is avoided; and every borrowing is credited honestly in `NOTICE.md` and each skill's `ATTRIBUTION.md`.**
 
-> Full version history in [Releases](../../releases). Total skills: **34**.
+> Full version history in [Releases](../../releases). Total skills: **35**.
 > **Install**: the whole-repo ZIP is not a single installable skill — grab the individual `.zip` you want from [`dist/`](dist/) (see Install below).
 
 ### 🧭 Operating principles (three ground rules)
@@ -174,6 +193,7 @@ The standing discipline holds: **external open source is adopted as concept only
 | | `bilingual-paper-reader` | Side-by-side close reading of one paper: paragraph-aligned translation + five-colour pre-marking + offline reader (persistent highlights, note export) | Original |
 | | `tej-data-scout` | Data-feasibility scouting + research-design/estimator advice (TEJ as example; database-agnostic) | Original |
 | | `public-disclosure-scout` | Free official public-disclosure scouting (MOPS filings/annual reports/sanctions) + event-study event source | Original |
+| | `global-opendata-scout` | Cross-country/international open-stats scout: key-free World Bank/Eurostat/ILOSTAT/IMF/UN Data endpoints + fetch scripts + comparability traps | Original |
 | | `multi-source-data-integrator` | Rigorous multi-source integration: entity resolution, cross-source reconciliation, data lineage, triangulation, merge-loss accounting | Original |
 | | `tej-variable-mapper` | Maps Compustat/CRSP variable definitions to TEJ fields | Original |
 | | `tej-data-wrangler` | Cleans raw TEJ Excel/CSV: missing values, outliers, formatting | Original |
@@ -208,7 +228,7 @@ The standing discipline holds: **external open source is adopted as concept only
 
 ### 🚀 Install
 
-> ⚠️ The whole-repo ZIP (Code → Download ZIP) is **not** a single installable skill — it holds 34 nested `SKILL.md` files, and Claude ingests one skill at a time. You also **can't just give claude.ai a URL**; skill upload is a file upload. **Use the individual `.zip` files.**
+> ⚠️ The whole-repo ZIP (Code → Download ZIP) is **not** a single installable skill — it holds 35 nested `SKILL.md` files, and Claude ingests one skill at a time. You also **can't just give claude.ai a URL**; skill upload is a file upload. **Use the individual `.zip` files.**
 
 **claude.ai (one skill at a time)**
 1. In [`dist/`](dist/), click the skill `.zip` you want (e.g. `literature-matrix-builder.zip`) → **Download** on the right.
