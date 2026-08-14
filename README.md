@@ -42,6 +42,10 @@
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
+### 🆕 最新更新（v0.12.0 · 2026-08）
+
+- **v0.12.0 — 台灣代碼陷阱：第二例，並升級為通則（`global-opendata-scout`）。** 繼 World Bank／OECD **完全沒有台灣資料**之後，本版實測確認第二個體系的處理方式不同但同樣會坑人：**UN Comtrade／WITS 把台灣併入代碼 `490`「Other Asia, not elsewhere specified」**。實測結果——查 `490` 回傳 218 筆，查常被誤用的 `158` 回傳 **0 筆卻不報錯**。查錯代碼會靜默得到空結果，極易誤判成「這個資料源沒有台灣資料」而放棄整個來源。本版把它從個案寫成**通則**：遇到任何聯合國體系下的國際資料庫，預設假設「台灣不會用標準 ISO 碼出現」，先查該庫怎麼處理台灣再決定研究設計，並列出三種常見處理型態（完全沒有／併入其他代碼／用非標準名稱如 "Chinese Taipei"）。使用 490 時論文須揭露的三件事也一併寫明。
+
 ### 🆕 最新更新（v0.11.0 · 2026-08）
 
 近期把重心放在**資料涵蓋的廣度（跨國）**、**取得的穩健度**與**文件前處理**——研究流程最前段、也最容易「髒進髒出」的幾塊。
@@ -171,6 +175,10 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 If a skill here caught a hallucinated citation, saved you an afternoon of data-wrangling, or made Reviewer 2 a little less terrifying — a ⭐ is the academic equivalent of a citation: it's how the next researcher finds this. No peer review, no revise-and-resubmit required. **Think of it as the "like, subscribe, and hit the bell" of open-source research tools.** 🔔
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
+
+### 🆕 What's new (v0.12.0 · 2026-08)
+
+- **v0.12.0 — The Taiwan country-code trap: a second case, generalised into a rule (`global-opendata-scout`).** After confirming that World Bank and OECD **contain no Taiwan data at all**, this release verifies a second international system that handles Taiwan differently — and just as treacherously: **UN Comtrade / WITS folds Taiwan into code `490`, "Other Asia, not elsewhere specified."** Verified live: querying `490` returns 218 records; querying `158` (a code often mistaken for Taiwan) returns **0 records without raising an error**. A wrong code yields a silent empty result, which is very easily misread as "this source has no Taiwan data" — leading researchers to abandon an otherwise usable dataset. This release turns the observation into a **general rule**: for any UN-system international database, assume by default that Taiwan will *not* appear under a standard ISO code; check how that particular database handles Taiwan *before* designing around it. Three common patterns are documented (absent entirely / folded into another code / listed under a non-standard name such as "Chinese Taipei"), along with the three things a paper must disclose when using code 490.
 
 ### 🆕 What's new (v0.11.0 · 2026-08)
 
