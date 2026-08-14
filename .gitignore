@@ -19,3 +19,9 @@ secrets.*
 PRIVATE_do_not_upload/
 private_patterns.txt
 private_substitutions.txt
+
+secrets/
+credentials*
+*credentials.json
+service-account*.json
+.netrc
