@@ -45,7 +45,7 @@ CrossRef 建議在 User-Agent 帶聯絡信箱以取得較穩定的服務品質�
 設環境變數即可，**腳本不硬編碼任何信箱**：
 
 ```bash
-export CROSSREF_MAILTO=you@example.com
+export CROSSREF_MAILTO=<你的信箱>
 ```
 
 不設也能用，只是走一般池。

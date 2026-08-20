@@ -5,7 +5,7 @@
 | 技能 | 授權 | 原作者 / 來源 | 備註 |
 |---|---|---|---|
 | research-orchestrator | 作者原創（根 LICENSE） | 本專案作者 | 已去機構識別 |
-| literature-matrix-builder | 作者原創 | 本專案作者 | 使用 CrossRef REST API（免金鑰公開服務）；摘要著作權屬各出版社，技能內已載明僅供個人研究閱讀、勿公開重製 |
+| literature-matrix-builder | 作者原創 | 本專案作者 | 使用 CrossRef REST API（免金鑰公開服務）；摘要著作權屬各出版社，技能內已載明僅供個人研究閱讀、勿公開重製；撤稿查核亦走 CrossRef（filter=update-type:retraction），已用陽性／陰性對照實測 |
 | bilingual-paper-reader | 作者原創 | 本專案作者 | 零第三方相依；高亮持久化以瀏覽器原生 Selection/Range API 自行實作，未內嵌任何 JS 函式庫 |
 | phd-researcher | **混合**：階段 1–3 原創；階段 4 模組 **CC BY-NC 4.0** | 階段 4：Cheng-I Wu (Imbad0202) / `academic-research-skills` | 🔒 非商業；保留資料夾內 `ATTRIBUTION.md`；原技能名已更名去識別 |
 | tej-data-scout | 作者原創（方法論） | 本專案作者 | 已移除 catalog 的 TEJ Pro 訂閱介面完整導航樹與其來源標示；改為導覽方向＋官方公開連結；加入資料庫中立與方法建議 |
@@ -24,6 +24,7 @@
 | academic-slides | **MIT** | Zara Zhang (© 2025) | 保留資料夾內原 `LICENSE`；**勿更換版權人姓名** |
 | academic-pptx | **MIT** | 原技能作者（README 標示 MIT） | 保留 SKILL 與 MIT 聲明；**為授權審慎已移除原附的 PDF**（不影響功能） |
 | thesis-consistency-audit | **CC BY-NC-SA 4.0** | 框架理念改作自 qqfly1to19 / `awesome_proofreading_auto` | 🔒 非商業 + 相同方式分享（ShareAlike，整支維持 CC BY-NC-SA） |
+| └ anonymize_office.py | 作者原創 | 本專案作者 | 雙盲投稿的 Office 檔案身分資訊稽核與清除；純標準庫 zipfile/re，無第三方相依 |
 | academic-deck-animator | 作者原創（根 LICENSE） | 本專案作者 | 融合式原創，程式全自撰；概念來源見資料夾內 `ATTRIBUTION.md`（lewislulu/html-ppt-skill MIT、hugohe3/ppt-master 等，僅借鑑方法概念，未搬程式碼） |
 | academic-poster | 作者原創（根 LICENSE） | 本專案作者 | — |
 | defense-qa-coach | 作者原創（根 LICENSE） | 本專案作者 | — |

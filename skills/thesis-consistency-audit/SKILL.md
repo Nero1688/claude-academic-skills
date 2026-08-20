@@ -1,6 +1,6 @@
 ---
 name: thesis-consistency-audit
-description: "對管理／財務／策略的量化碩博論文做系統化『內部一致性稽核』，在投稿或口試前抓出會被審查委員打點的自相矛盾。附 scripts/audit_docx.py 做 .docx 機械對帳（表格加總、跨表樣本數、不可能值、離群、敘述↔迴歸 N 落差），機械層外依 references/audit_checklist.md 人工核對。六維度：假設↔迴歸表對齊、樣本數一致性（篩選→敘述→迴歸）、篩選聲明↔敘述統計、資料品質界限（不可能值/離群/縮尾/相關逾0.9/同值重複）、文字↔表格數字、APA 引用與表註一致。觸發詞：一致性稽核、論文對帳、審稿、proofreading、符號一致性、迴歸表檢查、樣本數對不上、假設對齊、表格檢查、引用一致、投稿前檢查、口試前檢查。與 q1-journal-reviewer 劃界：本 skill 做論文內部數字/表格/引用的機械對帳，reviewer 做學術貢獻與方法論的實質評斷。與 citation-verifier 劃界：引用只做內文↔清單雙向對帳，深度幻覺/真實性查驗轉 citation-verifier 或 check-citations。"
+description: "對管理／財務／策略的量化碩博論文做系統化『內部一致性稽核』，在投稿或口試前抓出會被審查委員打點的自相矛盾。附 scripts/audit_docx.py 做 .docx 機械對帳（表格加總、跨表樣本數、不可能值、離群、敘述↔迴歸 N 落差），另附 scripts/anonymize_office.py 做**雙盲投稿前的身分資訊稽核與清除**（core.xml 作者、app.xml 機構、custom.xml 計畫編號、註解作者、追蹤修訂作者——Word「檢查文件」不一定清得掉這些，是 desk reject 常見原因）。機械層外依 references/audit_checklist.md 人工核對。六維度：假設↔迴歸表對齊、樣本數一致性（篩選→敘述→迴歸）、篩選聲明↔敘述統計、資料品質界限（不可能值/離群/縮尾/相關逾0.9/同值重複）、文字↔表格數字、APA 引用與表註一致。觸發詞：一致性稽核、論文對帳、審稿、proofreading、雙盲、雙盲審查、匿名投稿、去識別、作者資訊、檔案屬性、中繼資料、metadata、desk reject、符號一致性、迴歸表檢查、樣本數對不上、假設對齊、表格檢查、引用一致、投稿前檢查、口試前檢查。與 q1-journal-reviewer 劃界：本 skill 做論文內部數字/表格/引用的機械對帳，reviewer 做學術貢獻與方法論的實質評斷。與 citation-verifier 劃界：引用只做內文↔清單雙向對帳，深度幻覺/真實性查驗轉 citation-verifier 或 check-citations。"
 ---
 
 <role>
@@ -14,6 +14,23 @@ description: "對管理／財務／策略的量化碩博論文做系統化『內
 `scripts/audit_docx.py` 讀取 .docx，自動做機械層對帳：表格加總、跨表樣本數一致性、不可能值與離群、敘述↔迴歸 N 落差。
 執行：`python scripts/audit_docx.py 論文.docx`
 （此腳本僅依賴 python-docx。若使用者只貼文字/表格而非 .docx，跳過腳本，全部改人工，並在報告註明「未跑機械對帳」。）
+
+**階段一之二：雙盲投稿的身分資訊清除（要投雙盲期刊才做）**
+`scripts/anonymize_office.py` 稽核並清除 .docx/.pptx/.xlsx 內藏的作者身分：
+```bash
+python scripts/anonymize_office.py 論文.docx                 # 只稽核，不動檔
+python scripts/anonymize_office.py 論文.docx --apply         # 匿名化（雙盲）
+python scripts/anonymize_office.py 論文.docx --apply --strip-comments --strip-revisions
+```
+會抓出五個藏身處：`core.xml` 建立者／最後修改者、`app.xml` 機構與主管、
+`custom.xml` 自訂屬性（常有計畫編號）、`comments.xml` **每則註解的作者名**、
+以及**追蹤修訂的 w:author**。Word 內建的「檢查文件」不一定清得掉後兩者。
+
+⚠️ **紀律**：註解與追蹤修訂**含有內容**，不只是中繼資料，故預設**只報告不刪除**，
+要刪必須明確加旗標；清除前一律自動備份。
+⚠️ **雙盲投稿請用預設匿名模式，不要用 `--set-author`**（那是給最終定稿／存檔版）。
+⚠️ 本工具只處理檔案中繼資料。**正文自我引用（「作者先前研究（陳，2024）」）、
+致謝、基金計畫編號、檔名含姓名——這些才是最常見的雙盲破功點，必須人工檢查。**
 
 **階段二：六維度人工核對**
 機械層之外，依 `references/audit_checklist.md` 逐項核對。何時讀該檔：要展開任一維度的細目 checkbox 時讀它；本頁只列維度綱要。每項列出「衝突在哪（具體數字）＋怎麼改」。

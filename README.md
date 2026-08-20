@@ -42,6 +42,25 @@
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
+### 🆕 最新更新（v0.13.0 · 2026-08）
+
+本版新增兩道**學術誠信防線**——都是「不做會出事、做了沒人看得見」的那種功能。
+
+- **撤稿查核，在建檔當下就攔截（`literature-matrix-builder`）。** 引用到已撤稿的論文是實質學術風險，但既有的引用工具只查「文獻存不存在」「格式對不對」，**不查「這篇是不是已經被撤稿」**。本版讓每次 `add` 自動反查 Crossref 的撤稿通知，在文獻進庫的當下就攔下來——而不是等寫進文獻回顧才發現。
+  - 已用**陽性／陰性對照**實測：已知被撤論文測得出，三篇正常論文皆不誤報。只驗前者會做出一個到處亂報的工具。
+  - **查核失敗 ≠ 沒被撤稿**：工具標「⚠️ 查核失敗：原因」而非「未發現」。查不到與確認沒事是兩回事，這個區別攸關風險判斷。
+  - 實務細節：Elsevier 慣例是把撤稿通知放在**同一個 DOI**（原文被替換成撤稿聲明），若照直覺去找「另一個 DOI」會查不到。
+
+- **雙盲投稿的身分資訊清除（`thesis-consistency-audit`）。** `.docx`／`.pptx`／`.xlsx` 是壓縮檔，作者身分藏在**五個肉眼看不到的地方**，而 Word 內建的「檢查文件」**不一定清得掉後兩項**——這是 desk reject 的常見原因：
+  1. `docProps/core.xml` 建立者、最後修改者
+  2. `docProps/app.xml` Company（學校）、Manager（指導教授）
+  3. `docProps/custom.xml` 自訂屬性（常含計畫編號）
+  4. `word/comments.xml` **每則註解都帶作者姓名**
+  5. 追蹤修訂 每個 `w:ins`／`w:del` 都帶 `w:author` 與時間戳
+  - **紀律**：註解與追蹤修訂**含有內容**、不只是中繼資料，故預設**只報告不刪除**，要處理必須明確加旗標；清除前一律自動備份。追蹤修訂採「作者匿名化」而非刪除，避免改變文件內容。
+  - **誠實邊界**：工具只處理檔案中繼資料。**正文自我引用、致謝、基金計畫編號、檔名含姓名——這些才是最常見的雙盲破功點，必須人工檢查。**
+
+
 ### 🆕 最新更新（v0.12.0 · 2026-08）
 
 - **v0.12.0 — 台灣代碼陷阱：第二例，並升級為通則（`global-opendata-scout`）。** 繼 World Bank／OECD **完全沒有台灣資料**之後，本版實測確認第二個體系的處理方式不同但同樣會坑人：**UN Comtrade／WITS 把台灣併入代碼 `490`「Other Asia, not elsewhere specified」**。實測結果——查 `490` 回傳 218 筆，查常被誤用的 `158` 回傳 **0 筆卻不報錯**。查錯代碼會靜默得到空結果，極易誤判成「這個資料源沒有台灣資料」而放棄整個來源。本版把它從個案寫成**通則**：遇到任何聯合國體系下的國際資料庫，預設假設「台灣不會用標準 ISO 碼出現」，先查該庫怎麼處理台灣再決定研究設計，並列出三種常見處理型態（完全沒有／併入其他代碼／用非標準名稱如 "Chinese Taipei"）。使用 490 時論文須揭露的三件事也一併寫明。
@@ -175,6 +194,25 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 If a skill here caught a hallucinated citation, saved you an afternoon of data-wrangling, or made Reviewer 2 a little less terrifying — a ⭐ is the academic equivalent of a citation: it's how the next researcher finds this. No peer review, no revise-and-resubmit required. **Think of it as the "like, subscribe, and hit the bell" of open-source research tools.** 🔔
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
+
+### 🆕 What's new (v0.13.0 · 2026-08)
+
+This release adds two **research-integrity guardrails** — the kind of feature nobody notices until its absence costs you something.
+
+- **Retraction checking at ingestion time (`literature-matrix-builder`).** Citing a retracted paper is a real academic risk, yet existing citation tools check whether a reference *exists* and whether its *format* is right — **not whether it has been retracted**. Every `add` now queries Crossref for retraction notices and flags the paper as it enters your library, rather than after it has already reached your literature review.
+  - Verified with **both positive and negative controls**: a known-retracted paper is detected; three ordinary papers produce no false alarm. Testing only the positive case would have shipped a tool that cries wolf.
+  - **A failed check is not a clean bill of health**: the tool reports "⚠️ check failed: reason" rather than "none found." Not knowing and knowing-it's-fine are different states, and the difference matters for risk.
+  - Practical detail: Elsevier's convention is to place the retraction notice at the **same DOI** (the original article is replaced by the notice), so looking for "a different DOI" finds nothing.
+
+- **Blinding your submission files (`thesis-consistency-audit`).** `.docx`／`.pptx`／`.xlsx` files are archives, and author identity hides in **five places you cannot see** — and Word's own "Inspect Document" does **not** reliably clear the last two. This is a common cause of desk rejection:
+  1. `docProps/core.xml` — creator, last-modified-by
+  2. `docProps/app.xml` — Company (your university), Manager (your supervisor)
+  3. `docProps/custom.xml` — custom properties, often a grant number
+  4. `word/comments.xml` — **every comment carries its author's name**
+  5. Tracked changes — every `w:ins`／`w:del` carries `w:author` and a timestamp
+  - **Discipline**: comments and tracked changes contain *content*, not just metadata, so the tool **reports without deleting** by default; removal requires an explicit flag, and a backup is always made first. Tracked-change authors are anonymised rather than stripped, so the document itself is unchanged.
+  - **Honest boundary**: the tool handles file metadata only. **Self-citation in the body text, acknowledgements, grant numbers, and your name in the filename are the far more common ways blinding fails — those still need a human pass.**
+
 
 ### 🆕 What's new (v0.12.0 · 2026-08)
 

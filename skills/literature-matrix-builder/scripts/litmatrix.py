@@ -8,7 +8,7 @@ litmatrix.py — 文獻語料庫與文獻比較矩陣建置工具
 
 【子指令】
   init    建立文獻資料夾結構與空的 library.json
-  add     加入一篇文獻:抽 PDF metadata → 查 CrossRef → 寫入 library.json
+  add     加入一篇文獻:抽 PDF metadata → 查 CrossRef → **撤稿查核** → 寫入 library.json
   lookup  只查 DOI 的 metadata 與 APA7,不寫入(用來驗證)
   build   從 library.json 產出 Excel 文獻矩陣
   list    列出目前文獻庫內容
@@ -21,7 +21,7 @@ litmatrix.py — 文獻語料庫與文獻比較矩陣建置工具
 【資料來源與授權】
   CrossRef REST API — https://api.crossref.org/ — 免金鑰、免費。
   依 CrossRef 禮貌池(polite pool)慣例,建議在 User-Agent 帶聯絡信箱以取得較佳服務:
-  設定環境變數 CROSSREF_MAILTO=you@example.com 即可,**本腳本不硬編碼任何信箱**。
+  設定環境變數 CROSSREF_MAILTO=<你的信箱> 即可,**本腳本不硬編碼任何信箱**。
   CrossRef metadata 依其條款多為開放,但**摘要(abstract)著作權通常仍屬出版社**——
   僅供個人研究閱讀,勿公開重製散布(見 SKILL.md 的著作權紀律)。
 
@@ -51,6 +51,7 @@ MATRIX_COLUMNS = [
     ("title", "題名"),
     ("journal", "期刊"),
     ("doi", "DOI"),
+    ("retracted", "撤稿狀態"),
     ("theory", "理論視角"),
     ("context", "研究情境/樣本"),
     ("method", "研究方法"),
@@ -175,6 +176,51 @@ def to_apa7(msg: dict) -> str:
     if msg.get("type") != "journal-article":
         bits = f"[需人工確認格式:{msg.get('type', '?')}] " + bits
     return bits
+
+
+def check_retracted(doi: str, timeout: int = 30, retries: int = 2) -> tuple:
+    """查這篇是否已被撤稿。回傳 (是否撤稿, 說明)。
+
+    機制：Crossref 的撤稿通知會用 `update-to` 指回被撤的論文，
+    因此反查 `filter=update-type:retraction,updates:{DOI}` 即可。
+
+    ⚠️ 已用陽性／陰性對照實測（2026-08-20）：
+       已知被撤論文 → 找到 1 則通知；三篇正常論文 → 皆 0 則，不誤報。
+
+    ⚠️ Elsevier 慣例是把撤稿通知放在**同一個 DOI**（原文被替換成撤稿聲明），
+       所以通知的 DOI 常等於被撤論文本身的 DOI，不是另一個新 DOI。
+
+    ⚠️ 查詢失敗時回傳 (None, 原因)——**不可當成「沒被撤稿」**。
+       查不到與確認沒事是兩回事，這個區別攸關學術風險。
+    """
+    import time
+
+    s = _session()
+    url = f"{CROSSREF_API}?filter=update-type:retraction,updates:{doi}&rows=1"
+    for i in range(retries + 1):
+        try:
+            r = s.get(url, timeout=timeout)
+            if r.status_code == 200:
+                try:
+                    n = r.json()["message"]["total-results"]
+                except ValueError:
+                    if i < retries:
+                        time.sleep(3)
+                        continue
+                    return None, "Crossref 回應非 JSON（可能被限流）"
+                return (n > 0), (f"找到 {n} 則撤稿通知" if n else "未發現撤稿紀錄")
+            if r.status_code in (429, 503):
+                if i < retries:
+                    time.sleep(5)
+                    continue
+                return None, f"Crossref 限流（HTTP {r.status_code}）"
+            return None, f"Crossref 回應 HTTP {r.status_code}"
+        except Exception as e:  # noqa: BLE001
+            if i < retries:
+                time.sleep(3)
+                continue
+            return None, f"連線失敗：{type(e).__name__}"
+    return None, "重試耗盡"
 
 
 def clean_abstract(msg: dict) -> str:
@@ -346,12 +392,28 @@ def cmd_add(a) -> int:
         "pdf_path": pdf_rel,
         "added_on": str(date.today()),
     }
+
+    # 撤稿查核：在建檔當下就攔截,而不是等寫進文獻回顧才發現
+    is_ret, why = check_retracted(doi)
+    if is_ret is True:
+        entry["retracted"] = f"🚨 已撤稿（{why}）"
+    elif is_ret is False:
+        entry["retracted"] = f"未發現（查於 {date.today()}）"
+    else:
+        # 查不到 ≠ 沒事,必須明確區分
+        entry["retracted"] = f"⚠️ 查核失敗：{why}"
     for f in MANUAL_FIELDS:
         entry[f] = ""
 
     lib["entries"].append(entry)
     save_lib(root, lib)
     print(f"已加入：{key} — {entry['title'][:60]}")
+    if entry["retracted"].startswith("🚨"):
+        print(f"　🚨🚨 警告：這篇已被撤稿（{entry['retracted']}）")
+        print("　　　 引用撤稿論文是實質學術風險——除非你要討論撤稿本身,否則請移除。")
+    elif entry["retracted"].startswith("⚠️"):
+        print(f"　⚠️ 撤稿查核未完成：{entry['retracted']}")
+        print("　　 這不等於「沒被撤稿」,請稍後重查或人工至 Retraction Watch 確認。")
     if not entry["abstract"]:
         print("　注意：CrossRef 未提供摘要，需自行補（許多出版社不釋出摘要）。")
     print(f"　待人工填寫的綜整欄：{'、'.join(MANUAL_FIELDS)}")
@@ -364,7 +426,8 @@ def cmd_list(a) -> int:
     print(f"文獻庫共 {len(es)} 篇：")
     for e in sorted(es, key=lambda x: (str(x.get("year")), x["key"])):
         done = sum(1 for f in MANUAL_FIELDS if e.get(f))
-        print(f"  {e['key']:22s} {str(e.get('year')):6s} 綜整欄 {done}/{len(MANUAL_FIELDS)}  {e['title'][:48]}")
+        flag = "🚨" if str(e.get("retracted", "")).startswith("🚨") else "  "
+        print(f"{flag}{e['key']:22s} {str(e.get('year')):6s} 綜整欄 {done}/{len(MANUAL_FIELDS)}  {e['title'][:46]}")
     return 0
 
 
@@ -454,7 +517,7 @@ def main() -> int:
   python litmatrix.py list   -d ./lit
   python litmatrix.py build  -d ./lit
 
-CrossRef 禮貌池：設環境變數 CROSSREF_MAILTO=you@example.com 可取得較佳服務品質。
+CrossRef 禮貌池：設環境變數 CROSSREF_MAILTO=<你的信箱> 可取得較佳服務品質。
 本腳本不硬編碼任何信箱。
 """,
     )
