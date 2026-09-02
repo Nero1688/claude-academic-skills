@@ -1,0 +1,7 @@
+{
+  "template": "moderation",
+  "x": {"label": "自變數(X)", "items": ["工作自主性"]},
+  "y": {"label": "應變數(Y)", "items": ["工作投入"]},
+  "moderator": {"label": "調節變數(W)", "items": ["主管支持"]},
+  "hypotheses": {"h2": "H1"}
+}

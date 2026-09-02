@@ -1,0 +1,10 @@
+{
+  "template": "serial_mediation",
+  "x": {"label": "自變數(X)", "items": ["組織學習導向"]},
+  "mediators": [
+    {"label": "中介變數(M1)", "items": ["知識分享行為"]},
+    {"label": "中介變數(M2)", "items": ["創新能力"]}
+  ],
+  "y": {"label": "應變數(Y)", "items": ["新產品績效"]},
+  "hypotheses": {"h1": "H1", "h2": "H2", "h3": "H3"}
+}

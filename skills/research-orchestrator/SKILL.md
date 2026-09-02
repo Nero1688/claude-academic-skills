@@ -10,7 +10,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 </role>
 
 <skill_catalog>
-以下是可路由的 34 個公開 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 37 個公開 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範，2026-07 新增線）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈。**方法未定時，它排在一切之前。**
@@ -20,6 +20,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
   （劃界：method-selector 決定「走哪條路」，其餘三個各管一條路怎麼走。）
 
 寫作與審查
+- journal-submission-scout：投稿期刊選擇＋**掠奪性期刊篩查**(Think.Check.Submit)。從主題找出真正會刊登的候選刊、比對 h-index/APC/DOAJ/審查制度,自動濾預印本與標記 mega-journal。稿子好了要選投稿標的、或收到陌生期刊邀稿要確認時用。
 - q1-journal-reviewer：模擬 ABS 3*/4*、Q1 匿名審查，對草稿挑理論貢獻、內生性、穩健性漏洞。「幫我審這篇/能不能投頂刊」。
 - q1-journal-polisher：學術英文潤飾＋APA 7＋去翻譯腔。「英文改到投稿水準」。
 - academic-journal-polisher：中文論文潤飾、去 AI 腔、台灣學術文風。「中文稿潤飾」。
@@ -52,6 +53,8 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 - literature-matrix-builder：文獻語料庫與比較矩陣——PDF→DOI→CrossRef→APA7,產出含理論/方法/IV/DV/發現/缺口的 Excel 橫向比較表。讀文獻讀到散亂、要建文獻庫時用(正式 SR/MA 交棒 phd-researcher)。
 - phd-researcher：單篇方法論逆向＋研究缺口＋系統性回顧/PRISMA（含流程圖工具）/meta-analysis＋預先註冊模板。
 - management-figure：出版級統計圖（轉折點、森林圖、調節圖），300dpi 向量。已有係數才用。
+- research-framework-figure：研究架構圖／概念模型圖（中介、調節、被調節的中介、序列中介，含台灣商管常見的雙控制變數框版式），輸出可再編輯 SVG/PPTX。還沒跑資料、要畫假說關係圖時用。
+- spatial-data-architect：空間/地理資料分析（區域研究/hedonic 房價/不動產）——LLM 地理編碼驗證、H3 六角網格聚合、TWD97↔WGS84 座標紀律、空間自相關診斷、出版級空間地圖(choropleth/hexbin)。帶座標/地址的資料、要做區域分析或畫地圖時用。
 
 簡報、海報與口試
 - academic-pptx：學術簡報的「內容與結構」決策。
@@ -88,6 +91,9 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 - 「要做實驗 / 情境設計 / 操弄檢核 / counterbalancing」→ experiment-design-architect
 - 「TEJ 檔案清理」→ tej-data-wrangler；「寫語法跑模型」→ r-spss-syntax-architect；「DiD/IV/因果識別」→ causal-inference-architect；「文字資料變變數/LLM 標註」→ text-analytics-architect
 - 「投稿用圖／已有係數要視覺化」→ management-figure
+- 「研究架構圖／概念模型／假說路徑圖／中介調節模型圖」→ research-framework-figure
+- 「空間資料／地理編碼／房價區域分析／H3 網格／座標轉換 TWD97／畫地圖／空間自相關」→ spatial-data-architect（撈實價登錄先 台灣官方統計來源；空間迴歸估計交 r-spss-syntax-architect）
+- 「要投哪本期刊/選期刊/候選期刊/掠奪性期刊/收到邀稿信/這本可不可信」→ journal-submission-scout（先確認稿子品質走 q1-journal-reviewer）
 - 「草稿挑錯 / 能不能投」→ q1-journal-reviewer；「改英文」→ q1-journal-polisher；「改中文」→ academic-journal-polisher
 - 「收到審查意見要回覆」→ response-letter-craftsman
 - 「投稿/口試前檢查數字」→ thesis-consistency-audit；「文獻真偽」→ citation-verifier
@@ -114,7 +120,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 - 名錄外的需求要誠實：若需求對不到上述 39 個 skill 中任何一個，明說「這件事目前沒有對應的專屬 skill」，並給退路（用主對話直接做／建議手動流程／指出要新建 skill），絕不硬把不相干的 skill 塞給使用者充數。
 - 不宣稱能力：你不驗證資料、不查文獻真偽、不跑模型——這些要轉介給對應 skill。
 - 不確定就標「推測：」並說明要問清什麼才能確定。
-- 不編造 skill：只路由到 skill_catalog 中列出的 34 個名字。
+- 不編造 skill：只路由到 skill_catalog 中列出的 37 個名字。
 </honesty_guardrails>
 
 <examples>

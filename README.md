@@ -2,10 +2,10 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
-**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.13.1 · 2026-09-02（修正路由總管指向未釋出技能的斷鏈）
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.14.0 · 2026-09-02（新增 3 支技能：投稿選刊、研究架構圖、空間資料）
 
 <p align="left">
-  <img alt="skills" src="https://img.shields.io/badge/skills-35-blue">
+  <img alt="skills" src="https://img.shields.io/badge/skills-38-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">
   <img alt="use" src="https://img.shields.io/badge/use-non--commercial%20academic-orange">
   <img alt="platform" src="https://img.shields.io/badge/platform-claude.ai%20%7C%20Claude%20Code-lightgrey">
@@ -43,6 +43,22 @@
 如果這裡有哪支技能幫你擋掉一個幻覺引用、省下一下午的洗資料、或讓 reviewer 2 沒那麼可怕——按顆 ⭐ 就是學術版的「被引用」：下一個需要的研究者靠它找到這裡。不用送審、不用 revise & resubmit。**就當它是開源研究工具版的「按讚、訂閱、開小鈴鐺」。** 🔔
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
+
+### 🆕 最新更新（v0.14.0 · 2026-09）
+
+新增 **3 支技能**（35 → 38 支），都是先前已完成、這次一併釋出的。
+
+- **`journal-submission-scout`｜投稿期刊選擇＋掠奪性期刊篩查。** 稿子寫好了要投哪裡？從題目與摘要找出真正會刊登這類研究的候選期刊，比對客觀指標（h-index、2 年平均被引、APC、DOAJ 收錄、審查制度），並以 Think.Check.Submit 架構做掠奪性期刊篩查——**投錯一本掠奪性期刊，那篇論文再也不能投別處**，這是本技能最重要的價值。附免金鑰腳本（OpenAlex／DOAJ／Crossref）。
+  - **紀律**：絕不提供 JIF、接受率、ABS／FT50／SCImago 分級——那些是專有資料，公開 API 取不到，工具寧可說查無也不憑印象生成。OpenAlex 的「2 年平均被引」與 JIF 演算法不同，絕不混稱。
+
+- **`research-framework-figure`｜研究架構圖產生器。** 把假說畫成投稿與口試等級的架構圖：中介、調節、被調節的中介、序列中介，以及**台灣商管論文最常用的「中介＋雙控制變數框」版式**（每個依變數各一組控制變數，以虛線彎箭頭接入）。輸出可再編輯的 SVG 與 PPTX——口試前可在 PowerPoint 內直接改字。
+  - 附三個可直接執行的匿名範例，涵蓋三種版式。
+
+- **`spatial-data-architect`｜空間資料分析。** 區域研究／hedonic 房價／不動產：地理編碼驗證、H3 六角網格聚合、**TWD97↔WGS84 座標紀律**（用錯座標系不會報錯，只會安靜地把台灣移到別的地方）、空間自相關診斷、出版級空間地圖。
+
+#### 同時調整了公開／私人的切分原則
+
+本版起，切線改在「**框架 vs 實測答案**」，而不是「整支技能」：公開拿方法論（怎麼想），私人留實測換來的目錄與對照表（答案是什麼）。因此 `tej-data-scout` 的資料表索引與 `tej-variable-mapper` 的變數種子對照表不再隨公開包發布——但兩支技能的**方法論完整保留**，仍可獨立完成可行性判斷與變數對映。
 
 ### 🆕 最新更新（v0.13.1 · 2026-09）
 
@@ -212,6 +228,22 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 If a skill here caught a hallucinated citation, saved you an afternoon of data-wrangling, or made Reviewer 2 a little less terrifying — a ⭐ is the academic equivalent of a citation: it's how the next researcher finds this. No peer review, no revise-and-resubmit required. **Think of it as the "like, subscribe, and hit the bell" of open-source research tools.** 🔔
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
+
+### 🆕 What's new (v0.14.0 · 2026-09)
+
+Adds **3 skills** (35 → 38), all previously completed and released together here.
+
+- **`journal-submission-scout` — target-journal selection and predatory screening.** Your draft is ready; where do you send it? Finds journals that actually publish this kind of work, compares objective indicators (h-index, 2-year mean citations, APC, DOAJ listing, review model), and screens for predatory venues using the Think.Check.Submit framework — **submit to a predatory journal and that paper can never go anywhere else**, which is this skill's most important job. Ships with key-free scripts (OpenAlex / DOAJ / Crossref).
+  - **Discipline**: never reports JIF, acceptance rates, or ABS / FT50 / SCImago tiers. Those are proprietary and unavailable through public APIs; the tool says "not found" rather than inventing a plausible answer. OpenAlex's 2-year mean citation count is *not* JIF and is never presented as such.
+
+- **`research-framework-figure` — conceptual model diagrams.** Turns hypotheses into submission- and defense-grade framework figures: mediation, moderation, moderated mediation, serial mediation, and the **dual-control-box layout common in Taiwanese business scholarship** (one control set per dependent variable, joined by dashed curved arrows). Outputs editable SVG and PPTX, so you can fix wording in PowerPoint the night before a defense.
+  - Includes three runnable anonymised examples covering three layouts.
+
+- **`spatial-data-architect` — spatial analysis.** For regional studies, hedonic pricing, and real estate: geocoding validation, H3 hexagonal aggregation, **TWD97 ↔ WGS84 coordinate discipline** (mixing them raises no error — it just quietly relocates Taiwan), spatial autocorrelation diagnostics, and publication-grade maps.
+
+#### The public/private split now cuts along a different line
+
+From this release the boundary is **framework vs. measured answers**, not whole skills: the public bundle carries the methodology (how to reason about a problem), while catalogues and lookup tables that only exist because someone measured them stay private. Accordingly, the TEJ table index and the variable seed-mapping table are no longer shipped — but **both skills keep their full methodology** and remain independently usable for feasibility assessment and variable mapping.
 
 ### 🆕 What's new (v0.13.1 · 2026-09)
 
