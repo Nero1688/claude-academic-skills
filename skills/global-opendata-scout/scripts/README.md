@@ -36,7 +36,7 @@ python intl_fetch.py sdmx --base https://your.custom/sdmx --resource dataflow   
 
 ### 重要提醒
 
-- ⚠️ **World Bank 沒有台灣資料**（實測確認）。台灣走官方來源（主計總處／央行／勞動部）。
+- ⚠️ **World Bank 沒有台灣資料**（實測確認）。台灣走 `tw-opendata-scout`。
 - 空值比例超過 30% 時腳本會警告——**遺漏若與應變數相關是選擇偏誤，不是資料清理**。
 - 總體統計會被回溯修訂，**務必記錄抓取日期**。
 - SDMX 回傳多為 XML 結構檔；要轉成分析表格建議用 `pandasdmx` 解析。

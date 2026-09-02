@@ -21,7 +21,7 @@
 搜尋語法：`"national statistics office" <國名>` 或 `<國名> 統計局 official`。
 
 ⚠️ **台灣**：主計總處（DGBAS）是統計主管機關，但**不在多數國際 NSO 清單裡**
-（會籍問題）。台灣資料走官方來源（主計總處／央行／勞動部）。
+（會籍問題）。走 `anthropic-skills:tw-opendata-scout`。
 
 ### Step 2｜判斷它是否支援 SDMX
 
@@ -75,7 +75,7 @@ SDMX 是統計交換的國際標準。**支援 SDMX 的機構可以用同一支�
 | 新加坡 | SingStat | |
 | 澳洲 | ABS | |
 | 加拿大 | Statistics Canada | 有成熟 API |
-| **台灣** | 主計總處、央行、勞動部 | **直接走官方來源**，國際庫多無涵蓋 |
+| **台灣** | 主計總處、央行、勞動部 | **走 `tw-opendata-scout`**，國際庫多無涵蓋 |
 
 ## 找不到怎麼辦（誠實路徑）
 

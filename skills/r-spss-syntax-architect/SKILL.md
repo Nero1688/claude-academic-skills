@@ -75,7 +75,7 @@ description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel 
 ## 何時讀 references/(2026-07 新增兩檔)
 
 - **`references/python-panel-lane.md`**:第三軌 Python/linearmodels。何時走:資料來自 tejapi 直撈、要與 pandas 清理同腳本、或使用者環境只有 Python。含雙向 FE+叢集 SE 骨架、手工 Hausman、簡單斜率、轉折點、與 TEJ API 的無縫接軌。Step 0 的問題從「R 還是 SPSS」擴為三選一。
-- **`references/sem-pls-lane.md`**:SEM 第四軌——CB-SEM(lavaan)與 PLS-SEM(seminr)選型對照、HTMT、bootstrap 5000、資管行銷期刊語言。
+- **`references/sem-pls-lane.md`**(2026-07 新增):SEM 第四軌——CB-SEM(lavaan)與 PLS-SEM(seminr)的選型對照、測量/結構評估慣例(HTMT、bootstrap 5000)、資管行銷的期刊語言。問卷結構模型需求走這軌。
 - **`references/apa-tables-recipe.md`**:迴歸表直出 Word。產完語法一律建議使用者用直出而非手抄(R modelsummary/apaTables、SPSS OUTPUT EXPORT、Python 手工組表),防 L-003 抄寫錯誤。
 
 <examples>

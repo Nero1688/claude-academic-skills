@@ -2,6 +2,8 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：2026-09-02（修正路由總管指向未釋出技能的斷鏈）
+
 <p align="left">
   <img alt="skills" src="https://img.shields.io/badge/skills-35-blue">
   <img alt="license" src="https://img.shields.io/badge/license-mixed%20(see%20NOTICE)-green">

@@ -24,8 +24,8 @@
 | `requests` | Apache-2.0 | HTTP 呼叫，以 pip 正常安裝使用，未修改原始碼 |
 
 `scripts/intl_fetch.py` 的 TLS 相容層（解除 `VERIFY_X509_STRICT`、
-保留憑證鏈與主機名驗證）沿用本技能家族一致的 TLS 處理作法
-——**同一使用者的自有程式碼**，非外部借用。
+保留憑證鏈與主機名驗證）沿用本技能家族 `tw-opendata-scout/scripts/_gov_tls.py`
+的作法——**同一使用者的自有程式碼**，非外部借用。
 
 ## 使用的資料服務
 

@@ -33,7 +33,7 @@
 |---|---|---|---|
 | 1 | 因果假說 | 操弄的自變數必須「可操弄且倫理上可行」 | experiment-design-architect |
 | 2 | 設計選型 | 組間/組內/混合+counterbalancing;情境實驗遵循 Aguinis & Bradley | experiment-design-architect |
-| 3 | 預先註冊 | AsPredicted/OSF,頂刊漸成硬要求 | phd-researcher(preregistration 模板) |
+| 3 | 預先註冊 | AsPredicted/OSF,頂刊漸成硬要求 | ntpu-phd(preregistration 模板) |
 | 4 | 前測+操弄檢核 | pilot 驗操弄有效性,正式資料含 manipulation check | experiment-design-architect |
 | 5 | 檢定力 | 先驗 power(效果量引前研究),非事後湊 | experiment-design-architect |
 | 6 | 分析 | 依設計對應 ANOVA/混合模型;隨機化檢查 | r-spss-syntax-architect |

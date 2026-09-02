@@ -54,7 +54,7 @@ class _RelaxedStrictAdapter(HTTPAdapter):
     """解除 VERIFY_X509_STRICT，仍完整保留憑證鏈與主機名驗證。
 
     部分官方統計站的憑證鏈不符 Python 3.13+ 預設的 RFC 嚴格檢查。
-    採憑證鏈驗證的 TLS 相容作法——**絕不使用 verify=False**。
+    同 tw-opendata-scout/scripts/_gov_tls.py 的作法——**絕不使用 verify=False**。
     """
 
     def _ctx(self) -> ssl.SSLContext:
