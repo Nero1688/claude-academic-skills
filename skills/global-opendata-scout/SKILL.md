@@ -1,6 +1,6 @@
 ---
 name: global-opendata-scout
-description: "跨國公開統計資料偵察員。研究要跨國比較、或使用者不在台灣時，判斷該用哪個國際資料庫、哪個國家的統計機構、能不能程式化撈取。內建已實測可用的免金鑰端點（World Bank、Eurostat、ILOSTAT、IMF、UN Data）與撈取腳本，另附一套『如何找到任一國家官方統計機構』的五步方法論，不靠國家清單硬背。核心價值在跨國資料的陷阱提醒：國家代碼三套不可混用、幣別與 PPP 與基期的選擇、會計年度差異、產業分類（ISIC/NACE/NAICS）不可直接對應、涵蓋率遺漏非隨機造成選擇偏誤、總體統計會被回溯修訂故須記錄抓取日期。何時用：做跨國研究、要國際比較資料、想知道某國有沒有官方統計、非台灣使用者要用本技能家族。觸發詞：跨國、國際比較、cross-country、World Bank、世界銀行、OECD、IMF、Eurostat、ILOSTAT、國際勞工組織、UN Data、FRED、各國統計、國家統計局、SDMX、跨國資料、國際資料庫、他國資料、外國統計、PPP、購買力平價。與 tw-opendata-scout 劃界：那支專做台灣官方統計且有深度，本 skill 做台灣以外與跨國；**台灣資料一律回那支**。與 multi-source-data-integrator 劃界：多國多源撈回來要合併對接時交棒給它。"
+description: "跨國公開統計資料偵察員。研究要跨國比較、或使用者不在台灣時，判斷該用哪個國際資料庫、哪個國家的統計機構、能不能程式化撈取。內建已實測可用的免金鑰端點（World Bank、Eurostat、ILOSTAT、IMF、UN Data）與撈取腳本，另附一套『如何找到任一國家官方統計機構』的五步方法論，不靠國家清單硬背。核心價值在跨國資料的陷阱提醒：國家代碼三套不可混用、幣別與 PPP 與基期的選擇、會計年度差異、產業分類（ISIC/NACE/NAICS）不可直接對應、涵蓋率遺漏非隨機造成選擇偏誤、總體統計會被回溯修訂故須記錄抓取日期。何時用：做跨國研究、要國際比較資料、想知道某國有沒有官方統計、非台灣使用者要用本技能家族。觸發詞：跨國、國際比較、cross-country、World Bank、世界銀行、OECD、IMF、Eurostat、ILOSTAT、國際勞工組織、UN Data、FRED、各國統計、國家統計局、SDMX、跨國資料、國際資料庫、他國資料、外國統計、PPP、購買力平價。與 台灣官方統計來源 劃界：那支專做台灣官方統計且有深度，本 skill 做台灣以外與跨國；**台灣資料一律回那支**。與 multi-source-data-integrator 劃界：多國多源撈回來要合併對接時交棒給它。"
 ---
 
 # 跨國公開資料偵察員（Global OpenData Scout）
@@ -18,7 +18,7 @@ description: "跨國公開統計資料偵察員。研究要跨國比較、或使
 295 個國家／地區清單中無 Taiwan）。OECD 亦然（非會員）。
 
 所以做「台灣 vs 其他國家」的比較時，**必然要混用兩個來源**：
-台灣走 `anthropic-skills:tw-opendata-scout`（主計總處／央行／勞動部），
+台灣走官方來源（主計總處／央行／勞動部），
 其餘國家走本 skill。合併時的定義一致性與來源譜系，交棒
 `anthropic-skills:multi-source-data-integrator`，並在論文方法節誠實揭露。
 
@@ -28,7 +28,7 @@ description: "跨國公開統計資料偵察員。研究要跨國比較、或使
 
 | 需求 | 該用 |
 |---|---|
-| **台灣**官方統計、不動產、勞動、調查資料庫 | `tw-opendata-scout` |
+| **台灣**官方統計、不動產、勞動、調查資料庫 | 台灣官方統計來源 |
 | 台灣公司揭露、事件研究事件源 | `public-disclosure-scout` |
 | 多國多源撈回來要合併對接 | `multi-source-data-integrator` |
 | **台灣以外的國家、跨國比較資料** | **本 skill** |
@@ -103,7 +103,7 @@ python scripts/intl_fetch.py sdmx --provider ilostat --resource dataflow -o flow
 |---|---|---|---|---|---|
 
 ## 台灣處理方式
-〔若研究含台灣：說明改走 tw-opendata-scout 與合併的定義差異〕
+〔若研究含台灣：說明改走台灣官方來源 與合併的定義差異〕
 
 ## 可比性風險
 〔幣別/基期/會計年度/產業分類/涵蓋率，逐項〕
@@ -120,7 +120,7 @@ python scripts/intl_fetch.py sdmx --provider ilostat --resource dataflow -o flow
 - 不寫未實測的端點進腳本；待確認的標「待確認」並說明怎麼查。
 - 不編造國家統計機構名稱或網址。
 - 不宣稱資料可比——可比性要逐項檢查後才敢說。
-- 台灣相關需求一律轉 `tw-opendata-scout`，不在本 skill 硬做。
+- 台灣相關需求一律轉台灣官方來源，不在本 skill 硬做。
 - 金鑰不硬編碼、不寫進產出檔。
 
 ## 風格
