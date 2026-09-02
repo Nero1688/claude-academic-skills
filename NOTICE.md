@@ -30,18 +30,19 @@
 | defense-qa-coach | 作者原創（根 LICENSE） | 本專案作者 | — |
 | nstc-grant-writer | 作者原創（根 LICENSE） | 本專案作者 | 行政規則（頁數/經費科目）以當年度公告為準，本技能不編造 |
 | response-letter-craftsman | 作者原創（根 LICENSE） | 本專案作者 | — |
-
 | research-method-selector | 作者原創（根 LICENSE） | 本專案作者 | 方法論適配框架引用 Edmondson & McManus (2007) 之公開學術文獻（概念引用，非程式碼） |
 | survey-research-architect | 作者原創（根 LICENSE） | 本專案作者 | CMV 攻防依 Podsakoff 系列公開文獻 |
 | interview-method-designer | 作者原創（根 LICENSE） | 本專案作者 | — |
 | experiment-design-architect | 作者原創（根 LICENSE） | 本專案作者 | 情境實驗準則依 Aguinis & Bradley (2014) 公開文獻 |
-
 | causal-inference-architect | 作者原創（根 LICENSE） | 本專案作者 | 估計量文獻(Callaway & Sant'Anna 等)為公開學術引用,非程式碼 |
 | text-analytics-architect | 作者原創（根 LICENSE） | 本專案作者 | LLM 標註紀律為方法論指引;使用者需自行遵循各平台語料條款 |
-
 | public-disclosure-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至官方免費公開揭露源;抓取需自行遵循各站台服務條款與政府開放資料授權。動態抓取升級階梯之「網頁轉 LLM 可讀結構」概念借鑑 unclecode/crawl4ai（Apache 2.0），僅取概念未取依賴，並明訂禁用其 stealth 反偵測功能 |
 | multi-source-data-integrator | 作者原創（根 LICENSE） | 本專案作者 | 資料整合方法論指引;實體解析/調解概念為通用資料工程與計量方法 |
 | reproducibility-architect | 作者原創（根 LICENSE） | 本專案作者 | 可重現性方法論指引;引用 renv/conda/Zenodo 等開源工具與頂刊資料編輯規範(概念引用) |
+| global-opendata-scout | 作者原創（根 LICENSE） | 本專案作者 | 僅路由至國際組織公開端點（World Bank／Eurostat／ILOSTAT／IMF／UN Data），皆為免金鑰公開服務；各源之資料授權與再散布條件以其官方公告為準。⚠️ UN Data 端點僅提供 HTTP（明文），詳見技能內警告 |
+| journal-submission-scout | 作者原創（根 LICENSE） | 本專案作者 | 掠奪性期刊篩查框架採用 Think.Check.Submit（公開倡議，概念引用）；指標取自 OpenAlex／DOAJ／Crossref 免金鑰公開 API。**不提供 JIF、接受率、ABS／FT50／SCImago 分級**——該等為專有資料，本技能不重製亦不臆測 |
+| research-framework-figure | 作者原創（根 LICENSE） | 本專案作者 | 程式全自撰（SVG 直出、PPTX 走 DrawingML）；附之範例 JSON 為**匿名通用模板**，不含任何真實研究設計 |
+| spatial-data-architect | 作者原創（根 LICENSE） | 本專案作者 | 依賴 h3（Apache 2.0）與 pandas（BSD-3），皆為使用者自行安裝之第三方套件，本包未內含其程式碼；座標系轉換與空間自相關為通用方法學 |
 
 ## 未收錄（但推薦）
 | 工具 | 狀態 | 說明 |

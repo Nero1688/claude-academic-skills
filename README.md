@@ -35,7 +35,7 @@
 - **腳本會真的跑，不只是給指引。** 資料與圖表類技能附**實測過的 Python／R 腳本**——你電腦裝了 Python 或 R，就能實際連線抓書目、清資料、建資料表、出圖（例：`literature-matrix-builder` 連 CrossRef 抓 DOI 直接建 Excel 比較矩陣；`r-spss-syntax-architect` 產出可貼上就跑的 R／SPSS／Stata 語法；`management-figure` 直出 300dpi 出版級圖）。
 - **不只本國資料，也做跨國。** 除了台灣公開資料，`global-opendata-scout` 內建 World Bank／Eurostat／ILOSTAT／IMF／UN Data 的**免金鑰、已實測端點與撈取腳本**，並主動提醒跨國比較的陷阱（國家代碼三套不可混、幣別／PPP／基期、產業分類不可直接對應），讓你做**他國與跨國分析**不被本國資料綁死。
 - **反幻覺，答案要站得住。** 數字能指回出處、引用能查真偽、CrossRef 查無就報錯不憑記憶補書目——**寧可回報查無，也不生一個看似合理的錯誤**。
-- **一條龍、由「研究大腦」分派。** 從方法選擇→找資料→清理→分析→寫作→投稿→複製包封存，`research-orchestrator` 會判斷你在哪一階段、該叫哪幾支、什麼順序，不必自己記 35 支各做什麼。
+- **一條龍、由「研究大腦」分派。** 從方法選擇→找資料→清理→分析→寫作→投稿→複製包封存，`research-orchestrator` 會判斷你在哪一階段、該叫哪幾支、什麼順序，不必自己記 38 支各做什麼。
 - **四大方法範式齊全，還能交複製包。** 量化／質化／實驗／混合都有對應技能；`reproducibility-architect` 直接把研究打包成可重跑的複製包（環境鎖定、授權資料的可重現困境、資料／程式碼／AI 使用三聲明、DOI 封存），對接頂刊資料編輯要求。
 
 ### ⭐ 給顆星 = 我們的 impact factor
@@ -220,7 +220,7 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 - **The scripts actually run — not just guidance.** Data and figure skills ship **tested Python/R scripts**: if your machine has Python or R, they genuinely fetch bibliographic data, clean data, build tables and render figures (e.g. `literature-matrix-builder` pulls DOIs from CrossRef straight into an Excel comparison matrix; `r-spss-syntax-architect` emits paste-and-run R/SPSS/Stata syntax; `management-figure` outputs 300 dpi publication-grade figures).
 - **Not just domestic data — cross-country too.** Beyond Taiwan's public data, `global-opendata-scout` ships **key-free, tested endpoints and fetch scripts** for World Bank / Eurostat / ILOSTAT / IMF / UN Data, and proactively flags cross-country comparability traps (three country-code schemes that mustn't be mixed, currency/PPP/base-year, non-mappable industry classifications) — so **international and cross-country analysis** isn't tied to home-country data.
 - **Anti-hallucination — answers that hold up.** Numbers trace back to a source; citations are checkable; a CrossRef miss fails loudly instead of filling a bibliography from memory — it would rather report "not found" than return a plausible-looking error.
-- **End-to-end, dispatched by a "research brain."** From method selection → finding data → cleaning → analysis → writing → submission → replication-package archiving, `research-orchestrator` works out which stage you're in and which skills to call in what order — you don't have to memorize what all 35 do.
+- **End-to-end, dispatched by a "research brain."** From method selection → finding data → cleaning → analysis → writing → submission → replication-package archiving, `research-orchestrator` works out which stage you're in and which skills to call in what order — you don't have to memorize what all 38 do.
 - **All four method paradigms, plus a replication package.** Quantitative, qualitative, experimental and mixed methods are all covered; `reproducibility-architect` packages the study into a re-runnable replication bundle (environment locking, restricted-data reproducibility, data/code/AI-use statements, DOI archiving) that meets top-journal data-editor requirements.
 
 ### ⭐ A star is our impact factor

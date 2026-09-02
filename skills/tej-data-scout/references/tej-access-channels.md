@@ -68,4 +68,4 @@ df = tejapi.get(
 - 發想期:本 skill 判斷「有沒有、在哪、走哪條管道」。
 - 對應期:tej-variable-mapper 產出精確欄位採購清單(GUI 勾選用)或表代碼查證任務(API 用)。
 - 清理期:tej-data-wrangler 接手 RAW Excel 或 API DataFrame。
-- 回測需求(選股策略、報酬回測)→ 不屬學術家族,轉 invest-radar 個人投資專案場景。
+- 回測需求(選股策略、報酬回測)→ 屬個人投資應用,不在本學術技能家族範圍。
