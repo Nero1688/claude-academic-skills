@@ -45,6 +45,11 @@ jobs:
       - name: 結構一致性檢查
         run: python scripts/ci_checks.py .
 
+      # dist/ 的個別安裝包必須與 skills/ 一致。dist 是最容易漂移的地方：
+      # 技能改了、新增了，打包檔卻停在舊版，使用者下載到過期內容且毫無跡象。
+      - name: dist 與 skills 同步
+        run: python scripts/build_dist.py --check
+
       # SKILL.md 必須是有效的 YAML frontmatter，否則上傳會被拒。
       - name: frontmatter YAML 可解析
         run: |

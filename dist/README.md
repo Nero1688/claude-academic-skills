@@ -6,7 +6,7 @@
 ## 為什麼不能「下載整個 repo 的 ZIP」直接裝?
 
 GitHub 右上角 **Code → Download ZIP** 下載的是**整個 repo**
-(`claude-academic-skills-main/skills/<34 支>/…`)——裡面有 34 個 `SKILL.md`、且深層巢狀。
+(`claude-academic-skills-main/skills/<38 支>/…`)——裡面有 38 個 `SKILL.md`、且深層巢狀。
 Claude 的技能上傳一次只吃**一個技能**(壓縮檔頂層是單一技能資料夾、內含它的 `SKILL.md`)。
 所以整包 repo ZIP 無法當「一個技能」上傳。**請改用本資料夾裡的個別 `.zip`。**
 

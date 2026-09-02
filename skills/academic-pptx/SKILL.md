@@ -143,6 +143,29 @@ Academic QA checklist:
 
 ---
 
+## Further Reading
+
+The design standards above are not this skill's inventions — they consolidate established
+guidance from the academic-presentation literature. These are the primary sources, and
+all of them are **freely accessible**, so you can check any rule against its origin:
+
+- **Naegle, K. M. (2021). Ten simple rules for effective presentation slides.**
+  *PLOS Computational Biology, 17*(12), e1009554.
+  <https://doi.org/10.1371/journal.pcbi.1009554> — Open access. The most widely cited
+  practical checklist in this area. The one-idea-per-slide rule and the figure-legibility
+  thresholds in Step 3 follow it directly.
+- **Minto, B. *The Pyramid Principle*.** The structured-argument format in Step 1 is an
+  adaptation of Minto's top-down structure (answer first, then supporting argument) to
+  conference-talk length.
+- **Purdue OWL — Conference Presentations** (<https://owl.purdue.edu/>) and university
+  graduate-advising guides (Chicago, Hull) cover timing and audience calibration, which
+  this skill deliberately leaves to the speaker.
+
+> A note on why these are cited rather than bundled: guidance documents circulated by
+> individual scholars are usually **all rights reserved** unless they carry an explicit
+> licence. Citing them is always permitted; redistributing them is not. If you find a
+> compilation you like, link to it — do not copy it into your own repository.
+
 ## Dependencies
 
 Same as PPTX skill:

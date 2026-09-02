@@ -129,6 +129,33 @@ for d in skill_dirs:
         err(f"{d}/SKILL.md description {len(desc)} 字元，超過上限 {DESC_MAX}")
 print("  （逐支檢查完畢）")
 
+# ── 8：dist 打包內不得含 PDF ──────────────────────────────
+# 2026-09-02 實測：私人版的 academic-pptx 打包檔內藏著一份第三方 PDF（無授權聲明）。
+# 公開版當時碰巧是乾淨的，但那是靠人工記得排除——沒有任何機制保證下次也記得。
+# PDF 是最常見的「夾帶第三方著作」載體，故在打包層直接擋。
+print("")
+print("[8] dist 打包內無 PDF")
+import zipfile
+dist = os.path.join(ROOT, "dist")
+if os.path.isdir(dist):
+    found = []
+    for fn in sorted(os.listdir(dist)):
+        if not fn.endswith(".zip"):
+            continue
+        try:
+            for n in zipfile.ZipFile(os.path.join(dist, fn)).namelist():
+                if n.lower().endswith(".pdf"):
+                    found.append(f"{fn} → {n}")
+        except Exception as e:
+            err(f"dist/{fn} 讀取失敗：{e}")
+    if found:
+        for f in found:
+            err("打包內含 PDF（第三方著作風險）：" + f)
+    else:
+        print("  OK")
+else:
+    print("  （無 dist/，略過）")
+
 print()
 if problems:
     print(f"結果：{len(problems)} 項未通過。")
