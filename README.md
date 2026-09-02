@@ -2,7 +2,7 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
-**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：2026-09-02（修正路由總管指向未釋出技能的斷鏈）
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.13.1 · 2026-09-02（修正路由總管指向未釋出技能的斷鏈）
 
 <p align="left">
   <img alt="skills" src="https://img.shields.io/badge/skills-35-blue">
@@ -43,6 +43,22 @@
 如果這裡有哪支技能幫你擋掉一個幻覺引用、省下一下午的洗資料、或讓 reviewer 2 沒那麼可怕——按顆 ⭐ 就是學術版的「被引用」：下一個需要的研究者靠它找到這裡。不用送審、不用 revise & resubmit。**就當它是開源研究工具版的「按讚、訂閱、開小鈴鐺」。** 🔔
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
+
+### 🆕 最新更新（v0.13.1 · 2026-09）
+
+本版**沒有新增技能**（維持 35 支），修的是一個**不會報錯、只會安靜降級**的問題——正是最難自己發現的那種。
+
+- **路由總管指向不存在的技能（`research-orchestrator`）。** 名錄裡列了 5 支**不在本公開包內**的技能（`check-citations`、`journal-submission-scout`、`research-framework-figure`、`spatial-data-architect`、`tw-opendata-scout`）。Claude 依名錄去呼叫一支不存在的技能時**不會拋錯**，只會退回一般回答——使用者不會看到任何警示，只會覺得「怎麼跟說明寫的不一樣」。
+  - 已移除這些條目與對應路由行，宣告的可路由數改為本包實際的 **34 個**（35 支減去 orchestrator 自身）。
+  - 同步在維護端加了一道**自動閘門**：往後只要名錄與實際內容不一致，打包流程就中止，不讓壞掉的版本成形。
+
+- **指向已移除參考檔的孤兒引用（`global-opendata-scout`）。** 內文指向兩份未隨本包釋出的來源目錄，症狀相同：Claude 去讀一個不存在的檔案，然後無聲降級。已改寫。
+  - **台灣在 UN Comtrade／WITS 被併入 `490`「Other Asia, nes」** 的陷阱警告**仍完整保留**——「不知道就會踩」的警告屬公共利益，一律公開。
+
+- **內容同步與新增參考檔。** 補上 2026-08-20 之後累積的修訂，涵蓋 `academic-journal-polisher`、`q1-journal-polisher`、`phd-milestone-tracker`、`qualitative-thematic-coder`、`r-spss-syntax-architect`、`public-disclosure-scout`、`academic-slides`、`research-method-selector` 等。
+  - 新增 `tej-data-scout/references/tej-access-channels.md`：TEJ 三條取得管道（Pro 桌面端／`tejapi`／TQuant-Lab）對照，含一個常見誤解——**TEJ Pro 校園帳號不含 API 授權，兩套系統不通用**——以及金鑰與帳號的安全紀律。
+
+- **新增 [`docs/CHANGELOG.md`](docs/CHANGELOG.md)**，往後的變更集中記錄於此。
 
 ### 🆕 最新更新（v0.13.0 · 2026-08）
 
@@ -196,6 +212,22 @@ A bundle of **Claude Skills** covering the full research workflow. Once installe
 If a skill here caught a hallucinated citation, saved you an afternoon of data-wrangling, or made Reviewer 2 a little less terrifying — a ⭐ is the academic equivalent of a citation: it's how the next researcher finds this. No peer review, no revise-and-resubmit required. **Think of it as the "like, subscribe, and hit the bell" of open-source research tools.** 🔔
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
+
+### 🆕 What's new (v0.13.1 · 2026-09)
+
+**No new skills** in this release (still 35). What it fixes is a failure that **never raises an error and degrades silently** — the hardest kind to notice on your own.
+
+- **The router pointed at skills that aren't here (`research-orchestrator`).** Its catalogue listed 5 skills **not included in this public bundle** (`check-citations`, `journal-submission-scout`, `research-framework-figure`, `spatial-data-architect`, `tw-opendata-scout`). When Claude follows the catalogue and calls a skill that does not exist, **nothing throws** — it just falls back to a generic answer. You get no warning, only a vague sense that the behaviour doesn't match the documentation.
+  - Those entries and their routing lines are removed; the declared routable count is now the bundle's actual **34** (35 skills minus the orchestrator itself).
+  - An **automated gate** was added on the maintenance side: if the catalogue and the actual contents ever diverge again, the build aborts rather than shipping a broken bundle.
+
+- **Orphaned pointers to removed reference files (`global-opendata-scout`).** The text referenced two source catalogues not shipped with this bundle — same symptom: Claude reads a file that isn't there and quietly degrades. Rewritten.
+  - The warning that **Taiwan is folded into `490` "Other Asia, nes" in UN Comtrade / WITS** is **fully retained**. Traps you cannot avoid without knowing about them are a public good and stay public.
+
+- **Content sync and a new reference.** Picks up revisions accumulated since 2026-08-20 across `academic-journal-polisher`, `q1-journal-polisher`, `phd-milestone-tracker`, `qualitative-thematic-coder`, `r-spss-syntax-architect`, `public-disclosure-scout`, `academic-slides`, and `research-method-selector`.
+  - Adds `tej-data-scout/references/tej-access-channels.md`: a comparison of the three ways to obtain TEJ data (Pro desktop / `tejapi` / TQuant-Lab), including a common misconception — **a TEJ Pro campus account does not include API access; they are separate systems** — plus key-handling discipline.
+
+- **Adds [`docs/CHANGELOG.md`](docs/CHANGELOG.md)** as the single place for release notes from now on.
 
 ### 🆕 What's new (v0.13.0 · 2026-08)
 
