@@ -1,0 +1,66 @@
+name: guard
+
+# 公開包的守門員。每次 push 與 PR 都跑，任何一項不過就擋下。
+#
+# 存在理由：本 repo 的內容由私人開發庫同步產生，但**任何人（包括維護者本人）
+# 都可能直接在這裡手動改動**。手動改動不會經過同步工具的閘門，因此需要一道
+# 獨立於同步流程、直接長在 repo 上的防線。
+#
+# 2026-09-02 的實際教訓：一次同步把先前手動修好的 16 處跨指全部蓋回去，
+# 而當時沒有任何機制會發現。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # runner 預設沒有 pyyaml，最後一步的 frontmatter 解析需要它。
+      - name: 安裝相依
+        run: python -m pip install --quiet pyyaml
+
+      # 敏感資訊掃描：本機路徑、硬編碼金鑰、Bearer token、學號樣式等。
+      # 個人化樣式存放於 repo 外的私密檔，CI 上不存在，故此處僅跑通用樣式——
+      # 這正是我們要的：公開 repo 的檢查不該依賴任何私有資訊。
+      - name: 敏感資訊掃描
+        run: bash scripts/sanitize_check.sh .
+
+      # 結構一致性：私人標記殘留、哨兵殘留、NOTICE 覆蓋率與表格完整、
+      # README 技能數、frontmatter 必填與 description 長度上限。
+      - name: 結構一致性檢查
+        run: python scripts/ci_checks.py .
+
+      # SKILL.md 必須是有效的 YAML frontmatter，否則上傳會被拒。
+      - name: frontmatter YAML 可解析
+        run: |
+          python - <<'PY'
+          import glob, sys, yaml
+          bad = 0
+          for p in sorted(glob.glob("skills/*/SKILL.md")):
+              t = open(p, encoding="utf-8").read()
+              if not t.startswith("---"):
+                  print(f"[FAIL] {p} 沒有 frontmatter"); bad += 1; continue
+              try:
+                  fm = yaml.safe_load(t.split("---", 2)[1])
+              except Exception as e:
+                  print(f"[FAIL] {p} YAML 解析失敗: {e}"); bad += 1; continue
+              if not isinstance(fm, dict) or "name" not in fm or "description" not in fm:
+                  print(f"[FAIL] {p} frontmatter 缺 name 或 description"); bad += 1
+          print("OK" if not bad else f"{bad} 支未通過")
+          sys.exit(1 if bad else 0)
+          PY

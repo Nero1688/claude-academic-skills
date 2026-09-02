@@ -17,7 +17,13 @@ scan () {
 echo "=== 敏感資訊掃描 (target: $ROOT) ==="
 # 通用樣式(不含任何個人資訊)
 scan "本機路徑"        "C:\\\\Users|/Users/[a-z]+/"
-scan "認證檔/金鑰"      "auth\.json|api[_-]?key|secret[_-]?key|password|passwd|Bearer "
+# 只抓「硬編碼賦值」,不抓「提到這個詞」。
+# 2026-09-02 修:原樣式 api[_-]?key 會把 api_key = os.environ[...] 這種**正確寫法**
+# 一併標紅(實測 5 個命中全是誤報,其中一條還是在說明本腳本該偵測什麼)。
+# 誤報一多,掃描就會被當成雜訊略過——閘門要精準才有人看。
+scan "認證檔"          "auth\.json|\.netrc|service-account.*\.json"
+scan "硬編碼金鑰賦值"    "(api[_-]?key|secret[_-]?key|access[_-]?token|password|passwd)[[:space:]]*[:=][[:space:]]*[\"'][A-Za-z0-9_/+.-]{8,}[\"']"
+scan "硬編碼 Bearer"    "Bearer[[:space:]]+[A-Za-z0-9_.=-]{16,}"
 scan "疑似金鑰字串"     "sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}"
 scan "訂閱來源標示"     "擷取自.*帳號|訂閱版導航"
 scan "學號樣式"        "學號[::]? ?[0-9]{8,}"
