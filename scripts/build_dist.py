@@ -55,11 +55,20 @@ def build(skill, path):
 # 文字檔一律把換行正規化再比對。
 # Windows 上 git 會把工作區檔案轉成 CRLF、Linux runner 是 LF，若直接比 zip 位元組，
 # 同樣的內容在兩個平台會算出不同雜湊——CI 因此把 38 支全部誤判為「內容過期」。
-TEXT_EXT = (".md", ".py", ".sh", ".json", ".txt", ".yml", ".yaml", ".csv", ".r", ".sps")
+#
+# 這裡列的是**二進位**副檔名，其餘一律視為文字。
+# 用排除法而非白名單：白名單版漏掉了 .js、.html 與沒有副檔名的 LICENSE，
+# 於是仍有三支誤判。本 repo 幾乎全是文字，漏列一種文字格式就會再踩一次；
+# 反過來列二進位格式，新增文字類型時不必回頭改這裡。
+BINARY_EXT = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", ".zip",
+              ".skill", ".woff", ".woff2", ".ttf", ".otf", ".mp4", ".mov",
+              ".xlsx", ".docx", ".pptx", ".sav", ".dta", ".rdata")
 
 
 def norm(arc, data):
-    return data.replace(b"\r\n", b"\n") if arc.lower().endswith(TEXT_EXT) else data
+    if arc.lower().endswith(BINARY_EXT):
+        return data
+    return data.replace(b"\r\n", b"\n")
 
 
 def sha(data):
