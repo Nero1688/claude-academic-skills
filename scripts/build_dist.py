@@ -52,12 +52,34 @@ def build(skill, path):
                 z.writestr(zi, f.read())
 
 
-def digest(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
-            h.update(chunk)
-    return h.hexdigest()
+# 文字檔一律把換行正規化再比對。
+# Windows 上 git 會把工作區檔案轉成 CRLF、Linux runner 是 LF，若直接比 zip 位元組，
+# 同樣的內容在兩個平台會算出不同雜湊——CI 因此把 38 支全部誤判為「內容過期」。
+TEXT_EXT = (".md", ".py", ".sh", ".json", ".txt", ".yml", ".yaml", ".csv", ".r", ".sps")
+
+
+def norm(arc, data):
+    return data.replace(b"\r\n", b"\n") if arc.lower().endswith(TEXT_EXT) else data
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def manifest_folder(skill):
+    out = {}
+    for full, arc in files_of(skill):
+        with open(full, "rb") as f:
+            out[arc] = sha(norm(arc, f.read()))
+    return out
+
+
+def manifest_zip(path):
+    out = {}
+    with zipfile.ZipFile(path) as z:
+        for arc in z.namelist():
+            out[arc] = sha(norm(arc, z.read(arc)))
+    return out
 
 
 skills = sorted(
@@ -69,7 +91,6 @@ os.makedirs(DIST, exist_ok=True)
 existing = {f[:-4] for f in os.listdir(DIST) if f.endswith(".zip")}
 
 stale, missing, orphan = [], [], sorted(existing - set(skills))
-tmp = os.path.join(DIST, "_tmp.zip")
 
 for s in skills:
     target = os.path.join(DIST, f"{s}.zip")
@@ -78,13 +99,14 @@ for s in skills:
         if not CHECK:
             build(s, target)
         continue
-    build(s, tmp)
-    if digest(tmp) != digest(target):
+    try:
+        same = manifest_zip(target) == manifest_folder(s)
+    except Exception:
+        same = False
+    if not same:
         stale.append(s)
         if not CHECK:
-            os.replace(tmp, target)
-if os.path.exists(tmp):
-    os.remove(tmp)
+            build(s, target)
 
 if not CHECK:
     for o in orphan:
