@@ -1,0 +1,65 @@
+# doc_links_allowlist.txt — **文件檔**（.md .txt .json .yml）裡貼的連結允許出現的網域
+# 與 egress_allowlist.txt 的差別：文件連結不會被程式執行，風險是「引導使用者去哪」而非「資料送去哪」，
+# 所以可以放 GitHub、shinyapps 等社群寄放網域。逐級後綴比對；行尾可 # 註解。
+
+# 程式清單全部沿用
+gov.tw
+edu.tw
+nat.gov.tw
+twse.com.tw
+tpex.org.tw
+tejwin.com
+tej.com.tw
+worldbank.org
+imf.org
+ilo.org
+europa.eu
+un.org
+sec.gov
+oecd.org
+uu.se
+treas.gov
+treasury.gov
+usgs.gov
+stlouisfed.org
+gdeltproject.org
+bnm.gov.my
+bcb.gov.br
+doi.org
+crossref.org
+openalex.org
+semanticscholar.org
+arxiv.org
+osf.io
+doaj.org
+archive.org
+anthropic.com
+w3.org
+openxmlformats.org
+purl.org
+jsdelivr.net
+googleapis.com
+gstatic.com
+example.com
+example.net
+example.org
+example.gov.tw
+your.custom
+
+# 文件才允許的社群／參考網域
+github.com
+claude.ai
+shinyapps.io       # PRISMA 流程圖官方 Shiny 工具（PRISMA 配方的替代路線）
+twinkleai.tw       # 台灣 AI 資料集 Hub（台灣公開資料目錄條目）
+yungching.com.tw   # 永慶房價指數（目錄條目，標「查無 API」）
+jcic.org.tw
+sfi.org.tw
+aremos.org.tw
+g0v.tw
+purdue.edu         # OWL APA 指南
+equator-network.org
+iacr.org
+cos.io
+creativecommons.org
+typesafe.ai        # Jev 官方站（screening-cascade 說明為何不接）
+jevai.org          # Jev 社群站（同上，標非官方）

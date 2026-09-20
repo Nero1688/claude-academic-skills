@@ -1,0 +1,63 @@
+# egress_allowlist.txt — **程式碼檔**（.py .js .sh .ps1 .html .ipynb .r）真的會連的目的地
+# 逐級後綴比對（寫 twse.com.tw 即涵蓋 openapi.twse.com.tw）；行尾可用 # 註明用途與日期。
+# ⚠ 不放 github.com／storage.googleapis.com／shinyapps.io 這類「任何人可寄放檔案」的網域（審查 H2）；
+#   文件裡的連結另有 doc_links_allowlist.txt。CDN 只列完整主機名。
+# 盤點基準：2026-09-20 全家族 grep。
+
+# ── 台灣政府與學界（整域放行）──
+gov.tw
+edu.tw
+nat.gov.tw
+
+# ── 台灣交易所與資料機構（腳本實際打的）──
+twse.com.tw
+tpex.org.tw
+tejwin.com
+tej.com.tw
+
+# ── 國際統計與官方資料（腳本實際打的）──
+worldbank.org
+imf.org
+ilo.org
+europa.eu
+un.org
+sec.gov
+oecd.org
+uu.se
+treas.gov
+treasury.gov
+usgs.gov
+stlouisfed.org
+gdeltproject.org
+bnm.gov.my
+bcb.gov.br
+
+# ── 學術基礎設施 ──
+doi.org
+crossref.org
+openalex.org
+semanticscholar.org
+arxiv.org
+osf.io
+doaj.org
+archive.org    # Wayback：CDX 實測通（2026-09-20）；SPN 對匿名請求 429，見 public-disclosure-scout
+
+# ── 模型供應商（screen_cascade stage2-submit，金鑰只讀環境變數）──
+anthropic.com
+
+# ── 產生 SVG／OOXML 的腳本會寫出的標準命名空間（不是外連，L-019）──
+w3.org
+openxmlformats.org
+purl.org
+
+# ── 前端 CDN（academic-slides 的 HTML，已 SRI 強化；只列完整主機名）──
+cdn.jsdelivr.net
+fonts.googleapis.com
+fonts.gstatic.com
+
+# ── 文件／範例中的佔位網域（RFC 2606 保留，永不解析）──
+example.com
+example.net
+example.org
+example.gov.tw
+your.custom

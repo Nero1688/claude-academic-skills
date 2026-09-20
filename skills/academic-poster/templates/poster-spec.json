@@ -1,0 +1,61 @@
+{
+  "size": "A0",
+  "orientation": "portrait",
+  "layout": "three-column",
+  "title": "彈性工作安排與員工工作敬業度:心理契約履行的中介角色與組織支持感的調節效果",
+  "authors": "王小明¹・李美華²(共同第一作者)",
+  "institution": "¹〇〇大學企業管理學系 ・ ²〇〇大學人力資源管理研究所",
+  "key_finding": "彈性工作,靠心理契約履行,提升敬業度",
+  "sections": [
+    {
+      "id": "background",
+      "heading": "研究背景與缺口",
+      "body": "後疫情時代,彈性工作安排(遠距、彈性時段、混合辦公)已成台灣科技業常態留才手段,但既有文獻多停留在「制度有無」層次,對「員工如何在心理層面把彈性工作的善意轉化為敬業度」的中介機制著墨甚少。心理契約理論指出,員工對雇主承諾的主觀認知履行程度,可能是這段黑箱的關鍵。"
+    },
+    {
+      "id": "hypotheses",
+      "heading": "研究架構與假說",
+      "body": "H1:彈性工作安排正向影響心理契約履行。H2:心理契約履行正向影響工作敬業度。H3:心理契約履行中介彈性工作安排與工作敬業度之關係。H4:組織支持感正向調節「心理契約履行→工作敬業度」路徑,支持感愈高,該正向效果愈強(被調節的中介)。"
+    },
+    {
+      "id": "methods",
+      "heading": "資料與方法",
+      "body": "以台灣科技業全職員工為對象,透過人資部門協助發放結構化問卷,回收有效樣本335份(回收率68%)。採用結構方程模型(SEM)進行假說檢定,並以Hayes PROCESS Model 14估計被調節的中介效果,自變數、中介與調節變數皆間隔兩週分兩階段施測以降低共同方法變異疑慮。"
+    },
+    {
+      "id": "results",
+      "heading": "研究結果",
+      "body": "彈性工作安排對心理契約履行有顯著正向影響(β=0.42, p<0.001)。心理契約履行對工作敬業度有顯著正向影響(β=0.51, p<0.001)。中介效果顯著(間接效果=0.21, 95% CI[0.14, 0.29],不含0)。調節效果顯著(交互作用項β=0.18, p<0.01):高組織支持感組的中介效果(0.31)顯著大於低支持感組(0.11)。"
+    },
+    {
+      "id": "discussion",
+      "heading": "結論與管理意涵",
+      "body": "彈性工作安排本身不會自動帶來敬業度,關鍵在於員工是否感受到「雇主真的兌現了承諾」。管理意涵有三:(1)推動彈性工作制度時應同步管理員工的心理契約期待,避免「畫大餅」;(2)投資組織支持感(如主管關懷、資源提供)可放大彈性工作的正面效果;(3)人資應建立心理契約履行的定期脈搏調查機制,及早偵測落差。"
+    },
+    {
+      "id": "references",
+      "heading": "參考文獻(精選)",
+      "body": "Rousseau, D. M. (1995). Psychological Contracts in Organizations. Sage. Kahn, W. A. (1990). Psychological conditions of personal engagement. Academy of Management Journal, 33(4), 692-724. Eisenberger, R., et al. (1986). Perceived organizational support. Journal of Applied Psychology, 71(3), 500-507. Hayes, A. F. (2022). Introduction to Mediation, Moderation, and Conditional Process Analysis (3rd ed.). Guilford Press."
+    }
+  ],
+  "figures": [
+    {
+      "id": "framework",
+      "caption": "圖1 研究架構圖:彈性工作安排→心理契約履行→工作敬業度,受組織支持感調節(被調節的中介模型)",
+      "image_path": "",
+      "has_image": false
+    },
+    {
+      "id": "results_fig",
+      "caption": "圖2 條件效果圖:高/低組織支持感下,心理契約履行對工作敬業度中介效果之比較",
+      "image_path": "figures/conditional_effect.png",
+      "has_image": true
+    }
+  ],
+  "qr_url": "https://osf.io/preprints/example-flexwork-psycontract-poster",
+  "logos": [
+    "logos/your_college_logo.png",
+    "logos/hrm_lab.png"
+  ],
+  "contact": "〇〇〇｜〇〇大學〇〇學系博士生｜<你的信箱>"
+}

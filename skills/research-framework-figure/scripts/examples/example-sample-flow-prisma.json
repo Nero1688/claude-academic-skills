@@ -1,0 +1,32 @@
+{
+  "template": "sample_flow",
+  "mode": "prisma",
+  "identification": {
+    "sources": [
+      {"label": "資料庫 A", "n": 210},
+      {"label": "資料庫 B", "n": 95},
+      {"label": "手動追蹤引用（citation chasing）", "n": 12}
+    ],
+    "duplicates_removed": 47,
+    "automation_excluded": 38,
+    "automation_excluded_label": "自動化工具判定不合格（年份／語言／關鍵字規則）"
+  },
+  "screening": {
+    "excluded": 152,
+    "excluded_label": "篩選排除（標題與摘要不符）"
+  },
+  "retrieval": {
+    "not_retrieved": 6,
+    "not_retrieved_label": "全文無法取得"
+  },
+  "eligibility": {
+    "excluded_reasons": [
+      {"reason": "研究設計非量化實證", "n": 20},
+      {"reason": "缺乏可比較之結果變數", "n": 15},
+      {"reason": "重複報告同一研究", "n": 9}
+    ]
+  },
+  "included": {
+    "label": "納入之研究"
+  }
+}

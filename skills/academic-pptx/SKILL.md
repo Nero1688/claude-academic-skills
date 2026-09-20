@@ -28,6 +28,36 @@ This skill has two layers:
 
 ---
 
+## Step 0: Commit to a look first
+
+Before Step 1's presentation-type decision, and before drafting any content,
+answer three questions out loud (with the user, if they're available) and
+write the answers down:
+
+1. **What must the audience see in 5 seconds?** If a slide were flashed for
+   five seconds, what single fact or number should register? If you can't
+   answer this for the deck's key slide, the argument isn't sharp enough yet
+   to start building.
+2. **Venue and duration?** Is this a journal-editorial briefing, a thesis
+   defense, a 45-minute seminar, a 15-minute conference talk, a teaching
+   session, or a poster-session conversation aid — and how many minutes do
+   you actually have?
+3. **Will it survive a projector at 60% brightness?** Most conference rooms
+   and lecture halls run house lights partially up and projectors well below
+   their rated brightness. A palette or contrast ratio that looks crisp on a
+   laptop screen can wash out badly under those conditions.
+
+Answering (2) determines which of the six style specifications in
+[references/academic-style-catalog.md](references/academic-style-catalog.md)
+applies — that file gives each style's type scale, layout grid, density
+limits, Okabe-Ito-compatible color set, and explicit no-gos, plus a
+three-question audience/duration/occasion flow for narrowing to a style when
+the venue isn't already obvious. Read it now, before Step 1, and commit to
+one style; Step 3's design standards below are the shared baseline every
+style in that catalog builds on, not a substitute for choosing one.
+
+---
+
 ## Step 1: Identify Presentation Type
 
 Before planning a single slide, determine which mode applies.
@@ -108,6 +138,20 @@ Follow the PPTX skill's QA procedure in full, including:
 - Content QA via `markitdown`
 - Visual QA via slide images (subagents if available)
 - Fix-and-verify loop until a full pass reveals no new issues
+
+**Before choosing a build path, check whether this deck needs native `.pptx`
+object-level work** — matching an institutional template's exact theme,
+editing specific slides of an existing file in place, producing charts or
+tables the user can keep editing natively in PowerPoint, or inserting
+mathematical notation. If so, read
+[references/native-pptx-workflows.md](references/native-pptx-workflows.md)
+first: it documents the `python-pptx`-based path for each of those four
+cases and states plainly what each one can and cannot guarantee (in
+particular, native in-place editing of an existing file cannot guarantee
+untouched slides are byte-identical after save — only that their content and
+layout are unchanged). Building from scratch with no template and no native
+object requirements can proceed directly with the base PPTX skill's
+`pptxgenjs.md` path as before.
 
 **Additionally, run the academic-specific checks:**
 

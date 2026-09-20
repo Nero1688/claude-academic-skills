@@ -26,17 +26,35 @@ Reviewer 2
 > TNFD adoption. Firms with better environmental performance may be more likely
 > to adopt."*
 >
-> **Response:** We thank the reviewer for raising this important identification
-> concern. We agree that self-selection is a first-order issue for our setting.
-> In the revised manuscript, we address it in two ways. First, we estimate a
-> Heckman two-stage model using industry-level adoption density as the exclusion
-> restriction (new Table 7). Second, we re-estimate our main models on a
-> propensity-score-matched sample (new Table 8). Our core finding—the positive
-> moderating effect of environmental performance—remains significant in both
-> specifications (p < .05).
+> **Response:** We thank the reviewer for raising this identification concern.
+> We agree that selection into adoption is the first-order threat to our
+> design. We now (i) report the Goodman-Bacon decomposition (Table A2: x% of
+> the TWFE weight comes from forbidden comparisons, i.e., later-treated vs.
+> earlier-treated units), (ii) re-estimate the main specification with the
+> Callaway and Sant'Anna (2021) estimator using not-yet-treated controls
+> (Table 3), (iii) show that pre-period event-study coefficients are jointly
+> insignificant (Wald p = …; Figure 2) and that the estimate survives
+> violations of parallel trends up to M̄ = … under Rambachan and Roth (2023)
+> (Table A4), and (iv) split the sample by pre-adoption propensity to adopt
+> (Table A5) so that the reviewer can see whether the effect is concentrated
+> among firms most likely to self-select. The ATT of … corresponds to …% of
+> the treated firms' pre-adoption mean of the outcome, which is economically
+> meaningful relative to (benchmark).
 >
-> **Changes:** New Section 5.3 "Addressing Self-Selection" (pp. 24–26); new
-> Tables 7–8; revised discussion of limitations (p. 31, lines 8–14).
+> As a supplementary check only, Appendix C reports a Heckman two-stage
+> model and a propensity-score-matched re-estimation. We state explicitly in
+> the text that these address selection on observables and do not substitute
+> for the design-based evidence above.
+>
+> **Changes:** Revised Section 5.1 "Identification" (pp. 18–22); new Table 3;
+> new Figure 2; new Tables A2, A4, A5; new Appendix C; revised discussion of
+> limitations (p. 31, lines 8–14).
+
+**為什麼不能用「Heckman＋PSM＋p<.05」回自選擇**：那是家族自訂標準
+（`q1-journal-reviewer/references/top-journal-standards.md` 軸 A「有但薄」欄）明列的樣態——
+排除變數（產業採用密度）會透過同儕效應直接影響結果、PSM 只處理可觀測選擇、
+以顯著性而非量級收尾。上面的寫法把設計面證據放正文、選擇模型降附錄並標明「僅處理可觀測選擇」，
+量級句對齊 §5 落差 3；x、p、M̄、% 一律填實際數字，不得留佔位。
 
 ## 四段式範例(理論類意見,中文)
 
@@ -75,9 +93,10 @@ Reviewer 2
 
 | 意見編號 | 修改摘要 | 修訂稿位置 |
 |---|---|---|
-| R1-1 | 新增 Heckman 兩階段(表7) | §5.3, pp. 24–25 |
+| R1-1 | 主估計改 Callaway & Sant'Anna (2021)，TWFE 移附錄；Goodman-Bacon 分解（表 A2） | §5.1, pp. 18–20；表 3 |
 | R1-2 | 理論定位新增 §2.2 | pp. 8–10 |
-| R2-1 | PSM 穩健性(表8) | §5.3, p. 26 |
+| R2-1 | 事件研究前期聯合檢定＋Rambachan-Roth 誠實區間（圖 2、表 A4）；依採用傾向分組（表 A5）；量級句 | §5.1, pp. 20–22 |
+| R2-1（補充） | Heckman／PSM 降附錄，明寫僅處理可觀測選擇 | 附錄 C |
 
 ## 最後檢查清單
 

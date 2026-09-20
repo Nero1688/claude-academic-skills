@@ -309,6 +309,14 @@ def scan_svg(svg_text: str) -> dict:
 if __name__ == "__main__":
     import sys
 
+    # L1 修復(2026-09-20)：本檔獨立執行(CLI 檢查模式)時原本完全沒有 Windows
+    # 主控台編碼保護，cp950 主控台印中文/emoji 訊息時可能 UnicodeEncodeError。
+    for _s in (sys.stdout, sys.stderr):
+        try:
+            _s.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     def _usage() -> None:
         print(__doc__.split("【")[0].strip())
         print("\n用法：python svg2drawingml.py <檔案.svg>   # 檢查該 SVG 的可轉換性")

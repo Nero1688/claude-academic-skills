@@ -32,4 +32,13 @@
 | `openpyxl` | MIT | 產出 Excel 矩陣 |
 | `pypdf` | BSD-3-Clause | 從 PDF 抽取 DOI |
 
+## 概念啟發（非程式碼、非 API）
+
+`scripts/screen_cascade.py` 的判斷串接（judgment cascade：便宜的判斷層先過濾，
+昂貴的決策層只看存活者）概念，受 TypeSafe AI 的 Jev／System One 模型公開發表
+啟發；**未使用其 API、未借用其程式碼**。設計上刻意不接 Jev（閉源、白名單制、
+資料需出站至第三方伺服器），改以 Anthropic Message Batches API 為預設 judge
+後端，理由與若未來要接 Jev 必須先過的檢查，見
+`references/screening-cascade.md`「judge 可插拔設計」一節。
+
 本技能供學術研究使用。

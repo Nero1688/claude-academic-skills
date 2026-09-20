@@ -20,6 +20,7 @@ description: "學術研討會海報產生器。把論文或研究摘要轉成可
    - **Better Poster 式**:中央大字放主發現一句話+QR code 連完整論文,兩側精簡
      支撐,適合大型國際會議的注意力競爭。(理念source:Mike Morrison Better Poster 運動)
 4. 語言與機構識別:中/英、校徽、合作機構 logo、聯絡方式與 QR。
+5. 風格參考見 `academic-pptx` 的 `references/academic-style-catalog.md`(poster-session-talk 節)。
 
 ## Step 2|內容重組(海報不是論文縮印)
 - **一句話主發現**先寫出來(≤20字中文/15 words英文),它決定整張海報——寫不出來
@@ -36,6 +37,10 @@ description: "學術研討會海報產生器。把論文或研究摘要轉成可
 ## Step 3|產出(.pptx 單頁大版面)
 用 pptx 技術產單頁海報(page size 直接設為海報實際尺寸,如 A0 = 84.1×118.9 cm):
 - 版面規格、色彩、印刷注意事項讀 `references/poster-layout.md`。
+- 實際產出用 `scripts/poster_scaffold.py`:填好 `templates/poster-spec.json`(欄位說明見範例檔本身)後執行
+  `python scripts/poster_scaffold.py --spec poster-spec.json -o poster.pptx`;
+  該腳本會依 `layout`(three-column/better-poster)自動排版、套用三層閱讀動線字級門檻,
+  並確保中文 run 正確帶有東亞字型(標楷體)。可用 `--verify` 模式讀回檢查尺寸與字級是否過關。
 - 產出後縮圖自檢:縮到 10% 大小看——若主發現讀不到,吸睛層失敗,重排。
 - 交付雙格式:.pptx(可編輯)+ 轉 PDF(送印),並提醒印前確認出血與 CMYK 問題
   (校內輸出中心通常收 PDF 即可)。

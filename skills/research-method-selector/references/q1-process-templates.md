@@ -9,12 +9,15 @@
 | 站 | 工作 | Q1 標準 | 家族工具 |
 |---|---|---|---|
 | 1 | 缺口與假說 | 理論驅動,非「沒人用台灣資料做過」 | phd-researcher |
-| 2 | 資料可行性 | 樣本期間/頻率/涵蓋率先驗證 | tej-data-scout |
-| 3 | 變數操作化 | 對齊國際定義+揭露台灣落差 | tej-variable-mapper |
-| 4 | 清理 | 縮尾/遺漏處理全揭露可重現 | tej-data-wrangler |
+| 1b | **制度背景／為什麼是台灣** | 說得出本文是 context-free／context-bounded／context-specific 三種情境化宣稱中的哪一種,且證據類型對得上;制度特徵→理論構念→識別用途三欄表;財務家族要有區辨假說 horse race。說不出來=頂刊 desk reject 第一位置 | q1-journal-reviewer 的 `references/contextualization-frameworks.md`(決策表,不代寫)+ `top-journal-standards.md` §5 落差 1 |
+| 2 | 資料可行性 | 樣本期間/頻率/涵蓋率先驗證;下市公司合併、評等欄位用首次揭露日 | tej-data-scout |
+| 3 | 變數操作化 | 對齊國際定義+揭露台灣落差;核心構念(如家族企業)至少三種定義並陳 | tej-variable-mapper |
+| 4 | 清理 | 縮尾/遺漏處理全揭露可重現;對帳表含下市公司保留列 | tej-data-wrangler |
 | 5 | 主檢定 | FE+叢集SE 起跳;內生性至少兩手(工具/配對/DiD其一+穩健性矩陣) | r-spss-syntax-architect |
-| 5b | 因果識別深化 | 交錯採用禁單獨 TWFE;現代估計量+事件研究圖 | causal-inference-architect |
-| 6 | 圖表 | 出版級向量圖+APA 表直出 | management-figure |
+| 5b | 因果識別深化 | 交錯採用禁單獨 TWFE;現代估計量+事件研究圖;衝擊品質六問;對照組四情境 | causal-inference-architect |
+| 5c | **經濟量級與基準** | 主表後緊接經濟量級段:一個標準差的 X 對應幾 % 的 Y 均值與標準差;至少一個可比基準(文獻/自然/政策)且指得回出處;大樣本報最小可偵測效果 | q1-journal-reviewer 的 `top-journal-standards.md` §5 落差 3(句式+基準表模板) |
+| 6 | 圖表 | 出版級向量圖+APA 表直出;事件研究圖用 `event_study_plot` | management-figure |
+| 7 | **複製包** | 一鍵 master script 從原始資料跑到全部表圖;環境鎖定;TEJ 授權資料的可重現困境(合成資料/存取指引);資料、程式碼、AI 使用三聲明 | reproducibility-architect |
 
 ## 路線 B|量化・問卷(survey)
 
@@ -33,7 +36,7 @@
 |---|---|---|---|
 | 1 | 因果假說 | 操弄的自變數必須「可操弄且倫理上可行」 | experiment-design-architect |
 | 2 | 設計選型 | 組間/組內/混合+counterbalancing;情境實驗遵循 Aguinis & Bradley | experiment-design-architect |
-| 3 | 預先註冊 | AsPredicted/OSF,頂刊漸成硬要求 | ntpu-phd(preregistration 模板) |
+| 3 | 預先註冊 | AsPredicted/OSF,頂刊漸成硬要求 | phd-researcher(preregistration 模板) |
 | 4 | 前測+操弄檢核 | pilot 驗操弄有效性,正式資料含 manipulation check | experiment-design-architect |
 | 5 | 檢定力 | 先驗 power(效果量引前研究),非事後湊 | experiment-design-architect |
 | 6 | 分析 | 依設計對應 ANOVA/混合模型;隨機化檢查 | r-spss-syntax-architect |

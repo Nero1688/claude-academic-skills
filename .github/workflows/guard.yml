@@ -22,11 +22,15 @@ permissions:
 jobs:
   guard:
     runs-on: ubuntu-latest
+    env:
+      # CI 環境本來就不會有私密置換表／私密樣式檔,明確聲明「本來就沒有」而非
+      # 靜默略過(H3):sanitize_check.sh 找不到私密檔時,沒有這個變數就會 FAIL。
+      SANITIZE_CI: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0（M6：SHA 釘住，用 gh api 查得，2026-09-20）
 
       - name: 設定 Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0（M6：SHA 釘住，同上）
         with:
           python-version: '3.12'
 
@@ -39,6 +43,23 @@ jobs:
       # 這正是我們要的：公開 repo 的檢查不該依賴任何私有資訊。
       - name: 敏感資訊掃描
         run: bash scripts/sanitize_check.sh .
+
+      # M6 新增（2026-09-20）：五類資安掃描（危險執行／網路外連／混淆／憑證／提示注入）。
+      # --selftest 先驗證掃描器本身抓得到已知繞過變體（誘餌自測，任一類漏抓即 exit 1），
+      # 再對 repo 實跑一次；兩者都應零「待確認」（已登記的誤報見 scripts/security_allow.txt）。
+      - name: 資安掃描自測（誘餌）
+        run: bash scripts/security_scan.sh --selftest
+
+      - name: 資安掃描（skills/scripts/tools）
+        run: bash scripts/security_scan.sh
+
+      # M6 新增：語法編譯檢查——L-029 那種 SyntaxWarning 過去只有本機看得到，CI 沒攔過。
+      - name: Python 語法編譯檢查
+        run: python -m compileall -q skills
+
+      # M6 新增：academic-pptx 模板萃取的唯一測試檔，過去公開 CI 沒有實跑過任何測試。
+      - name: academic-pptx 模板萃取測試
+        run: python skills/academic-pptx/scripts/test_pptx_template_distill.py
 
       # 結構一致性：私人標記殘留、哨兵殘留、NOTICE 覆蓋率與表格完整、
       # README 技能數、frontmatter 必填與 description 長度上限。

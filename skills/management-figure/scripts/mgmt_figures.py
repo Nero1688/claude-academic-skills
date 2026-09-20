@@ -132,3 +132,96 @@ def trend_plot(years, series, labels, ylabel="Value", xlabel="Year"):
     _despine(ax); ax.legend(frameon=False)
     fig.tight_layout()
     return fig, ax
+
+def event_study_plot(rel_time, coef, ci_low, ci_high, ref_period=-1,
+                     pre_joint_p=None, breakdown_M=None, onset=0,
+                     xlabel="Periods relative to treatment",
+                     ylabel="Coefficient (95% CI)", estimator=None,
+                     pre_power_slope=None, ax=None):
+    """事件研究圖(DiD 動態效果):逐期係數與 95% CI、參考期標記、處理時點垂直線、
+    前期陰影,並在圖下方自動印出審稿人要看的兩個數字(前期聯合檢定 p、誠實區間 breakdown M̄)。
+
+    參數
+    ----
+    rel_time  : 相對處理時點的期數(整數陣列,例 -4..4);參考期可以不在其中,函式會自動補 0。
+    coef, ci_low, ci_high : 各期係數與 CI 端點(來自 did::aggte(type="dynamic")、
+                fixest::sunab 或 iplot 的輸出;數字要能回溯到來源檔)。
+    ref_period : 被省略(正規化為 0)的參考期,慣例為 -1;畫成空心點並標 "ref."。
+    pre_joint_p: 前期係數聯合 Wald 檢定 p 值(did::aggte 的 Wpval 或 fixest::wald);
+                None 表示未提供,圖註會印 "not reported"——不要編一個。
+    breakdown_M: Rambachan & Roth (2023) 誠實區間的 breakdown 值 M̄*(HonestDiD 輸出);
+                None 同上。
+    onset      : 處理生效的相對期(預設 0);垂直線畫在 onset−0.5,前期陰影覆蓋其左側。
+    estimator  : 估計量名稱字串(例 "Callaway & Sant'Anna (2021), not-yet-treated controls"),
+                會印在圖註第一行——交錯採用時主圖的估計量名稱必須進圖。
+    pre_power_slope : 選填,Roth (2022) 檢定力:設計以 80% 檢定力可偵測的線性前趨勢斜率。
+
+    回傳 (fig, ax, info);info["note"] 是圖註字串,可直接貼進 caption。
+    """
+    set_style()
+    rel_time = np.asarray(rel_time, int)
+    coef = np.asarray(coef, float)
+    ci_low = np.asarray(ci_low, float); ci_high = np.asarray(ci_high, float)
+    if not (len(rel_time) == len(coef) == len(ci_low) == len(ci_high)):
+        raise ValueError("rel_time / coef / ci_low / ci_high 長度必須一致")
+    if np.any(ci_low > coef) or np.any(ci_high < coef):
+        raise ValueError("CI 端點必須包住係數(ci_low <= coef <= ci_high);請核對來源輸出")
+    # 參考期不在輸入中就補 0(它被正規化掉,不是估計值);在輸入中但非 0 則覆寫為 0 並提醒
+    if ref_period not in rel_time:
+        rel_time = np.append(rel_time, ref_period)
+        coef = np.append(coef, 0.0); ci_low = np.append(ci_low, 0.0); ci_high = np.append(ci_high, 0.0)
+    else:
+        k = np.where(rel_time == ref_period)[0]
+        if np.any(coef[k] != 0) or np.any(ci_low[k] != 0) or np.any(ci_high[k] != 0):
+            import warnings
+            warnings.warn(f"參考期 t={ref_period} 的係數/CI 非 0,已強制正規化為 0;"
+                          "若你的估計量參考期不是這一期,請改 ref_period 參數")
+            coef[k] = 0.0; ci_low[k] = 0.0; ci_high[k] = 0.0
+    order = np.argsort(rel_time)
+    rel_time, coef, ci_low, ci_high = rel_time[order], coef[order], ci_low[order], ci_high[order]
+    is_ref = rel_time == ref_period
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(6.4, 4.4))
+    else:
+        fig = ax.figure
+    # 前期陰影與處理時點
+    x_min, x_max = rel_time.min() - 0.5, rel_time.max() + 0.5
+    ax.axvspan(x_min, onset - 0.5, color="#e6e6e3", alpha=0.6, lw=0, zorder=0)
+    ax.axvline(onset - 0.5, color=PALETTE[1], lw=1.2, ls=(0, (4, 3)), zorder=1)
+    ax.axhline(0, color="#9a9a93", lw=1, ls=(0, (4, 3)), zorder=1)
+    # 係數與 CI(估計點實心;參考期空心且不畫 CI)
+    est = ~is_ref
+    ax.plot(rel_time, coef, color=PALETTE[0], lw=1.2, zorder=2)
+    ax.errorbar(rel_time[est], coef[est],
+                yerr=[coef[est] - ci_low[est], ci_high[est] - coef[est]],
+                fmt="o", color=PALETTE[0], ecolor=PALETTE[0], elinewidth=1.4,
+                capsize=3, ms=5, zorder=3, label="Estimate (95% CI)")
+    ax.scatter(rel_time[is_ref], coef[is_ref], s=46, facecolors="white",
+               edgecolors=PALETTE[0], lw=1.4, zorder=4, label=f"Reference period (t = {ref_period})")
+    ax.annotate("ref.", xy=(ref_period, 0), xytext=(0, 9), textcoords="offset points",
+                ha="center", fontsize=8, color="#33332f")
+    ax.text(onset - 0.5, ax.get_ylim()[1], " treatment", ha="left", va="top",
+            fontsize=8, color=PALETTE[1])
+    ax.set_xticks(rel_time)
+    ax.set_xlabel(xlabel); ax.set_ylabel(ylabel)
+    ax.set_xlim(x_min, x_max)
+    _despine(ax); ax.legend(frameon=False, loc="best")
+
+    # 圖註:審稿人要的數字自動印;沒給的印 not reported,不編數
+    n_pre = int(np.sum((rel_time < onset) & est)); n_post = int(np.sum(rel_time >= onset))
+    p_txt = f"{pre_joint_p:.3f}" if pre_joint_p is not None else "not reported"
+    m_txt = f"{breakdown_M:.2f}" if breakdown_M is not None else "not reported"
+    lines = []
+    if estimator:
+        lines.append(f"Estimator: {estimator}.")
+    lines.append(f"Pre-period joint Wald p = {p_txt} ({n_pre} pre-period coefficients); "
+                 f"robust to parallel-trends violations up to M̄ ≤ {m_txt} "
+                 f"(Rambachan & Roth, 2023 breakdown value).")
+    if pre_power_slope is not None:
+        lines.append(f"Design detects a linear pre-trend of {pre_power_slope:g} with 80% power (Roth, 2022).")
+    note = "\n".join(lines)
+    fig.tight_layout(rect=(0, 0.06 + 0.035 * (len(lines) - 1), 1, 1))
+    fig.text(0.01, 0.01, note, ha="left", va="bottom", fontsize=7.5, color="#33332f")
+    return fig, ax, dict(note=note, ref_period=int(ref_period), n_pre=n_pre, n_post=n_post,
+                         pre_joint_p=pre_joint_p, breakdown_M=breakdown_M)

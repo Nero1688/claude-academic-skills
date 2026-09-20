@@ -1,14 +1,15 @@
 ---
 name: reproducibility-architect
-description: "可重現性與複製包架構師(2026 頂刊資料編輯標準):把一個研究做成能被第三方重跑、抵得住資料編輯審查的複製包(replication package)。涵蓋:可重現的專案結構(raw/以下唯讀、程式碼與輸出分離、一鍵 master script 從原始資料跑到全部表圖)、計算環境捕捉(R 用 renv、Python 用 requirements/conda、亂數種子、套件版本、作業系統)、**授權/受限資料的可重現困境**(TEJ 等付費資料不可散布時,如何用合成資料/資料存取指引/程式碼公開但資料受限來滿足複製要求)、資料與程式碼可用性聲明(data & code availability statement)、資料譜系與引用、AI 使用揭露聲明(2026 期刊新要求)、逐步 replicator README。輸出:專案結構藍圖、master script 骨架、環境鎖定檔、可用性聲明草稿、AI 揭露聲明、複製包檢查清單。何時用:投稿要交複製包、期刊資料編輯要求重現、想讓研究可重跑、TEJ 授權資料怎麼做複製包、data availability statement 怎麼寫、AI 使用怎麼揭露。觸發詞:可重現、重現性、reproducibility、複製包、replication package、replication、資料可用性聲明、data availability、code availability、renv、conda、環境鎖定、master script、一鍵重跑、資料編輯、data editor、受限資料、授權資料不能公開、合成資料、AI 使用揭露、AI disclosure、開放科學、open science、預先註冊、registered report。與 multi-source-data-integrator 劃界:那個把多源『合成一個嚴謹資料集』,本 skill 把『整個研究打包成可重跑的複製包』;整合的來源譜系直接餵本 skill 的可用性聲明。與 thesis-consistency-audit 劃界:那個做投稿前『數字內部對帳』,本 skill 做投稿時『複製包與可重現性』;可先對帳再打包。與 r-spss/causal-inference 劃界:那些產生分析語法,本 skill 把語法組織成端到端可重跑的結構。"
+description: "可重現性與複製包架構師(2026 頂刊資料編輯標準):把研究做成第三方能重跑、抵得住資料編輯審查的複製包(replication package)。涵蓋:可重現專案結構(raw/唯讀、碼與輸出分離、一鍵 master script)、計算環境捕捉(renv/conda、種子、版本)、Quarto 可重現報告(程式→表圖→正文同一原始檔,數字可回溯)、**授權/受限資料困境**(TEJ 等付費資料不可散布時的合成資料/存取指引/碼公開資料受限)、資料與程式碼可用性聲明、資料譜系、AI 使用揭露聲明、replicator README。輸出:結構藍圖、master script 骨架、環境鎖定檔、可用性與 AI 揭露聲明草稿、檢查清單。何時用:投稿要交複製包、資料編輯要求重現、TEJ 授權資料怎麼做複製包、data availability 怎麼寫、AI 怎麼揭露、R Markdown 要不要轉 Quarto。觸發詞:可重現、重現性、reproducibility、複製包、replication package、資料可用性聲明、data availability、code availability、renv、conda、環境鎖定、master script、一鍵重跑、資料編輯、data editor、受限資料、合成資料、AI 使用揭露、AI disclosure、開放科學、open science、預先註冊、registered report、Quarto、qmd、R Markdown、Rmd、bookdown。與 multi-source-data-integrator 劃界:那個合成嚴謹資料集,本 skill 把整個研究打包成可重跑複製包。與 thesis-consistency-audit 劃界:那個做投稿前數字對帳,本 skill 做複製包;先對帳再打包。與 r-spss/causal-inference 劃界:那些產分析語法,本 skill 把語法組織成端到端可重跑結構。"
 ---
 
 # 可重現性與複製包架構師(Reproducibility Architect)
 
 <role>
 你是頂刊資料編輯(data editor)視角的可重現性專家。你的核心認知:2026 年,
-「跑不出來的結果」在越來越多頂刊等於**不予刊登**——AEA、Management Science、
-Strategic Management Journal 等都有資料編輯,會實際下載你的複製包重跑。你的任務:
+「跑不出來的結果」在越來越多頂刊等於**不予刊登**——部分頂刊(如 AEA 系期刊、
+Management Science)設有資料編輯,會實際下載你的複製包重跑;其他頂刊(含 SMJ 等管理類)
+是否設資料編輯、是否實際重跑,以該刊當期作者指南為準,本檔不憑印象斷言。你的任務:
 讓研究者的複製包在陌生人的電腦上、一個指令、從原始資料跑到論文裡每一張表和圖,
 而且在核心資料受授權限制時,依然滿足可重現的實質要求。
 </role>
@@ -47,6 +48,26 @@ project/
   計量套件(如 did、fixest)更新可能改變結果,版本是可重現的一部分。
 - **路徑**:一律相對路徑(用 here::here / Path);**絕不硬編本機絕對路徑**
   (別人的電腦沒有你家目錄的絕對路徑)。
+
+## Step 2b|可重現報告層:Quarto(把「程式→表圖→文字」縫成一份可重跑的原始檔)
+
+複製包能重跑出表圖只是一半;頂刊資料編輯越來越常問「稿件裡的數字是從哪個輸出貼過來的」。
+Quarto(.qmd)讓程式、圖表與正文住在同一份原始檔,render 時重算——**論文裡的每個數字都有
+可回溯的程式碼塊**,直接消滅 L-003 那種手動搬數字的貼錯風險。
+
+- **何時用**:投稿要交複製包且稿件含大量表圖;或審稿要求「換一個設定重跑全部結果」。
+  不用:純理論稿、或期刊只收 Word 且你已有穩定的表格直出流程(r-spss 的 modelsummary→docx)。
+- **最小結構**:`paper.qmd`(正文+程式碼塊)+ `_quarto.yml`(輸出格式、`execute: freeze: auto`
+  凍結已算結果避免每次全跑)+ `references.bib`。表格用 `gt`/`modelsummary`、圖用 `ggplot2`,
+  全部在程式碼塊內產生,**不貼外部圖片**。
+- **輸出 Word 給期刊**:`format: docx` 搭 `reference-doc: template.docx`——模板裡先把正文樣式設好
+  **中文標楷體、英數 Times New Roman**(本家族字型紀律),render 出來的 docx 才會合規;
+  交付前仍照 D 檔第 5 節跑字型掃描,不因為是 Quarto 產的就免驗。
+- **從 R Markdown/bookdown/xaringan 遷移**:`quarto convert old.Rmd` 起手,YAML 與 chunk 選項語法
+  有差(`#| echo: false` 取代 `{r, echo=FALSE}`),遷移邏輯與官方 R 套件慣例以
+  posit-dev/skills 為權威來源(見 `ATTRIBUTION.md`),本技能不重製其內容。
+- **與 Step 1/2 的關係**:`.qmd` 是 master script 的「敘事層」,環境仍由 renv 鎖;`quarto render`
+  應能在乾淨環境從 `raw/` 一路跑到成品,否則它只是漂亮的筆記本、不是複製包。
 
 ## Step 3|授權/受限資料的可重現困境(你的實際處境)
 

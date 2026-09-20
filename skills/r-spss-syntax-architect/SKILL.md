@@ -27,8 +27,9 @@ description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel 
 2. **假說形態**決定模型：
    - 主效果 → 線性項。
    - 調節（H：M 強化/削弱 X→Y）→ **X、M 主效果 + X×M 交乘項**，連續調節變數**先中心化**（減均值）以降低交乘項共線性並讓主效果可解釋。
-   - 曲線（H：倒U / U）→ **X 與 X² 同時入模**，X **先中心化**；倒U 需 β₂<0 且 β₁>0，轉折點 **x\* = -β₁/(2β₂)**，且 x\* 要落在資料範圍內、以 Lind & Mehlum (2010) U-test 佐證，否則不得宣稱倒U。
-   - 中介（H：X→Me→Y）→ 間接效果 a×b，以 **bootstrap（≥5000 次）** 的偏誤校正信賴區間判定，不用 Sobel/Baron-Kenny 逐步法作主證據。
+   - 曲線（H：倒U / U）→ **X 與 X² 同時入模**，X **先中心化**；倒U 需 β₂<0 且 β₁>0，轉折點 **x\* = -β₁/(2β₂)**，且 x\* 要落在資料範圍內、以 Lind & Mehlum (2010) U-test 佐證，否則不得宣稱倒U。**投 SMJ／管理家族時依 Haans, Pieters & He (2016, *SMJ*) 三步驟報告**（SMJ 審稿人引這篇、不引 Lind-Mehlum）：(1) β₂ 顯著且符號正確；(2) 資料範圍兩端的斜率顯著且異號（低端斜率 β₁+2β₂·x_min、高端斜率 β₁+2β₂·x_max，各附 CI）；(3) 轉折點落在資料範圍內並附 CI（Fieller 或 delta 法）；三者缺一都不得宣稱倒U。調節倒U（X²×M）時另報「轉折點位移」與「曲線變平／變陡」兩種效果，不能只看 X²×M 的係數。
+   - **產業調整警告**：台灣稿件常用「產業調整 ROA」（ROA 減產業中位數）當 Y 或 X；Gormley & Matsa (2014, *RFS*) 證明這種「先減組平均再迴歸」與「加組固定效果」不等價，係數可能有偏、符號可反——正確做法是把產業（或產業×年）固定效果放進模型，不要事前手動調整；若文獻慣例非用不可，兩種並陳並說明差異。
+   - 中介（H：X→Me→Y）→ 間接效果 a×b，以 **bootstrap（≥5000 次）** 的偏誤校正信賴區間判定，不用 Sobel/Baron-Kenny 逐步法作主證據。**但 bootstrap CI 只處理抽樣誤差，不處理識別**：檔案資料（firm-year panel）的中介變數 Me 本身內生，見範例 C 前的紅框。
 3. **面板結構**：分析單位（公司-年／公司-季）、時間跨度、是否平衡；決定 FE vs RE（見 Step 3）。
 4. 一句話寫出估計方程式（含下標 i、t），使用者點頭再往下。
 
@@ -137,6 +138,24 @@ c(b1 = b1, b2 = b2, turning_point = x_star_raw)
 **判讀（誠實防線）**：倒U 成立需 **β₂ 顯著為負且 β₁ 為正**，且轉折點 `x_star_raw` 落在 BoardSize 實際範圍內。任一不滿足，就寫「非線性證據不足，勿宣稱倒U」，並建議補 Lind & Mehlum U-test（`utest`）。要出圖時交棒 management-figure 的 `quadratic_turning_point_plot`（Claude Code 環境須加 `anthropic-skills:` 前綴）。
 
 ## 範例 C：中介（bootstrap），R + lavaan
+
+> **⚠ 紅框：檔案資料的中介＝描述性分解，不是因果中介。** 以 firm-year 檔案資料跑 X→Me→Y，
+> 中介變數 Me 是公司自己選的（內生），bootstrap 偏誤校正 CI 只處理**抽樣誤差**、不處理**識別**：
+> 間接效果 a×b 要有因果解釋，需要 **sequential ignorability** 假設——給定 X 與共變數後，
+> Me 對 Y 而言如同隨機指派（Imai, Keele & Tingley, 2010, *Psychological Methods*）——
+> 這在檔案資料幾乎不成立，Bullock, Green & Ha (2010, *JPSP*) 已證明此時 a×b 可為任意方向的偏誤。
+> 2026 年的 AMJ／SMJ 審稿人看到檔案資料的 Hayes 式中介會直接要求撤回因果語言。
+> **語法與正文的三條紀律**：
+> 1. 正文明寫「本節之中介分析為描述性分解，因果解釋需 sequential ignorability 假設」，
+>    結論用「與 X 透過 Me 影響 Y 的機制一致」，不用「證明 Me 中介了 X→Y」。
+> 2. 跑敏感度：`mediation::mediate()` 之後接 `mediation::medsens()`，報告「Me 與 Y 誤差項相關
+>    ρ 達多少時間接效果歸零」（ρ 的臨界值越接近 0 越脆弱），附 `plot(medsens_obj)` 於附錄。
+> 3. 若機制證據是論文主張的核心，改以**異質性／分割樣本**（機制成立的子群效果應更強）
+>    或**分階段結果**（X 先影響 Me 的時序證據）作機制證據，見 `q1-journal-reviewer` 維度 4
+>    與 `contextualization-frameworks.md` 第二節的 horse race 模板。
+> 範例 C 的 lavaan 語法保留作為橫斷面問卷（實驗或準實驗操弄 X）的用法；**面板檔案資料
+> 不要直接套用**。
+
 ```r
 set.seed(20260703)                    # ★ bootstrap 必附 seed，否則不可重現
 library(lavaan)
@@ -148,7 +167,14 @@ model <- '
 '
 fit <- sem(model, data = df, se = "bootstrap", bootstrap = 5000)
 parameterEstimates(fit, boot.ci.type = "bca.simple")   # 看 ind 的偏誤校正 CI
-# ↑ ind 的 95% CI 不含 0 → 中介成立；不要用 Sobel 當主證據
+# ↑ ind 的 95% CI 不含 0 → 「間接效果在統計上異於 0」；不要用 Sobel 當主證據
+# ★ 檔案資料：CI 不含 0 ≠ 因果中介。補跑敏感度（紅框第 2 條）：
+library(mediation)
+m_med <- lm(Med ~ X + Size + Lev, data = df)
+m_out <- lm(Y   ~ Med + X + Size + Lev, data = df)
+med   <- mediate(m_med, m_out, treat = "X", mediator = "Med", sims = 5000, boot = TRUE)
+sens  <- medsens(med, rho.by = 0.05)     # 誤差項相關 ρ 掃描
+summary(sens)                            # 報「ρ 達 __ 時 ACME 歸零」；附 plot(sens) 於附錄
 ```
 下一棒：語法跑出結果後要視覺化，交棒 management-figure；若資料還沒洗乾淨，回頭找 tej-data-wrangler（Claude Code 環境須加 `anthropic-skills:` 前綴）。
 

@@ -13,26 +13,43 @@ bacon(y ~ treat, data = df, id_var = "firm", time_var = "year")
 
 ## (b) Callaway & Sant'Anna:組別×時期 ATT(預設首選)
 library(did)
+## 共變數:處理前一期固定值,不放時變值(壞控制變數警語)
+## did::att_gt 以基期值處理共變數;時變且可能受處理影響的變數(ROA、外資持股、
+## 環境績效)進 xformla 會引入處理後偏誤。先把每家公司 first_treat-1 年的值展開成
+## 不隨時間變動的欄(never-treated 取樣本期第一年,並在論文明寫):
+library(dplyr)
+df <- df %>%
+  group_by(firm) %>%
+  mutate(base_year = ifelse(first_treat > 0, first_treat - 1, min(year)),
+         size_pre  = size[match(base_year, year)],
+         lev_pre   = lev[match(base_year, year)]) %>%
+  ungroup()
 cs <- att_gt(yname = "y", tname = "year", idname = "firm",
-             gname = "first_treat",        # 首次處理年;never-treated 設 0
+             gname = "first_treat",        # 首次處理年;never-treated 設 0(did 慣例)
              control_group = "notyettreated",  # 或 "nevertreated",論文要明說
-             xformla = ~ size + lev,       # 條件平行趨勢的共變數
+             xformla = ~ size_pre + lev_pre,   # 條件平行趨勢的共變數:處理前一期固定值
              data = df, clustervars = "firm")
-aggte(cs, type = "dynamic", na.rm = TRUE)  # 事件研究聚合(畫圖用)
+aggte(cs, type = "dynamic", na.rm = TRUE)  # 事件研究聚合(畫圖用);$Wpval = 前期聯合檢定 p
 aggte(cs, type = "simple")                 # 整體 ATT
 
 ## (c) Sun & Abraham:fixest 內建,動態路徑
+## never-treated 編碼與 did 不同:sunab 把「cohort 值不在 period 範圍內」的單位當 never-treated
+## (fixest 文件 base_stagg 範例用 10000;已查證 2026-09-20)。不要與 did 共用同一欄位。
 library(fixest)
-sa <- feols(y ~ sunab(first_treat, year) + size + lev | firm + year,
+df$first_treat_sa <- ifelse(df$first_treat == 0, 10000, df$first_treat)
+stopifnot(sum(df$first_treat == 0) == sum(df$first_treat_sa > max(df$year)))  # 編碼核對
+sa <- feols(y ~ sunab(first_treat_sa, year) + size_pre + lev_pre | firm + year,
             data = df, cluster = ~firm)
-iplot(sa)                                  # 事件研究圖(草圖;投稿圖交 management-figure)
+iplot(sa)                                  # 事件研究圖(草圖;投稿圖交 management-figure 的 event_study_plot)
 
 ## (d) 古典 TWFE(僅作對照,交錯場景不可單獨報告)
-twfe <- feols(y ~ treat + size + lev | firm + year, data = df, cluster = ~firm)
+twfe <- feols(y ~ treat + size_pre + lev_pre | firm + year, data = df, cluster = ~firm)
 ```
 
 控制組選擇的論文語言:not-yet-treated 假設「尚未採用者未預期調整」;
-never-treated 假設「永不採用者與採用者可比」。兩者都跑=穩健性。
+never-treated 假設「永不採用者與採用者可比」。兩者都跑=穩健性——但先過
+robustness-battery 第二節的「對照組情境表」四個情境(全體終將受處理／門檻分批／
+自願提前者／套件編碼),對上號的情境主設定要照表改,不能只寫「兩種都跑」。
 
 ## 2. 事件研究的誠實區間(前期不完美平行時)
 

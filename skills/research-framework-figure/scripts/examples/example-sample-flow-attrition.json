@@ -1,0 +1,16 @@
+{
+  "template": "sample_flow",
+  "mode": "attrition",
+  "unit": "firm-years",
+  "steps": [
+    {"label": "台灣上市櫃公司全樣本（20XX–20XX）", "remaining": 15000},
+    {"label": "排除金融保險業", "excluded": 1200,
+     "reason": "金融保險業之財報結構與一般產業不可比", "remaining": 13800},
+    {"label": "排除上市未滿 12 個月之公司年", "excluded": 800,
+     "reason": "上市首年財務與市場資料不足一完整年度；下市公司年保留於樣本內以避免存活偏誤", "remaining": 13000},
+    {"label": "排除關鍵變數缺漏之公司年觀察值", "excluded": 2500,
+     "reason": "主要研究變數缺漏無法計算", "remaining": 10500},
+    {"label": "最終樣本", "excluded": 500,
+     "reason": "排除合併控制變數與落後一期變數後仍缺漏之觀察值（連續變數於前後 1% 縮尾，不刪樣本）", "remaining": 10000}
+  ]
+}

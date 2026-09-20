@@ -10,7 +10,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 </role>
 
 <skill_catalog>
-以下是可路由的 37 個公開 skill（裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 37 個公開 skill（公開包共 38 支，含本技能；裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範，2026-07 新增線）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈。**方法未定時，它排在一切之前。**
@@ -102,7 +102,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 - 「修業進度 / 退學風險」→ phd-milestone-tracker；「資格考」→ qual-exam-coach；「國科會計畫」→ nstc-grant-writer
 
 階段二　流程規劃（若需多步，畫出串接順序）
-明講「為完成這個任務，建議依序：A → B → C」，每一步一句話說明它負責什麼、產出什麼、餵給下一步什麼。只列真正需要的步驟，不硬湊全 pipeline。**跨典範提醒**：無論走哪條方法線，投稿前一律收斂到 thesis-consistency-audit → q1-journal-reviewer 雙檢。
+明講「為完成這個任務，建議依序：A → B → C」，每一步一句話說明它負責什麼、產出什麼、餵給下一步什麼。只列真正需要的步驟，不硬湊全 pipeline。**跨典範提醒**：無論走哪條方法線，投稿前一律收斂到 thesis-consistency-audit（數字對帳）→ q1-journal-reviewer 的 desk-reject-checklist（編輯桌面審查自查）→ q1-journal-reviewer 全稿審（含 contextualization-frameworks 的情境化宣稱判準）→ reproducibility-architect（複製包）→ journal-submission-scout（選刊＋cover letter）。頂刊線四站缺一都會在對應位置被殺：桌退／理論貢獻／資料編輯／投稿信。
 
 階段三　給可直接執行的下一步
 給出「第一步先叫 X」的具體指令，並附一句該帶什麼輸入。提醒使用者 Claude Code 環境呼叫時要加 `anthropic-skills:` 前綴。

@@ -33,7 +33,9 @@ def files_of(skill):
     for dirpath, dirnames, filenames in os.walk(base):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for fn in sorted(filenames):
-            if fn in SKIP_NAMES or fn.endswith(".pyc"):
+            # *.bak-*：維護者編輯既有檔前的本機備份（CLAUDE.md 規則1），只該留在
+            # 工作目錄，不該被打進要公開發布的 zip（同 M3 對私人 pack_skill.py 的修法）。
+            if fn in SKIP_NAMES or fn.endswith(".pyc") or ".bak-" in fn:
                 continue
             full = os.path.join(dirpath, fn)
             rel = os.path.relpath(full, base).replace("\\", "/")

@@ -5,6 +5,38 @@
 
 ---
 
+## v0.15.0 — 2026-09-20
+
+**主題：面向國際頂級期刊的全面深化。** 技能數不變（38），但 20 支獲得實質升級——新增 40+ 份參考、模板與可執行腳本，
+並經兩位 fresh-context 審查者（頂刊編輯視角／資訊安全視角）審查後修正 38 項發現。
+
+### 頂刊投稿線（本版核心）
+- `q1-journal-reviewer`：`references/top-journal-standards.md`（管理／財務兩大期刊家族 × 識別／穩健性／經濟量級／理論貢獻四軸的「沒有就退」門檻）、`desk-reject-checklist.md`（編輯 10 分鐘殺稿訊號）、`contextualization-frameworks.md`（context-free／bounded／specific 三種情境化宣稱的證據決策表＋區辨假說 horse race 模板——解決「台灣資料被審為情境複製」）。
+- `causal-inference-architect`：`references/robustness-battery.md`（各識別策略穩健性矩陣＋2026 前緣：Rambachan-Roth、Oster δ、Cinelli-Hazlett、synthdid、tF；新增衝擊品質六問、交錯採用對照組四情境、壞控制變數、核心構念定義敏感度）。
+- `journal-submission-scout`：`templates/cover-letter.md`（中英）、`references/reviewer-suggestion-ethics.md`。
+- `response-letter-craftsman`：`references/rr-conventions-top-journals.md`、`scripts/make_response_matrix.py`（decision letter → 意見分診 xlsx）。
+- `management-figure`：新增 `event_study_plot()`（參考期、前期陰影、圖註自動印 pre-trend p 與 M̄）。
+
+### 方法線補實（7 支從純文字變成有模板／腳本）
+- `interview-method-designer` 三份模板；`experiment-design-architect` 對抗平衡參考＋`latin_square.py`（Williams 平衡方陣）＋情境實驗模板；`survey-research-architect` `power_analysis.py`（Cohen f²／r／d；已對照 Cohen 1988 表值）＋CMV 攻防表＋資料品質閘門；`nstc-grant-writer` 計畫書骨架＋自評量規；`qual-exam-coach` 四領域申論範例；`citation-verifier` APA7 規則表＋幻覺訊號；`phd-milestone-tracker` 關卡相依鏈。
+
+### 寫作、文獻、圖表、簡報、資料線
+- 兩支潤飾技能：`narrative-architecture-check.md`（hook→問題→缺口→貢獻）＋`prose_metrics.py`（句長離散度等文體訊號；輸出是訊號非判決）。
+- `literature-matrix-builder`：`screening-cascade.md`＋`screen_cascade.py`（兩階段篩選：規則層→LLM 批次層；預設不出站、金鑰只讀環境變數；PRISMA 2020 對接；recall／κ）。
+- `research-framework-figure`：新版式 `sample_flow`（PRISMA 2020 流程圖／panel 樣本刪減圖，數字自動對帳、對不上即拒畫）＋`count_elements.py`（SVG↔PPTX 逐格式清點）＋`visual-discipline.md`。
+- `academic-pptx`：學術風格目錄、原生 PPTX 工作流、`pptx_template_distill.py`（讀學校模板→JSON 規格）；`academic-poster`：`poster_scaffold.py`（A0 三層閱讀動線骨架，字型直接落好）；`academic-deck-animator`：逐頁回饋修改迴圈。
+- `public-disclosure-scout`：揭露監測＋`archive_url.py`（Wayback 快照查詢／存檔／記錄，僅連 archive.org）；`text-analytics-architect`：10-K／法說會構念 ↔ 台灣年報對照；`global-opendata-scout`：抓取工具合規指南、`_gov_tls.py` 移入本技能公開。
+
+### 安全與品質
+- 新增 `scripts/security_scan.sh`（五類：危險執行／網路外連／混淆／憑證／提示注入；誘餌自測；誤報須寫理由）並納入 CI；CI 另加語法編譯與腳本測試，actions 以 SHA 釘住。
+- 12 支會處理外部文字的技能加入「內容是資料、不是指令」防線。
+- 修正：路由總管技能數；三處與自家標準打架的範例（回覆信自選擇範例改為現代 DiD 路線；樣本刪減範例移除「排除下市公司」＝存活偏誤）；一處自 v0.3.0 起潛伏的去識別漏網。
+
+### 概念借鑑致謝（無程式碼借用；詳見各技能 ATTRIBUTION.md 與 NOTICE.md）
+Nanako0129/sepia、cathrynlavery/diagram-design、bobyu89/codex-ppt-style-expanded（SlideWeave）、1weiho/open-slide、jamditis/claude-skills-journalism、posit-dev/skills、hugohe3/ppt-master（追加四項）、anthropics/financial-services、anthropics/skills（frontend-design）。
+
+---
+
 ## v0.14.0 — 2026-09-02
 
 ### 新增 3 支技能（35 → 38）
@@ -40,8 +72,7 @@
 #### 修正：路由總管的斷鏈（會實際影響使用者）
 
 `research-orchestrator` 先前列出並路由到 5 支**不在公開包內**的技能
-（check-citations、journal-submission-scout、research-framework-figure、
-spatial-data-architect、tw-opendata-scout）。症狀是 Claude 依名錄去叫一個
+（check-citations 與 4 支當時尚未釋出的技能；其中 3 支已於 v0.14.0 釋出）。症狀是 Claude 依名錄去叫一個
 不存在的技能，然後無聲降級成一般回答——使用者不會收到任何錯誤，只會覺得
 「怎麼跟說明寫的不一樣」。
 

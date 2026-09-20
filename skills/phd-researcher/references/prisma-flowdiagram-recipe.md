@@ -1,10 +1,35 @@
-# PRISMA 2020 流程圖一鍵產出配方(2026-07 新增)
+# PRISMA 2020 流程圖一鍵產出配方(2026-07 新增；2026-09-20 補上本機產生選項)
 
-篩選數字對帳通過後(四階段加減平衡),流程圖不必手畫。官方認可工具:
-[prisma-flowdiagram/PRISMA2020](https://github.com/prisma-flowdiagram/PRISMA2020)
+篩選數字對帳通過後(四階段加減平衡),流程圖不必手畫。以下兩條路線並列：
+
+## 路線零:本機產生（建議，2026-09-20 新增）
+
+`research-framework-figure` 技能的 `scripts/framework_figure.py` 支援
+`template: "sample_flow"` 搭配 `mode: "prisma"`，可在本機直接產出 PRISMA
+2020 流程圖的 SVG（可用 Illustrator/Inkscape 編修、可直接插入 Word）與
+PPTX（口試前可在 PowerPoint 內直接改字改框），不需連外部網站、不需安裝 R：
+
+1. 依 `research-framework-figure/references/framework-figure-spec.md` 的
+   「`sample_flow`」一節寫規格 JSON：`identification.sources`（各資料庫／
+   追蹤引用各自的 n）、`screening.excluded`、`retrieval.not_retrieved`、
+   `eligibility.excluded_reasons`（依理由分列）。範例見
+   `research-framework-figure/scripts/examples/example-sample-flow-prisma.json`。
+2. 執行：
+   ```bash
+   python research-framework-figure/scripts/framework_figure.py prisma_spec.json -o prisma.svg
+   python research-framework-figure/scripts/framework_figure.py prisma_spec.json -o prisma.pptx --format pptx
+   ```
+3. 程式會自動對帳（每個階段框的 n 由原始輸入算出，算出負數即報錯、不會
+   畫出對不上的圖），對帳通過才會產出檔案——與本檔「先對帳後畫圖」的硬
+   規則是同一件事，只是換成本機工具做。
+4. Claude Code 環境呼叫需加 `anthropic-skills:` 前綴指到
+   `research-framework-figure` 技能；跨技能寫法為「請用
+   `research-framework-figure` 的 `sample_flow`／`prisma` 版式畫 PRISMA 圖」。
+
+## 路線一:線上工具（替代方案）——零安裝網頁版
+
+官方認可工具：[prisma-flowdiagram/PRISMA2020](https://github.com/prisma-flowdiagram/PRISMA2020)
 (R 套件+Shiny 網頁版,出處:Haddaway et al., 2022, *Campbell Systematic Reviews*)。
-
-## 路線一:零安裝網頁版(推薦初次使用)
 
 https://estech.shinyapps.io/prisma_flowdiagram/
 填四階段數字 → 即時預覽 → 下載 PDF/PNG/SVG。適合一次性使用;

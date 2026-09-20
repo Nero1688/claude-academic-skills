@@ -1,0 +1,28 @@
+{
+  "_說明": "篩選準則模板。填完後把 version 與 frozen_date 定案、不要再改——要改準則就升版號，不要靜默覆寫舊版。version/frozen_date 會被寫進 stage2 的 system prompt,讓每一批 LLM 判斷都留得住是用哪一版準則做的。",
+  "version": "0.1.0",
+  "frozen_date": "YYYY-MM-DD",
+  "topic": "（例：家族企業控制權與 ESG 揭露品質的關聯）",
+  "include_any": [
+    "family firm",
+    "family business",
+    "家族企業"
+  ],
+  "exclude_any": [
+    "retracted",
+    "erratum",
+    "withdrawn"
+  ],
+  "year_min": 2000,
+  "year_max": 2026,
+  "allowed_languages": ["en", "zh"],
+  "notes": "include_any / exclude_any 為布林 OR、大小寫不敏感、純英數關鍵字用詞界比對；含中文或連字號的關鍵字退回子字串比對，準則要避免太短的中文詞（例如單一個「家」字）以免誤中。year_min/year_max 任一為 null 代表不限制該端；缺年份的記錄一律視為落在範圍外（保守處理，不可驗證就不放行）。allowed_languages 用粗估（非 ASCII 字母比例），不是語言學等級的判斷。",
+  "reviewers": {
+    "screener_1": "",
+    "screener_2": ""
+  },
+  "registration": {
+    "prospero_or_osf_id": "",
+    "note": "頂刊審稿常見扣分點：準則事後追加。建議在 PROSPERO 或 OSF 預先註冊本檔的 frozen_date 版本，之後若真的要修準則，另存新版號並在論文方法節說明修改理由與時間點。"
+  }
+}

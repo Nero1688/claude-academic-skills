@@ -43,7 +43,32 @@ DOAJ = "https://doaj.org/api/search/journals"
 CROSSREF = "https://api.crossref.org/journals"
 
 
-def _session():
+def _make_tls_session():
+    """建立套用政府/學術站台 TLS 相容層的 requests.Session。
+
+    M2 修復（2026-09-20）：優先從 global-opendata-scout/scripts/_gov_tls.py
+    （單一正本，公開）匯入 make_session；本檔與該技能是手足目錄，共用同一份
+    實作可避免像過去那樣三份各自維護、彼此漂移（見 _gov_tls.py 檔頭說明）。
+    若使用者只單獨安裝了 journal-submission-scout、沒有一併裝
+    global-opendata-scout（.skill 包可分別安裝），退回本檔內建的等效實作，
+    不因缺依賴而整支腳本不能用。兩份實作的安全性質相同：只解除 RFC 5280
+    的 VERIFY_X509_STRICT 嚴格旗標，仍完整保留憑證鏈與主機名驗證，絕不
+    verify=False。
+    """
+    import pathlib
+
+    shared_dir = (
+        pathlib.Path(__file__).resolve().parents[2]
+        / "global-opendata-scout" / "scripts"
+    )
+    if str(shared_dir) not in sys.path:
+        sys.path.insert(0, str(shared_dir))
+    try:
+        from _gov_tls import make_session  # noqa: E402
+        return make_session()
+    except ImportError:
+        pass  # 退回下方內建等效實作
+
     try:
         import requests
         from requests.adapters import HTTPAdapter
@@ -60,10 +85,21 @@ def _session():
             kw["ssl_context"] = ctx
             self.poolmanager = PoolManager(num_pools=c, maxsize=m, block=block, **kw)
 
-    import os
+        def proxy_manager_for(self, proxy, **kw):
+            ctx = ssl.create_default_context()
+            ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT
+            kw["ssl_context"] = ctx
+            return super().proxy_manager_for(proxy, **kw)
 
     s = requests.Session()
     s.mount("https://", _Adapter())
+    return s
+
+
+def _session():
+    import os
+
+    s = _make_tls_session()
     mail = os.environ.get("CROSSREF_MAILTO", "").strip()
     s.headers.update({
         "User-Agent": "journal-submission-scout/1.0 (academic use)"

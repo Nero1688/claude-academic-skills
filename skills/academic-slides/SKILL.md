@@ -293,6 +293,7 @@ Users can select a theme in **two ways**:
 | Thesis Defense | Formal, institution-branded | Thesis/dissertation defense |
 | Seminar | Informal, relaxed | Lab meetings, reading groups |
 | Journal Article | Paper-style layout | Research presentations |
+若簡報用於嚴謹學術場合(口試、期刊審查會等),可交叉參考 academic-pptx 技能的 `references/academic-style-catalog.md` 風格目錄,作為挑選以上 Beamer 主題的輔助對照。
 
 ### Step 2.0: Style Path Selection
 

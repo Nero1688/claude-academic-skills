@@ -14,3 +14,14 @@ https://github.com/qqfly1to19/awesome_proofreading_auto
   論文 + APA 7 + TEJ。
 - 依 CC BY-NC-SA 4.0 之「相同方式分享」條款,本衍生技能亦以 CC BY-NC-SA 4.0 釋出,
   供個人學術(非商業)使用。
+
+## 補充概念來源(2026-09-20 新增)
+
+- **jamditis/claude-skills-journalism**
+  (https://github.com/jamditis/claude-skills-journalism,MIT,
+  2026-09-20 實抓 LICENSE:`/blob/master/LICENSE`)
+  第六維度(引用與表註一致)新增的「網頁來源存檔紅旗」規則,概念上借鏡自該專案
+  的引用網頁存檔留底思路——論文引用的網頁來源應可事後驗證,而非僅憑一次性連結。
+  本技能僅汲取此**概念**寫成稽核規則,**未複製其任何程式碼**;實際存檔操作由
+  `public-disclosure-scout` 的 `scripts/archive_url.py` 執行,本技能只負責稽核
+  「有沒有附存檔證據」,不重複實作存檔功能。

@@ -30,8 +30,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from typing import Any
+
+# L1 修復(2026-09-20)：本檔原本完全沒有 Windows 主控台編碼保護，cp950 主控台印
+# 「成功：已輸出…（版式…）」這類訊息時可能 UnicodeEncodeError；統一比照家族寫法。
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 
 # ── 版面常數（可由 spec 的 style 區塊覆寫）──────────────────────────────
 DEFAULTS = {
@@ -56,6 +65,8 @@ TEMPLATES = {
     "moderation": "調節模型 W 調節 X→Y（調節箭頭指向路徑中點）",
     "moderated_mediation": "被調節的中介 X→M→Y，W 調節其中一條路徑",
     "serial_mediation": "序列中介 X→M1→M2→Y",
+    "sample_flow": "樣本流程圖，mode=prisma（PRISMA 2020 文獻回顧流程圖）"
+                   " 或 mode=attrition（樣本刪減圖）",
 }
 
 
@@ -344,6 +355,263 @@ def layout_generic(spec: dict, st: dict) -> tuple[str, float, float]:
     return "\n".join(parts), W, H
 
 
+# ── 版式：樣本流程圖（sample_flow：PRISMA 2020／樣本刪減圖）──────────────
+def _sample_flow_error(msg: str) -> None:
+    """sample_flow 專用的錯誤出口：印清楚訊息＋非零 exit code，絕不靜默放行。
+
+    呼應本技能家族的教訓——數字或規格對不上時，禁止「先畫出來再說」。
+    """
+    print(f"錯誤：{msg}", file=sys.stderr)
+    raise SystemExit(1)
+
+
+def _prisma_reconcile(spec: dict) -> dict:
+    """驗證並算出 prisma mode 每個階段框要顯示的 n。
+
+    設計取向：單一事實來源——使用者只填「原始的來源數／排除數」，每個階段框
+    顯示的 n 一律由程式算出，不再另外要求使用者填一次算式結果。這樣就不會有
+    「兩份數字都填、但剛好填成同一個錯值」而對帳通過的假象；任一步驟算出負數
+    （代表排除數超過可排除的樣本），直接視為對帳失敗。
+    """
+    ident = spec.get("identification") or {}
+    sources = ident.get("sources") or []
+    if not sources:
+        _sample_flow_error("sample_flow(prisma) 缺少 identification.sources（至少一筆來源）")
+    for i, s in enumerate(sources):
+        if "label" not in s or "n" not in s:
+            _sample_flow_error(f"identification.sources[{i}] 需含 label 與 n 兩個欄位")
+
+    dup = int(ident.get("duplicates_removed", 0))
+    # PRISMA 2020 識別框的第二項：「自動化工具判定不合格之記錄」（records marked as
+    # ineligible by automation tools）。對接 literature-matrix-builder 的 stage1 規則層
+    # （年份／語言／關鍵字等確定性規則排除，rule != duplicate_doi）；沒有就填 0。
+    automation_excluded = int(ident.get("automation_excluded", 0))
+    if dup < 0 or automation_excluded < 0:
+        _sample_flow_error("identification.duplicates_removed 與 automation_excluded 不可為負數")
+    screening = spec.get("screening") or {}
+    retrieval = spec.get("retrieval") or {}
+    eligibility = spec.get("eligibility") or {}
+    included_spec = spec.get("included") or {}
+
+    reasons = eligibility.get("excluded_reasons") or []
+    for i, r in enumerate(reasons):
+        if "reason" not in r or "n" not in r:
+            _sample_flow_error(f"eligibility.excluded_reasons[{i}] 需含 reason 與 n 兩個欄位")
+
+    total_identified = sum(int(s["n"]) for s in sources)
+    screened_n = total_identified - dup - automation_excluded
+    scr_excluded = int(screening.get("excluded", 0))
+    sought_n = screened_n - scr_excluded
+    not_retrieved = int(retrieval.get("not_retrieved", 0))
+    assessed_n = sought_n - not_retrieved
+    elig_excluded_total = sum(int(r["n"]) for r in reasons)
+    included_n = assessed_n - elig_excluded_total
+
+    for label, val in (
+        ("records screened（已識別扣除重複與自動化工具判定不合格後）", screened_n),
+        ("reports sought（篩選後扣除篩選排除）", sought_n),
+        ("reports assessed（檢索後扣除無法取得）", assessed_n),
+        ("studies included（資格評估後扣除資格排除）", included_n),
+    ):
+        if val < 0:
+            _sample_flow_error(
+                f"PRISMA 對帳失敗：{label} 計算結果為 {val}（負數）。"
+                f"排除或重複數超過了上一階段可排除的樣本數，請檢查輸入數字。"
+            )
+
+    return {
+        "sources": sources, "dup": dup, "automation_excluded": automation_excluded,
+        "ident": ident, "total_identified": total_identified,
+        "screened_n": screened_n, "scr_excluded": scr_excluded,
+        "sought_n": sought_n, "not_retrieved": not_retrieved,
+        "assessed_n": assessed_n, "reasons": reasons,
+        "elig_excluded_total": elig_excluded_total, "included_n": included_n,
+        "screening": screening, "retrieval": retrieval,
+        "eligibility": eligibility, "included_spec": included_spec,
+    }
+
+
+def _prisma_boxes(spec: dict, st: dict) -> dict:
+    """建出 prisma mode 的方框幾何（SVG 與 PPTX 共用同一份定位結果）。"""
+    g = _prisma_reconcile(spec)
+    mg = st["margin"]
+    col_gap_v = 55       # 主欄方框上下間距
+    side_gap_h = 90      # 主欄到右側排除框的水平間距
+    stage_w = 46         # 左側直式階段標籤預留寬度
+
+    src_items = [f"{s['label']}（n={s['n']}）" for s in g["sources"]]
+    src_items.append(f"小計 n={g['total_identified']}")
+    b_identified = Box("已識別之記錄", src_items, st, min_w=260)
+    dup_items = [f"移除重複記錄（n={g['dup']}）"]
+    if g["automation_excluded"] > 0 or "automation_excluded" in g["ident"]:
+        auto_label = g["ident"].get("automation_excluded_label", "自動化工具判定不合格")
+        dup_items.append(f"{auto_label}（n={g['automation_excluded']}）")
+    b_dup = Box("移除重複與不合格記錄", dup_items, st, min_w=260)
+    b_screened = Box("篩選之記錄", [f"n = {g['screened_n']}"], st, min_w=260)
+    b_sought = Box("尋求檢索之報告", [f"n = {g['sought_n']}"], st, min_w=260)
+    b_assessed = Box("評估資格之報告", [f"n = {g['assessed_n']}"], st, min_w=260)
+    included_label = g["included_spec"].get("label", "納入之研究")
+    b_included = Box(included_label, [f"n = {g['included_n']}"], st, min_w=260)
+    main = [b_identified, b_dup, b_screened, b_sought, b_assessed, b_included]
+
+    chain_w = max(b.w for b in main)
+    x_main = mg + stage_w + 30
+    y = mg
+    for b in main:
+        b.x = x_main + (chain_w - b.w) / 2
+        b.y = y
+        y += b.h + col_gap_v
+
+    excl_label = g["screening"].get("excluded_label", "篩選排除")
+    b_scr = Box(excl_label, [f"n = {g['scr_excluded']}"], st, min_w=200)
+    nr_label = g["retrieval"].get("not_retrieved_label", "無法取得全文")
+    b_nr = Box(nr_label, [f"n = {g['not_retrieved']}"], st, min_w=200)
+    reasons_items = [f"{r['reason']}（n={r['n']}）" for r in g["reasons"]] or ["（未提供排除理由）"]
+    elig_label = g["eligibility"].get("label", "資格排除（依理由）")
+    b_elig = Box(elig_label, reasons_items, st, min_w=240)
+    side = [b_scr, b_nr, b_elig]
+
+    x_side = x_main + chain_w + side_gap_h
+    b_scr.x, b_scr.y = x_side, b_screened.cy - b_scr.h / 2
+    b_nr.x, b_nr.y = x_side, b_sought.cy - b_nr.h / 2
+    b_elig.x, b_elig.y = x_side, b_assessed.cy - b_elig.h / 2
+
+    arrows = [
+        (main[i], "bottom", main[i + 1], "top", False) for i in range(len(main) - 1)
+    ]
+    arrows += [
+        (b_screened, "right", b_scr, "left", False),
+        (b_sought, "right", b_nr, "left", False),
+        (b_assessed, "right", b_elig, "left", False),
+    ]
+
+    ident_y0, ident_y1 = b_identified.y, b_dup.y + b_dup.h
+    scr_y0 = b_screened.y
+    scr_y1 = max(b_assessed.y + b_assessed.h, b_elig.y + b_elig.h)
+    inc_y0, inc_y1 = b_included.y, b_included.y + b_included.h
+    lx = mg + stage_w / 2 + 10
+    stage_labels = [
+        {"text": "Identification", "lx": lx, "y0": ident_y0, "y1": ident_y1,
+         "cx": lx, "cy": (ident_y0 + ident_y1) / 2},
+        {"text": "Screening", "lx": lx, "y0": scr_y0, "y1": scr_y1,
+         "cx": lx, "cy": (scr_y0 + scr_y1) / 2},
+        {"text": "Included", "lx": lx, "y0": inc_y0, "y1": inc_y1,
+         "cx": lx, "cy": (inc_y0 + inc_y1) / 2},
+    ]
+
+    all_boxes = main + side
+    W = max(b.x + b.w for b in all_boxes) + mg
+    H = max(b.y + b.h for b in all_boxes) + mg
+    return {"main": main, "side": side, "arrows": arrows,
+            "stage_labels": stage_labels, "W": W, "H": H}
+
+
+def _attrition_boxes(spec: dict, st: dict) -> dict:
+    """建出 attrition mode 的方框幾何（SVG 與 PPTX 共用同一份定位結果）。
+
+    自動對帳（不可省略）：對每一步 i（i>=1）檢查
+    「上一步 remaining − 這一步 excluded == 這一步 remaining」，
+    只要有一步不成立就印出清楚錯誤（第幾步、期望值、實際值）並以非零
+    exit code 結束，不畫出對不上的圖。
+    """
+    unit = spec.get("unit", "筆")
+    steps = spec.get("steps") or []
+    if len(steps) < 2:
+        _sample_flow_error("sample_flow(attrition) 的 steps 至少需要 2 筆（起始樣本＋至少一次篩選）")
+    for i, s in enumerate(steps):
+        if "label" not in s or "remaining" not in s:
+            _sample_flow_error(f"steps[{i}] 缺少必要欄位 label 或 remaining")
+
+    for i in range(1, len(steps)):
+        prev_remaining = int(steps[i - 1]["remaining"])
+        excluded = int(steps[i].get("excluded", 0))
+        remaining = int(steps[i]["remaining"])
+        expected = prev_remaining - excluded
+        if expected != remaining:
+            _sample_flow_error(
+                f"樣本刪減對帳失敗於第 {i + 1} 步（{steps[i].get('label', '')}）："
+                f"上一步剩餘 {prev_remaining} − 本步排除 {excluded} = {expected}，"
+                f"但規格填的 remaining 是 {remaining}，兩者不一致，請檢查數字。"
+            )
+
+    mg = st["margin"]
+    col_gap_v = 55
+    side_gap_h = 90
+
+    main = []
+    for i, s in enumerate(steps):
+        header = s["label"]
+        if i == len(steps) - 1:
+            header = f"{header}（最終樣本）"
+        items = [f"N = {int(s['remaining']):,} {unit}"]
+        main.append(Box(header, items, st, min_w=280))
+
+    chain_w = max(b.w for b in main)
+    x_main = mg
+    y = mg
+    for b in main:
+        b.x = x_main + (chain_w - b.w) / 2
+        b.y = y
+        y += b.h + col_gap_v
+
+    side, targets = [], []
+    for i in range(1, len(steps)):
+        excluded = int(steps[i].get("excluded", 0))
+        reason = steps[i].get("reason", "")
+        items = [f"排除 n = {excluded}：{reason}"] if reason else [f"排除 n = {excluded}"]
+        b = Box("排除說明", items, st, min_w=220)
+        side.append(b)
+        targets.append(main[i])
+
+    x_side = x_main + chain_w + side_gap_h
+    for b, target in zip(side, targets):
+        b.x = x_side
+        b.y = target.cy - b.h / 2
+
+    arrows = [(main[i], "bottom", main[i + 1], "top", False) for i in range(len(main) - 1)]
+    arrows += [(target, "right", b, "left", False) for b, target in zip(side, targets)]
+
+    all_boxes = main + side
+    W = max(b.x + b.w for b in all_boxes) + mg
+    H = max(b.y + b.h for b in all_boxes) + mg
+    return {"main": main, "side": side, "arrows": arrows, "stage_labels": [], "W": W, "H": H}
+
+
+def _layout_sample_flow_boxes(spec: dict, st: dict) -> dict:
+    """依 mode 分派到 prisma／attrition 的幾何建構；未知 mode 直接報錯（不設預設值）。"""
+    mode = spec.get("mode")
+    if mode == "prisma":
+        return _prisma_boxes(spec, st)
+    if mode == "attrition":
+        return _attrition_boxes(spec, st)
+    _sample_flow_error(
+        f"template 'sample_flow' 需要 mode 欄位為 'prisma' 或 'attrition'（收到：{mode!r}）"
+    )
+
+
+def layout_sample_flow(spec: dict, st: dict) -> tuple[str, float, float]:
+    """樣本流程圖（PRISMA 2020 / 樣本刪減圖）。所有框、箭頭、標籤皆為具體 SVG
+    元素（<rect>/<path>/<line>/<text>），供 count_elements.py 逐格式清點比對。
+    """
+    geo = _layout_sample_flow_boxes(spec, st)
+    parts = [b.svg() for b in geo["main"] + geo["side"]]
+    for fb, fs, tb, ts, dashed in geo["arrows"]:
+        parts.append(arrow(fb.anchor(fs), tb.anchor(ts), st, dashed=dashed))
+    for lab in geo.get("stage_labels", []):
+        lx, y0, y1 = lab["lx"], lab["y0"], lab["y1"]
+        parts.append(
+            f'<line x1="{lx:.1f}" y1="{y0:.1f}" x2="{lx:.1f}" y2="{y1:.1f}" '
+            f'stroke="{st["stroke"]}" stroke-width="1"/>'
+        )
+        parts.append(
+            f'<text x="{lab["cx"]:.1f}" y="{lab["cy"]:.1f}" text-anchor="middle" '
+            f'font-family="{esc(st["font_family"])}" font-size="{st["font_size_header"]}" '
+            f'font-weight="bold" fill="{st["text_color"]}" '
+            f'transform="rotate(-90 {lab["cx"]:.1f} {lab["cy"]:.1f})">{esc(lab["text"])}</text>'
+        )
+    return "\n".join(parts), geo["W"], geo["H"]
+
+
 def build_svg(spec: dict) -> str:
     st = dict(DEFAULTS)
     st.update(spec.get("style", {}))
@@ -351,6 +619,8 @@ def build_svg(spec: dict) -> str:
 
     if tpl == "mediation_dual_controls":
         body, W, H = layout_mediation_dual_controls(spec, st)
+    elif tpl == "sample_flow":
+        body, W, H = layout_sample_flow(spec, st)
     else:
         body, W, H = layout_generic(spec, st)
 
@@ -378,7 +648,7 @@ def build_svg(spec: dict) -> str:
 
 
 # ── PPTX 匯出（可選，需 python-pptx）────────────────────────────────────
-def build_pptx(spec: dict, out_path: str) -> None:
+def build_pptx(spec: dict, out_path: str, allow_partial: bool = False) -> None:
     try:
         from pptx import Presentation
         from pptx.util import Emu, Pt
@@ -417,12 +687,19 @@ def build_pptx(spec: dict, out_path: str) -> None:
     tpl = spec.get("template", "mediation")
     if tpl == "mediation_dual_controls":
         _, W, H = layout_mediation_dual_controls(spec, st)
+    elif tpl == "sample_flow":
+        _, W, H = layout_sample_flow(spec, st)
     else:
         _, W, H = layout_generic(spec, st)
 
     # 重建 Box 幾何以放置 PPTX 圖形
     boxes: list[Box] = []
-    if tpl == "mediation_dual_controls":
+    stage_labels_for_pptx: list[dict] = []
+    if tpl == "sample_flow":
+        _sf_geo = _layout_sample_flow_boxes(spec, st)
+        boxes = _sf_geo["main"] + _sf_geo["side"]
+        stage_labels_for_pptx = _sf_geo.get("stage_labels", [])
+    elif tpl == "mediation_dual_controls":
         m = Box(spec["m"]["label"], spec["m"].get("items", []), st)
         xb = Box(spec["x"]["label"], spec["x"].get("items", []), st, min_w=250)
         yb = Box(spec["y"]["label"], spec["y"].get("items", []), st, min_w=330)
@@ -496,7 +773,16 @@ def build_pptx(spec: dict, out_path: str) -> None:
                     set_font(tf.paragraphs[0].runs[0], st["font_size_hypo"] * 0.62)
                 arrows_added += 1
     except ImportError as e:
-        print(f"警告：svg2drawingml 載入失敗（{e}），本次 PPTX 將不含箭頭。")
+        if not allow_partial:
+            print(
+                f"已中止：缺 svg2drawingml，PPTX 會靜默丟箭頭（{e}）。\n"
+                "         若確定要接受這個殘缺結果，請加 --allow-partial。"
+                "（M9 修復：舊版只印警告仍 exit 0，容易被忽略）",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+        print(f"警告：svg2drawingml 載入失敗（{e}），本次 PPTX 將不含箭頭"
+              "（--allow-partial 已明確接受此殘缺結果）。")
 
     for b in boxes:
         shp = slide.shapes.add_shape(
@@ -520,6 +806,23 @@ def build_pptx(spec: dict, out_path: str) -> None:
             p = tf.add_paragraph()
             p.text = (f"{i}. " if numbered else "") + it
             set_font(p.runs[0], st["font_size_item"] * 0.62)
+
+    # sample_flow(prisma) 左側直式階段標籤（Identification／Screening／Included）：
+    # 這些不是 Box 也不是 conn 箭頭，走一般 SVG 掃描路徑會被略過，因此另外
+    # 用原生 textbox 補上，確保 SVG 與 PPTX 兩邊都看得到這三個標籤。
+    for lab in stage_labels_for_pptx:
+        tb = slide.shapes.add_textbox(
+            Emu(int((lab["cx"] - 60) * scale)),
+            Emu(int((lab["cy"] - 14) * scale)),
+            Emu(int(120 * scale)),
+            Emu(int(28 * scale)),
+        )
+        tb.rotation = -90
+        tf = tb.text_frame
+        tf.word_wrap = False
+        tf.paragraphs[0].text = lab["text"]
+        if tf.paragraphs[0].runs:
+            set_font(tf.paragraphs[0].runs[0], st["font_size_header"] * 0.62)
 
     prs.save(out_path)
 
@@ -563,10 +866,13 @@ def main() -> int:
 """,
     )
     ap.add_argument("spec", nargs="?", help="JSON 規格檔路徑")
-    ap.add_argument("-o", "--output", help="輸出檔路徑（.svg 或 .pptx）")
+    ap.add_argument("-o", "--output",
+                     help="輸出檔路徑（.svg 或 .pptx；預設 ./output/framework.svg，M4 修復：不直接寫 cwd）")
     ap.add_argument("--format", choices=["svg", "pptx"], help="輸出格式（預設依副檔名）")
     ap.add_argument("--demo", action="store_true", help="用內建示範規格產圖")
     ap.add_argument("--list-templates", action="store_true", help="列出可用版式")
+    ap.add_argument("--allow-partial", action="store_true",
+                     help="缺 svg2drawingml 時仍輸出無箭頭的 PPTX(預設中止；M9 修復)")
     a = ap.parse_args()
 
     if a.list_templates:
@@ -591,16 +897,23 @@ def main() -> int:
         ap.print_help()
         return 1
 
-    out = a.output or "framework.svg"
+    if a.output:
+        out = a.output
+    else:
+        os.makedirs("output", exist_ok=True)
+        out = os.path.join("output", "framework.svg")
+        print(f"[提醒] 未指定 -o/--output，輸出預設寫到 {out}", file=sys.stderr)
     fmt = a.format or ("pptx" if out.lower().endswith(".pptx") else "svg")
 
-    for key in ("x", "y"):
-        if key not in spec:
-            print(f"錯誤：規格缺少必要欄位 '{key}'", file=sys.stderr)
-            return 1
+    # sample_flow 不是 X/M/Y 假說路徑圖，沒有 x/y 欄位，故排除在此檢查之外。
+    if spec.get("template") != "sample_flow":
+        for key in ("x", "y"):
+            if key not in spec:
+                print(f"錯誤：規格缺少必要欄位 '{key}'", file=sys.stderr)
+                return 1
 
     if fmt == "pptx":
-        build_pptx(spec, out)
+        build_pptx(spec, out, allow_partial=a.allow_partial)
     else:
         with open(out, "w", encoding="utf-8") as f:
             f.write(build_svg(spec))

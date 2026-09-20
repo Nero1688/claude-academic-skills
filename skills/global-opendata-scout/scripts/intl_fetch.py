@@ -38,40 +38,22 @@ import argparse
 import csv
 import json
 import os
-import ssl
 import sys
 
 try:
     import requests
-    from requests.adapters import HTTPAdapter
-    from urllib3.poolmanager import PoolManager
 except ImportError:
     print("錯誤：需要 requests 套件。請執行：pip install requests", file=sys.stderr)
     sys.exit(1)
 
-
-class _RelaxedStrictAdapter(HTTPAdapter):
-    """解除 VERIFY_X509_STRICT，仍完整保留憑證鏈與主機名驗證。
-
-    部分官方統計站的憑證鏈不符 Python 3.13+ 預設的 RFC 嚴格檢查。
-    同 本家族的政府網站 TLS 連線慣例 的作法——**絕不使用 verify=False**。
-    """
-
-    def _ctx(self) -> ssl.SSLContext:
-        ctx = ssl.create_default_context()
-        ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT
-        return ctx
-
-    def init_poolmanager(self, connections, maxsize, block=False, **kw):
-        kw["ssl_context"] = self._ctx()
-        self.poolmanager = PoolManager(
-            num_pools=connections, maxsize=maxsize, block=block, **kw
-        )
+# M2 修復（2026-09-20）：TLS 相容層改用同資料夾的單一正本 _gov_tls.py，
+# 不再各自內嵌一份（舊版此處的 _RelaxedStrictAdapter 缺 proxy_manager_for
+# 覆寫，公司機走 proxy 時不會套用相容層，見 _gov_tls.py 檔頭說明）。
+from _gov_tls import make_session as _make_gov_session
 
 
 def session() -> requests.Session:
-    s = requests.Session()
-    s.mount("https://", _RelaxedStrictAdapter())
+    s = _make_gov_session()
     mail = os.environ.get("CONTACT_MAILTO", "").strip()
     s.headers.update(
         {"User-Agent": "global-opendata-scout/1.0 (academic research)"

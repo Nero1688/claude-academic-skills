@@ -34,7 +34,14 @@ if [ -f "$PRIVATE" ]; then
     scan "私密樣式" "$pat"
   done < "$PRIVATE"
 else
-  echo; echo "[i] 未找到私密樣式檔($PRIVATE),僅執行通用掃描。"
+  if [ "${SANITIZE_CI:-0}" = "1" ]; then
+    echo; echo "[i] 未找到私密樣式檔($PRIVATE),僅執行通用掃描(SANITIZE_CI=1,CI 環境本無私密檔,放行)。"
+  else
+    echo; echo "[FAIL] 未找到私密樣式檔($PRIVATE)——本機掃描無效(H3)。"
+    echo "       這台機器可能沒有 clone PRIVATE_do_not_upload/,私密樣式一律不會被攔到。"
+    echo "       若確定是 CI 環境(本來就沒有私密檔),請設定環境變數 SANITIZE_CI=1。"
+    hit=1
+  fi
 fi
 echo
 if [ "$hit" -eq 0 ]; then echo "OK: 未命中。仍建議人工複查 README 與各 SKILL.md。"; else echo "WARN: 有命中,請逐條確認後再 push。"; fi

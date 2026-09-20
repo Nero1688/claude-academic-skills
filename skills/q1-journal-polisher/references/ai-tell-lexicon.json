@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "purpose": "訊號不是判決；目的是審稿人可讀性，非規避偵測。這份詞表供 scripts/prose_metrics.py 計算過渡詞／AI 慣用語密度用，兩語言各一組，可自行擴充。詞表內容取自 q1-journal-polisher 與 academic-journal-polisher 兩支 SKILL.md 既有列出的高風險詞，不另外新增未經雙方驗證的詞。",
+    "usage": "matching is case-insensitive for en, exact substring for zh",
+    "last_verified": "2026-09-20"
+  },
+  "en": {
+    "transition_overuse": [
+      "moreover",
+      "furthermore",
+      "additionally",
+      "in addition",
+      "on the other hand",
+      "on one hand"
+    ],
+    "ai_tell_phrases": [
+      "delve into",
+      "leverage",
+      "showcase",
+      "unpack",
+      "in today's rapidly evolving landscape",
+      "in an era of",
+      "it is worth noting that",
+      "crucial",
+      "pivotal",
+      "robust",
+      "sheds light on",
+      "paves the way for",
+      "a testament to",
+      "plays a pivotal role",
+      "underscores the importance of",
+      "it is important to note that"
+    ]
+  },
+  "zh": {
+    "transition_overuse": [
+      "此外",
+      "再者",
+      "另一方面",
+      "綜上所述",
+      "基於上述"
+    ],
+    "ai_tell_phrases": [
+      "值得注意的是",
+      "在當今數位時代",
+      "顯而易見",
+      "不可否認",
+      "不可忽視的是",
+      "毋庸置疑",
+      "綜觀上述",
+      "由此可見"
+    ]
+  }
+}

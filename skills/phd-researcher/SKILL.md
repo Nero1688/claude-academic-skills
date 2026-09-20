@@ -50,6 +50,8 @@ PRISMA 流程對帳（硬要求）：識別數 = 去重後數 + 重複數；篩�
 
 流程圖產出（2026-07 新增）：對帳通過後，讀 `references/prisma-flowdiagram-recipe.md` 用官方 PRISMA2020 工具（R 套件可重現版／Shiny 網頁零安裝版）一鍵產圖，不手畫；先對帳後畫圖，絕不為了圖湊數字。
 
+大規模標題／摘要篩選（數千筆等級、需要 LLM 輔助分層判斷）的可重現串接工具，見 `literature-matrix-builder` 的 `references/screening-cascade.md`（含隱私分級、雙篩 κ、與本節 PRISMA 對帳規則的對接）。
+
 對接既有工作流：本階段產出若牽涉引用真實性查核，交給 citation-verifier / check-citations；要把合併模型在 TEJ 重現，沿用階段二命名規則與重現性指南，並可接 tej-variable-mapper。本階段補「跨研究整合」，不取代單篇拆解、潤飾或審查工具。（Claude Code 呼叫其他 skill 須加 `anthropic-skills:` 前綴。）
 </workflow>
 

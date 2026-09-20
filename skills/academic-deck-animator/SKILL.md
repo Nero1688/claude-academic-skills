@@ -87,6 +87,7 @@ python scripts/build_native_pptx.py slides_content.json -o deck_print.pptx --spl
 - PPTX:先用 python-pptx 重新開啟確認檔案合法,再提醒使用者用 PowerPoint 實際播放一次確認動畫。
   動畫時序不對時,調 JSON 的 `entry_order` / `delay_ms` 重跑即可,不要手動改 pptx。
 - 拆頁版:確認頁數 =「原頁數 + 各頁動畫步數總和」(每頁 K 步拆成 K+1 頁,含未點擊的初始狀態),匯出 PDF 後排版不重疊。
+- 收到修訂回饋:若使用者給的是逐頁回饋(格式 `p<頁碼>: <修改指示>`,例如 `p3: 圖左移`),讀 `references/revision-loop.md` 的欄位對應表改 `slides_content.json`、重跑第 3 步,不要手動改 html/pptx 產出檔。
 
 ## 兩引擎的能力邊界(如實告知使用者)
 

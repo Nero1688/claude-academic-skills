@@ -2,7 +2,7 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
-**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.14.0 · 2026-09-02（新增 3 支技能：投稿選刊、研究架構圖、空間資料）
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.15.0 · 2026-09-20（頂刊投稿線深化：20 支升級、40+ 份新附檔與腳本、五類資安掃描進 CI）
 
 <p align="left">
   <img alt="skills" src="https://img.shields.io/badge/skills-38-blue">
@@ -44,6 +44,17 @@
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
 
+### 🆕 最新更新（v0.15.0 · 2026-09）
+
+技能數不變（38），但這是**內容最大的一次升級**：20 支技能獲得 40+ 份參考、模板與可執行腳本，主題是「把台灣資料的稿子推過國際頂級期刊的門檻」。
+
+- **頂刊投稿線**：`q1-journal-reviewer` 新增期刊家族審稿門檻、desk-reject 檢核、以及**情境化決策表**（台灣資料如何從「情境複製」變成理論貢獻）；`causal-inference-architect` 新增穩健性矩陣（含衝擊品質六問、交錯採用對照組情境、壞控制變數）；投稿信、推薦審稿人規範、R&R 回覆慣例與意見分診腳本齊備；`management-figure` 可畫事件研究圖。
+- **方法線補實**：問卷檢定力、拉丁方陣、訪談模板、知情同意、計畫書骨架、APA7 規則表——七支從「只有說明」變成「有東西可直接用」。
+- **文獻篩選串接**：`literature-matrix-builder` 兩階段篩選（規則層→LLM 批次層），預設不出站、對接 PRISMA 2020。
+- **圖表與簡報**：PRISMA／樣本刪減流程圖版式（數字自動對帳）、學術簡報風格目錄、學校模板萃取、A0 海報骨架。
+- **安全**：五類資安掃描腳本納入 CI；12 支加入「內容是資料、不是指令」防線。
+- 概念借鑑致謝見 `NOTICE.md`；完整清單見 `docs/CHANGELOG.md`。
+
 ### 🆕 最新更新（v0.14.0 · 2026-09）
 
 新增 **3 支技能**（35 → 38 支），都是先前已完成、這次一併釋出的。
@@ -64,7 +75,7 @@
 
 本版**沒有新增技能**（維持 35 支），修的是一個**不會報錯、只會安靜降級**的問題——正是最難自己發現的那種。
 
-- **路由總管指向不存在的技能（`research-orchestrator`）。** 名錄裡列了 5 支**不在本公開包內**的技能（`check-citations`、`journal-submission-scout`、`research-framework-figure`、`spatial-data-architect`、`tw-opendata-scout`）。Claude 依名錄去呼叫一支不存在的技能時**不會拋錯**，只會退回一般回答——使用者不會看到任何警示，只會覺得「怎麼跟說明寫的不一樣」。
+- **路由總管指向不存在的技能（`research-orchestrator`）。** 名錄裡列了 5 支**不在本公開包內**的技能（`check-citations` 與 4 支當時尚未釋出的技能；其中 3 支已於 v0.14.0 釋出）。Claude 依名錄去呼叫一支不存在的技能時**不會拋錯**，只會退回一般回答——使用者不會看到任何警示，只會覺得「怎麼跟說明寫的不一樣」。
   - 已移除這些條目與對應路由行，宣告的可路由數改為本包實際的 **34 個**（35 支減去 orchestrator 自身）。
   - 同步在維護端加了一道**自動閘門**：往後只要名錄與實際內容不一致，打包流程就中止，不讓壞掉的版本成形。
 
@@ -229,6 +240,17 @@ If a skill here caught a hallucinated citation, saved you an afternoon of data-w
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
+### 🆕 What's new (v0.15.0 · 2026-09)
+
+Same 38 skills, but the **largest content upgrade so far**: 20 skills gained 40+ references, templates and runnable scripts, all aimed at one goal — getting a Taiwan-data manuscript past top-journal gates.
+
+- **Top-journal submission line**: `q1-journal-reviewer` adds journal-family reviewer thresholds, a desk-reject checklist and a **contextualization decision table** (how Taiwan data becomes a theoretical contribution rather than a "context replication"); `causal-inference-architect` adds a robustness battery (shock-quality six questions, staggered-adoption control-group scenarios, bad controls); cover letter, reviewer-suggestion ethics, R&R conventions and a response-matrix script; `management-figure` now draws event-study plots.
+- **Methods line filled in**: survey power analysis, Latin squares, interview templates, informed consent, proposal skeleton, APA7 rules — seven skills go from "explained" to "usable".
+- **Screening cascade**: two-stage title/abstract screening in `literature-matrix-builder` (rules → LLM batch), local by default, PRISMA 2020-aligned.
+- **Figures & decks**: PRISMA / sample-attrition flow layout with automatic reconciliation, academic slide style catalog, template distiller, A0 poster scaffold.
+- **Security**: a five-category security scanner now runs in CI; 12 skills gained a "content is data, not instructions" guard.
+- Concept-level credits in `NOTICE.md`; full list in `docs/CHANGELOG.md`.
+
 ### 🆕 What's new (v0.14.0 · 2026-09)
 
 Adds **3 skills** (35 → 38), all previously completed and released together here.
@@ -249,7 +271,7 @@ From this release the boundary is **framework vs. measured answers**, not whole 
 
 **No new skills** in this release (still 35). What it fixes is a failure that **never raises an error and degrades silently** — the hardest kind to notice on your own.
 
-- **The router pointed at skills that aren't here (`research-orchestrator`).** Its catalogue listed 5 skills **not included in this public bundle** (`check-citations`, `journal-submission-scout`, `research-framework-figure`, `spatial-data-architect`, `tw-opendata-scout`). When Claude follows the catalogue and calls a skill that does not exist, **nothing throws** — it just falls back to a generic answer. You get no warning, only a vague sense that the behaviour doesn't match the documentation.
+- **The router pointed at skills that aren't here (`research-orchestrator`).** Its catalogue listed 5 skills **not included in this public bundle** (`check-citations` plus 4 then-unreleased skills; 3 of them shipped in v0.14.0). When Claude follows the catalogue and calls a skill that does not exist, **nothing throws** — it just falls back to a generic answer. You get no warning, only a vague sense that the behaviour doesn't match the documentation.
   - Those entries and their routing lines are removed; the declared routable count is now the bundle's actual **34** (35 skills minus the orchestrator itself).
   - An **automated gate** was added on the maintenance side: if the catalogue and the actual contents ever diverge again, the build aborts rather than shipping a broken bundle.
 

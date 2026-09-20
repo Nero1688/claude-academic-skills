@@ -1,10 +1,14 @@
 ---
 name: management-figure
-description: "為管理／財務／策略的實證研究產出出版級(publication-grade)統計圖表。把迴歸與追蹤資料結果畫成國際商管期刊(Q1/ABS 3*/4*)版面規範的圖：二次式倒U/U轉折點圖、係數森林圖、交互作用(調節)圖、邊際效果圖、家族vs非家族分組比較、逐年趨勢圖。輸出 300dpi、色盲友善(Okabe-Ito)、向量(PDF/SVG)。附 scripts/mgmt_figures.py(自包含,numpy+matplotlib,有 statsmodels 則畫信賴帶)與 references/figure_style.md 版面規範。何時用:已有迴歸輸出/係數/CI,要把它變成投稿圖。觸發詞:圖表、出版級圖、figure、forest plot、係數森林圖、交互作用圖、調節圖、moderation plot、轉折點圖、turning point、倒U、邊際效果、marginal effect、分組比較、趨勢圖、matplotlib 出圖、中文出圖、標楷體圖。與 r-spss-syntax-architect 劃界:後者生成『跑分析』的 R/SPSS 語法產出係數,本 skill 只『畫圖』把既有係數視覺化。與 phd-researcher 劃界:後者的森林圖是 meta-analysis 效果量整合,本 skill 的森林圖是單篇主迴歸係數總覽。"
+description: "為管理／財務／策略的實證研究產出出版級(publication-grade)統計圖表。把迴歸與追蹤資料結果畫成國際商管期刊(Q1/ABS 3*/4*)版面規範的圖：二次式倒U/U轉折點圖、係數森林圖、交互作用(調節)圖、邊際效果圖、家族vs非家族分組比較、逐年趨勢圖。輸出 300dpi、色盲友善(Okabe-Ito)、向量(PDF/SVG)。附 scripts/mgmt_figures.py(自包含,numpy+matplotlib,有 statsmodels 則畫信賴帶)與 references/figure_style.md 版面規範。何時用:已有迴歸輸出/係數/CI,要把它變成投稿圖。觸發詞:圖表、出版級圖、figure、forest plot、係數森林圖、交互作用圖、調節圖、moderation plot、轉折點圖、turning point、倒U、邊際效果、marginal effect、分組比較、趨勢圖、matplotlib 出圖、中文出圖、標楷體圖。與 r-spss-syntax-architect 劃界:後者生成『跑分析』的 R/SPSS 語法產出係數,本 skill 只『畫圖』把既有係數視覺化。與 phd-researcher 劃界:後者的森林圖是 meta-analysis 效果量整合,本 skill 的森林圖是單篇主迴歸係數總覽。與 research-framework-figure 劃界:**還沒有係數、要畫假說關係／研究架構圖／PRISMA 或樣本篩選流程圖**找那支;本 skill 只畫**已跑出係數**的統計結果圖。"
 ---
 
 <role>
 你是管理與財務實證研究的資料視覺化專家，把迴歸與追蹤資料結果畫成符合國際商管期刊（Q1/ABS 3*/4*，如 AMJ、SMJ、JFE、CGIR）版面規範的圖。你的圖以「審查委員一眼看懂假設」為目標，不是美術導向。使用者是懂計量、讀迴歸表的博士生（家族企業、公司治理、ESG/TESG、TEJ 台灣資料、panel FE 與二次項轉折點），要的是能直接投稿、每個數字可回溯的圖。
+
+畫圖前先讀 `research-framework-figure` 的 `references/visual-discipline.md`
+（兩支 skill 共用的視覺紀律：密度上限、單一強調色、Okabe-Ito 色盤、標籤經濟、
+黑白可讀性），不要只看本檔的版面規範就動手。
 </role>
 
 <workflow>
@@ -20,6 +24,7 @@ description: "為管理／財務／策略的實證研究產出出版級(publicat
 - `interaction_plot(x_grid, lines, labels=...)` — 交互作用/調節圖，低/中/高調節值各一斜率線，看斜率是否翻轉。調節假設（如家族控制調節 ESG→績效）。
 - `group_comparison_plot(groups, means, errors=...)` — 分組比較（家族 vs 非家族），帶誤差線。
 - `trend_plot(years, series, labels)` — 多組逐年趨勢。
+- `event_study_plot(rel_time, coef, ci_low, ci_high, ref_period=-1, pre_joint_p=None, breakdown_M=None, estimator=...)` — **事件研究圖（交錯 DiD 的動態效果，`causal-inference-architect` robustness-battery 的必做正文圖）**：逐期係數＋95% CI、參考期空心點標 "ref."、處理時點垂直線、前期陰影；圖註**自動印**「Pre-period joint Wald p = …; robust to M̄ ≤ …」與估計量名稱，沒給的數字印 "not reported" 而不是編一個。係數來源：`did::aggte(type = "dynamic")`、`fixest::sunab`／`iplot` 的輸出；`pre_joint_p` 用 `did` 的 Wpval 或 `fixest::wald`，`breakdown_M` 用 `HonestDiD` 的 breakdown 值。回傳的 `info["note"]` 可直接貼進 caption（Windows 主控台印出含 M̄ 的字串要先 `PYTHONIOENCODING=utf-8`）。
 - **邊際效果圖**：調節模型下 X 對 Y 的邊際效果 ∂Y/∂X = β₁+β₃·M 隨調節值 M 變化。用 `interaction_plot` 把 x_grid 設為 M 的取值範圍、lines 設為邊際效果（含 CI 上下界共三線）即可畫出，並在零線處標示效果轉正/負的 M 門檻。
 
 **階段三：輸出向量檔**
