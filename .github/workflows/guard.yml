@@ -36,7 +36,7 @@ jobs:
 
       # runner 預設沒有 pyyaml，最後一步的 frontmatter 解析需要它。
       - name: 安裝相依
-        run: python -m pip install --quiet pyyaml
+        run: python -m pip install --quiet pyyaml python-pptx==1.0.2
 
       # 敏感資訊掃描：本機路徑、硬編碼金鑰、Bearer token、學號樣式等。
       # 個人化樣式存放於 repo 外的私密檔，CI 上不存在，故此處僅跑通用樣式——
