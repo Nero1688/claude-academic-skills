@@ -2,7 +2,7 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
-**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.16.0 · 2026-10-09（既有技能強化：圖表選型與誠實紅線、連接器退路、免費 API 准入檢核、事件研究估計層）
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.16.0 · 2026-10-09（20 支技能升級：畫圖更不易出錯、沒接外部工具也能用、事件研究步驟說明）
 
 <p align="left">
   <img alt="skills" src="https://img.shields.io/badge/skills-38-blue">
@@ -46,94 +46,17 @@
 
 ### 🆕 最新更新（v0.16.0 · 2026-10）
 
-技能數不變（38），這一版專做**既有技能的強化**：20 支加深、新增 11 份參考檔。
+這版沒有新增技能（一樣 38 支），而是把其中 20 支練得更扎實：
 
-- **圖表選型與誠實紅線**：先決定這張圖要論證什麼再選版式；期刊、口試、海報三種用途要重畫、不是縮放。修正三個圖表缺陷：架構圖假說標籤會切斷斜線、森林圖不顯著灰太淡（2.83:1）、交互作用圖與趨勢圖只靠顏色區分，現在黑白印刷也分得出來。
-- **沒接工具也能跑**：`research-orchestrator` 以工具類別書寫（文獻管理器、引用脈絡庫……），有接 MCP 走加值路徑，沒接走退路；「連上 ≠ 有內容 ≠ 有額度」。
-- **免費 API 能不能進論文**：`global-opendata-scout` 新增准入檢核，涵蓋一手源與包裝層、授權與條款、版本可追溯、「HTTP 200 不等於成功」。
-- **事件研究估計層**：窗口、市場模型、AR／CAR／BHAR、跨事件檢定，以及台灣 13:30 順延與漲跌停；另有金融時序第五軌、文字時間戳對齊。
-- **方法逆向證據帳**：判讀分「觀察／推論／未知」，「原文沒做 X」要寫明查過哪些範圍。
-- 外部專案只借設計概念，致謝見 `NOTICE.md`；完整清單見 `docs/CHANGELOG.md`。
+- **畫圖更不容易出錯**：先想清楚圖要說什麼再選畫法；同一張圖放期刊、口試、海報時要重畫，不是硬縮小。也修好三個小毛病——架構圖的 H1、H2 標籤會遮掉線、森林圖的灰點太淡、黑白列印時看不出哪條線是哪組。
+- **有沒有接外部工具都能用**：有接 Zotero 這類工具就多用一點，沒接也照樣能跑。
+- **免費資料能不能拿來寫論文**：新增一份檢查清單——資料是誰產生的、授權允不允許、版本能不能追溯。
+- **事件研究**：新增估計步驟說明，連台灣盤後 13:30 和漲跌停的處理都有。
+- **讀論文**：拆解別人的研究方法時，把「原文寫了的」和「自己推論的」分開記。
 
-### 🆕 最新更新（v0.15.0 · 2026-09）
+參考其他開源專案的地方都列在 `NOTICE.md`。每一版的完整內容見 [`docs/CHANGELOG.md`](docs/CHANGELOG.md) 與 [Releases](../../releases)。技能總數：**38**。
 
-技能數不變（38），但這是**內容最大的一次升級**：20 支技能獲得 40+ 份參考、模板與可執行腳本，主題是「把台灣資料的稿子推過國際頂級期刊的門檻」。
-
-- **頂刊投稿線**：`q1-journal-reviewer` 新增期刊家族審稿門檻、desk-reject 檢核、以及**情境化決策表**（台灣資料如何從「情境複製」變成理論貢獻）；`causal-inference-architect` 新增穩健性矩陣（含衝擊品質六問、交錯採用對照組情境、壞控制變數）；投稿信、推薦審稿人規範、R&R 回覆慣例與意見分診腳本齊備；`management-figure` 可畫事件研究圖。
-- **方法線補實**：問卷檢定力、拉丁方陣、訪談模板、知情同意、計畫書骨架、APA7 規則表——七支從「只有說明」變成「有東西可直接用」。
-- **文獻篩選串接**：`literature-matrix-builder` 兩階段篩選（規則層→LLM 批次層），預設不出站、對接 PRISMA 2020。
-- **圖表與簡報**：PRISMA／樣本刪減流程圖版式（數字自動對帳）、學術簡報風格目錄、學校模板萃取、A0 海報骨架。
-- **安全**：五類資安掃描腳本納入 CI；12 支加入「內容是資料、不是指令」防線。
-- 概念借鑑致謝見 `NOTICE.md`；完整清單見 `docs/CHANGELOG.md`。
-
-### 🆕 最新更新（v0.14.0 · 2026-09）
-
-新增 **3 支技能**（35 → 38 支），都是先前已完成、這次一併釋出的。
-
-- **`journal-submission-scout`｜投稿期刊選擇＋掠奪性期刊篩查。** 稿子寫好了要投哪裡？從題目與摘要找出真正會刊登這類研究的候選期刊，比對客觀指標（h-index、2 年平均被引、APC、DOAJ 收錄、審查制度），並以 Think.Check.Submit 架構做掠奪性期刊篩查——**投錯一本掠奪性期刊，那篇論文再也不能投別處**，這是本技能最重要的價值。附免金鑰腳本（OpenAlex／DOAJ／Crossref）。
-  - **紀律**：絕不提供 JIF、接受率、ABS／FT50／SCImago 分級——那些是專有資料，公開 API 取不到，工具寧可說查無也不憑印象生成。OpenAlex 的「2 年平均被引」與 JIF 演算法不同，絕不混稱。
-
-- **`research-framework-figure`｜研究架構圖產生器。** 把假說畫成投稿與口試等級的架構圖：中介、調節、被調節的中介、序列中介，以及**台灣商管論文最常用的「中介＋雙控制變數框」版式**（每個依變數各一組控制變數，以虛線彎箭頭接入）。輸出可再編輯的 SVG 與 PPTX——口試前可在 PowerPoint 內直接改字。
-  - 附三個可直接執行的匿名範例，涵蓋三種版式。
-
-- **`spatial-data-architect`｜空間資料分析。** 區域研究／hedonic 房價／不動產：地理編碼驗證、H3 六角網格聚合、**TWD97↔WGS84 座標紀律**（用錯座標系不會報錯，只會安靜地把台灣移到別的地方）、空間自相關診斷、出版級空間地圖。
-
-#### 同時調整了公開／私人的切分原則
-
-本版起，切線改在「**框架 vs 實測答案**」，而不是「整支技能」：公開拿方法論（怎麼想），私人留實測換來的目錄與對照表（答案是什麼）。因此 `tej-data-scout` 的資料表索引與 `tej-variable-mapper` 的變數種子對照表不再隨公開包發布——但兩支技能的**方法論完整保留**，仍可獨立完成可行性判斷與變數對映。
-
-### 🆕 最新更新（v0.13.1 · 2026-09）
-
-本版**沒有新增技能**（維持 35 支），修的是一個**不會報錯、只會安靜降級**的問題——正是最難自己發現的那種。
-
-- **路由總管指向不存在的技能（`research-orchestrator`）。** 名錄裡列了 5 支**不在本公開包內**的技能（`check-citations` 與 4 支當時尚未釋出的技能；其中 3 支已於 v0.14.0 釋出）。Claude 依名錄去呼叫一支不存在的技能時**不會拋錯**，只會退回一般回答——使用者不會看到任何警示，只會覺得「怎麼跟說明寫的不一樣」。
-  - 已移除這些條目與對應路由行，宣告的可路由數改為本包實際的 **34 個**（35 支減去 orchestrator 自身）。
-  - 同步在維護端加了一道**自動閘門**：往後只要名錄與實際內容不一致，打包流程就中止，不讓壞掉的版本成形。
-
-- **指向已移除參考檔的孤兒引用（`global-opendata-scout`）。** 內文指向兩份未隨本包釋出的來源目錄，症狀相同：Claude 去讀一個不存在的檔案，然後無聲降級。已改寫。
-  - **台灣在 UN Comtrade／WITS 被併入 `490`「Other Asia, nes」** 的陷阱警告**仍完整保留**——「不知道就會踩」的警告屬公共利益，一律公開。
-
-- **內容同步與新增參考檔。** 補上 2026-08-20 之後累積的修訂，涵蓋 `academic-journal-polisher`、`q1-journal-polisher`、`phd-milestone-tracker`、`qualitative-thematic-coder`、`r-spss-syntax-architect`、`public-disclosure-scout`、`academic-slides`、`research-method-selector` 等。
-  - 新增 `tej-data-scout/references/tej-access-channels.md`：TEJ 三條取得管道（Pro 桌面端／`tejapi`／TQuant-Lab）對照，含一個常見誤解——**TEJ Pro 校園帳號不含 API 授權，兩套系統不通用**——以及金鑰與帳號的安全紀律。
-
-- **新增 [`docs/CHANGELOG.md`](docs/CHANGELOG.md)**，往後的變更集中記錄於此。
-
-### 🆕 最新更新（v0.13.0 · 2026-08）
-
-本版新增兩道**學術誠信防線**——都是「不做會出事、做了沒人看得見」的那種功能。
-
-- **撤稿查核，在建檔當下就攔截（`literature-matrix-builder`）。** 引用到已撤稿的論文是實質學術風險，但既有的引用工具只查「文獻存不存在」「格式對不對」，**不查「這篇是不是已經被撤稿」**。本版讓每次 `add` 自動反查 Crossref 的撤稿通知，在文獻進庫的當下就攔下來——而不是等寫進文獻回顧才發現。
-  - 已用**陽性／陰性對照**實測：已知被撤論文測得出，三篇正常論文皆不誤報。只驗前者會做出一個到處亂報的工具。
-  - **查核失敗 ≠ 沒被撤稿**：工具標「⚠️ 查核失敗：原因」而非「未發現」。查不到與確認沒事是兩回事，這個區別攸關風險判斷。
-  - 實務細節：Elsevier 慣例是把撤稿通知放在**同一個 DOI**（原文被替換成撤稿聲明），若照直覺去找「另一個 DOI」會查不到。
-
-- **雙盲投稿的身分資訊清除（`thesis-consistency-audit`）。** `.docx`／`.pptx`／`.xlsx` 是壓縮檔，作者身分藏在**五個肉眼看不到的地方**，而 Word 內建的「檢查文件」**不一定清得掉後兩項**——這是 desk reject 的常見原因：
-  1. `docProps/core.xml` 建立者、最後修改者
-  2. `docProps/app.xml` Company（學校）、Manager（指導教授）
-  3. `docProps/custom.xml` 自訂屬性（常含計畫編號）
-  4. `word/comments.xml` **每則註解都帶作者姓名**
-  5. 追蹤修訂 每個 `w:ins`／`w:del` 都帶 `w:author` 與時間戳
-  - **紀律**：註解與追蹤修訂**含有內容**、不只是中繼資料，故預設**只報告不刪除**，要處理必須明確加旗標；清除前一律自動備份。追蹤修訂採「作者匿名化」而非刪除，避免改變文件內容。
-  - **誠實邊界**：工具只處理檔案中繼資料。**正文自我引用、致謝、基金計畫編號、檔名含姓名——這些才是最常見的雙盲破功點，必須人工檢查。**
-
-
-### 🆕 最新更新（v0.12.0 · 2026-08）
-
-- **v0.12.0 — 台灣代碼陷阱：第二例，並升級為通則（`global-opendata-scout`）。** 繼 World Bank／OECD **完全沒有台灣資料**之後，本版實測確認第二個體系的處理方式不同但同樣會坑人：**UN Comtrade／WITS 把台灣併入代碼 `490`「Other Asia, not elsewhere specified」**。實測結果——查 `490` 回傳 218 筆，查常被誤用的 `158` 回傳 **0 筆卻不報錯**。查錯代碼會靜默得到空結果，極易誤判成「這個資料源沒有台灣資料」而放棄整個來源。本版把它從個案寫成**通則**：遇到任何聯合國體系下的國際資料庫，預設假設「台灣不會用標準 ISO 碼出現」，先查該庫怎麼處理台灣再決定研究設計，並列出三種常見處理型態（完全沒有／併入其他代碼／用非標準名稱如 "Chinese Taipei"）。使用 490 時論文須揭露的三件事也一併寫明。
-
-### 🆕 最新更新（v0.11.0 · 2026-08）
-
-近期把重心放在**資料涵蓋的廣度（跨國）**、**取得的穩健度**與**文件前處理**——研究流程最前段、也最容易「髒進髒出」的幾塊。
-
-- **v0.11.0 — 跨國／國際比較資料（`global-opendata-scout`）。** 研究要做他國或跨國比較時，內建 World Bank／Eurostat／ILOSTAT／IMF／UN Data 的**免金鑰、已實測端點與撈取腳本**，另附「如何找到任一國家官方統計機構」的五步方法論。核心價值不在找到數字，而在**主動點出跨國資料的可比性陷阱**（國家代碼三套、幣別／PPP／基期、會計年度、產業分類 ISIC／NACE／NAICS 不可直接對應、涵蓋率遺漏造成選擇偏誤）。台灣資料不涵蓋（World Bank／OECD 皆無台灣），走官方來源。
-- **v0.10.0 — 複雜揭露文件前處理（`text-analytics-architect`）。** 語料若是版面複雜的揭露文件（10-K、年報、ESG 永續報告、掃描檔），`pdftotext` 直抽會把表格壓平、多欄交錯、頁尾混進正文——**髒進髒出**，污染後面的斷詞與情緒分析。新增 Step 0 指引：先用版面感知抽取轉成保留語意結構的乾淨文字（並驗抽取品質、保 source map、遮罩 PII）再分析。融合 [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark)（Apache 2.0）的語意化文件處理概念，**只取概念不取依賴**。
-- **v0.9.0 — 動態網站抓取升級階梯（`public-disclosure-scout`）。** `requests` 抓不到 JS 動態頁時的**由輕到重升級階梯**（先找背後 API → 官方批次 → 無頭瀏覽器）。融合 [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai)（Apache 2.0）「把網頁轉成 LLM 可讀結構」概念，只取概念不取依賴，並**明訂 🚫 禁用其 stealth 反偵測功能**——學術研究抓不到就升級到官方管道／申請／人工，不是躲過偵測。
-- **v0.8.0 — 讀文獻線（`literature-matrix-builder` + `bilingual-paper-reader`）。** 把幾十篇 PDF 變成有結構的東西:文獻比較矩陣(PDF→DOI→CrossRef 免金鑰→APA 7→20 欄 Excel,**CrossRef 查無 DOI 直接報錯不憑記憶補書目**),與單篇論文雙欄精讀(逐段中譯+五色標記+離線閱讀器)。兩支天然接力,精讀結論回填矩陣綜整欄。
-
-一貫紀律不變:**融合外部開源都只取概念、不吞依賴、遇 copyleft 就規避、用了就在 `NOTICE.md` 與各技能 `ATTRIBUTION.md` 誠實致謝**。
-
-> 完整版本歷史見各 [Releases](../../releases)。技能總數：**38**。
-> **安裝**:整個 repo 的 ZIP 無法直接當單一技能上傳;請到 [`dist/`](dist/) 下載你要的個別 `.zip`(見下方安裝說明)。
+> **安裝**：整個 repo 的 ZIP 不能直接當成一支技能上傳，請到 [`dist/`](dist/) 下載你要的個別 `.zip`（見下方安裝說明）。
 
 ### 🧭 運作原則（三條底線）
 1. **資料由你自己抓。** 資料類技能一律假設**你（或你的機構）擁有合法訂閱／授權帳號，由你自己登入下載**。技能只教「在哪找、怎麼判斷、怎麼分析」，**不代抓資料、不散布任何資料庫的專屬目錄**。
@@ -253,94 +176,17 @@ If a skill here caught a hallucinated citation, saved you an afternoon of data-w
 
 ### 🆕 What's new (v0.16.0 · 2026-10)
 
-Same 38 skills; this release **deepens existing skills** — 20 skills strengthened, 11 new reference files.
+No new skills this time (still 38) — instead, 20 of them got noticeably better:
 
-- **Figure choice and chart honesty**: decide what argument a figure makes before choosing its form; journal, defense and poster versions are redrawn, not rescaled. Three figure bugs fixed: hypothesis labels no longer cut diagonal paths, the non-significant grey in forest plots was too faint (2.83:1), and interaction/trend plots no longer rely on colour alone — they now survive black-and-white printing.
-- **Works with or without tools**: `research-orchestrator` now names tool *categories* (reference manager, citation-context service…) — MCP connected means the enhanced path, otherwise a fallback; "connected ≠ has content ≠ has quota".
-- **Can this free API go into a paper?**: `global-opendata-scout` adds an admission checklist — primary source vs. wrapper, licence and terms, versioning, and "HTTP 200 is not success".
-- **Event-study estimation layer**: windows, market models, AR/CAR/BHAR, cross-event tests, Taiwan's 13:30 roll-forward and price limits; plus a finance time-series lane and text-timestamp alignment.
-- **Evidence ledger for method reverse-engineering**: every reading is tagged observed / inferred / unknown; "the paper didn't do X" must state where you looked.
-- External projects contributed design ideas only; credits in `NOTICE.md`, full list in `docs/CHANGELOG.md`.
+- **Figures that are harder to get wrong**: decide what a figure needs to say before picking its form; redraw (don't shrink) figures for slides and posters. Three small bugs fixed — hypothesis labels covering lines, a too-faint grey in forest plots, and lines you couldn't tell apart in black-and-white print.
+- **Works with or without extra tools**: if you've connected something like Zotero, skills use it; if not, they still work.
+- **Can this free data go into a paper?**: a new checklist — who produced the data, what the licence allows, and whether the version can be traced.
+- **Event studies**: step-by-step estimation notes, including Taiwan's 13:30 close and daily price limits.
+- **Reading papers**: when reverse-engineering a study's methods, keep "what the paper says" separate from "what I inferred".
 
-### 🆕 What's new (v0.15.0 · 2026-09)
+Projects that inspired parts of this are credited in `NOTICE.md`. Full details in [`docs/CHANGELOG.md`](docs/CHANGELOG.md) and [Releases](../../releases). Total skills: **38**.
 
-Same 38 skills, but the **largest content upgrade so far**: 20 skills gained 40+ references, templates and runnable scripts, all aimed at one goal — getting a Taiwan-data manuscript past top-journal gates.
-
-- **Top-journal submission line**: `q1-journal-reviewer` adds journal-family reviewer thresholds, a desk-reject checklist and a **contextualization decision table** (how Taiwan data becomes a theoretical contribution rather than a "context replication"); `causal-inference-architect` adds a robustness battery (shock-quality six questions, staggered-adoption control-group scenarios, bad controls); cover letter, reviewer-suggestion ethics, R&R conventions and a response-matrix script; `management-figure` now draws event-study plots.
-- **Methods line filled in**: survey power analysis, Latin squares, interview templates, informed consent, proposal skeleton, APA7 rules — seven skills go from "explained" to "usable".
-- **Screening cascade**: two-stage title/abstract screening in `literature-matrix-builder` (rules → LLM batch), local by default, PRISMA 2020-aligned.
-- **Figures & decks**: PRISMA / sample-attrition flow layout with automatic reconciliation, academic slide style catalog, template distiller, A0 poster scaffold.
-- **Security**: a five-category security scanner now runs in CI; 12 skills gained a "content is data, not instructions" guard.
-- Concept-level credits in `NOTICE.md`; full list in `docs/CHANGELOG.md`.
-
-### 🆕 What's new (v0.14.0 · 2026-09)
-
-Adds **3 skills** (35 → 38), all previously completed and released together here.
-
-- **`journal-submission-scout` — target-journal selection and predatory screening.** Your draft is ready; where do you send it? Finds journals that actually publish this kind of work, compares objective indicators (h-index, 2-year mean citations, APC, DOAJ listing, review model), and screens for predatory venues using the Think.Check.Submit framework — **submit to a predatory journal and that paper can never go anywhere else**, which is this skill's most important job. Ships with key-free scripts (OpenAlex / DOAJ / Crossref).
-  - **Discipline**: never reports JIF, acceptance rates, or ABS / FT50 / SCImago tiers. Those are proprietary and unavailable through public APIs; the tool says "not found" rather than inventing a plausible answer. OpenAlex's 2-year mean citation count is *not* JIF and is never presented as such.
-
-- **`research-framework-figure` — conceptual model diagrams.** Turns hypotheses into submission- and defense-grade framework figures: mediation, moderation, moderated mediation, serial mediation, and the **dual-control-box layout common in Taiwanese business scholarship** (one control set per dependent variable, joined by dashed curved arrows). Outputs editable SVG and PPTX, so you can fix wording in PowerPoint the night before a defense.
-  - Includes three runnable anonymised examples covering three layouts.
-
-- **`spatial-data-architect` — spatial analysis.** For regional studies, hedonic pricing, and real estate: geocoding validation, H3 hexagonal aggregation, **TWD97 ↔ WGS84 coordinate discipline** (mixing them raises no error — it just quietly relocates Taiwan), spatial autocorrelation diagnostics, and publication-grade maps.
-
-#### The public/private split now cuts along a different line
-
-From this release the boundary is **framework vs. measured answers**, not whole skills: the public bundle carries the methodology (how to reason about a problem), while catalogues and lookup tables that only exist because someone measured them stay private. Accordingly, the TEJ table index and the variable seed-mapping table are no longer shipped — but **both skills keep their full methodology** and remain independently usable for feasibility assessment and variable mapping.
-
-### 🆕 What's new (v0.13.1 · 2026-09)
-
-**No new skills** in this release (still 35). What it fixes is a failure that **never raises an error and degrades silently** — the hardest kind to notice on your own.
-
-- **The router pointed at skills that aren't here (`research-orchestrator`).** Its catalogue listed 5 skills **not included in this public bundle** (`check-citations` plus 4 then-unreleased skills; 3 of them shipped in v0.14.0). When Claude follows the catalogue and calls a skill that does not exist, **nothing throws** — it just falls back to a generic answer. You get no warning, only a vague sense that the behaviour doesn't match the documentation.
-  - Those entries and their routing lines are removed; the declared routable count is now the bundle's actual **34** (35 skills minus the orchestrator itself).
-  - An **automated gate** was added on the maintenance side: if the catalogue and the actual contents ever diverge again, the build aborts rather than shipping a broken bundle.
-
-- **Orphaned pointers to removed reference files (`global-opendata-scout`).** The text referenced two source catalogues not shipped with this bundle — same symptom: Claude reads a file that isn't there and quietly degrades. Rewritten.
-  - The warning that **Taiwan is folded into `490` "Other Asia, nes" in UN Comtrade / WITS** is **fully retained**. Traps you cannot avoid without knowing about them are a public good and stay public.
-
-- **Content sync and a new reference.** Picks up revisions accumulated since 2026-08-20 across `academic-journal-polisher`, `q1-journal-polisher`, `phd-milestone-tracker`, `qualitative-thematic-coder`, `r-spss-syntax-architect`, `public-disclosure-scout`, `academic-slides`, and `research-method-selector`.
-  - Adds `tej-data-scout/references/tej-access-channels.md`: a comparison of the three ways to obtain TEJ data (Pro desktop / `tejapi` / TQuant-Lab), including a common misconception — **a TEJ Pro campus account does not include API access; they are separate systems** — plus key-handling discipline.
-
-- **Adds [`docs/CHANGELOG.md`](docs/CHANGELOG.md)** as the single place for release notes from now on.
-
-### 🆕 What's new (v0.13.0 · 2026-08)
-
-This release adds two **research-integrity guardrails** — the kind of feature nobody notices until its absence costs you something.
-
-- **Retraction checking at ingestion time (`literature-matrix-builder`).** Citing a retracted paper is a real academic risk, yet existing citation tools check whether a reference *exists* and whether its *format* is right — **not whether it has been retracted**. Every `add` now queries Crossref for retraction notices and flags the paper as it enters your library, rather than after it has already reached your literature review.
-  - Verified with **both positive and negative controls**: a known-retracted paper is detected; three ordinary papers produce no false alarm. Testing only the positive case would have shipped a tool that cries wolf.
-  - **A failed check is not a clean bill of health**: the tool reports "⚠️ check failed: reason" rather than "none found." Not knowing and knowing-it's-fine are different states, and the difference matters for risk.
-  - Practical detail: Elsevier's convention is to place the retraction notice at the **same DOI** (the original article is replaced by the notice), so looking for "a different DOI" finds nothing.
-
-- **Blinding your submission files (`thesis-consistency-audit`).** `.docx`／`.pptx`／`.xlsx` files are archives, and author identity hides in **five places you cannot see** — and Word's own "Inspect Document" does **not** reliably clear the last two. This is a common cause of desk rejection:
-  1. `docProps/core.xml` — creator, last-modified-by
-  2. `docProps/app.xml` — Company (your university), Manager (your supervisor)
-  3. `docProps/custom.xml` — custom properties, often a grant number
-  4. `word/comments.xml` — **every comment carries its author's name**
-  5. Tracked changes — every `w:ins`／`w:del` carries `w:author` and a timestamp
-  - **Discipline**: comments and tracked changes contain *content*, not just metadata, so the tool **reports without deleting** by default; removal requires an explicit flag, and a backup is always made first. Tracked-change authors are anonymised rather than stripped, so the document itself is unchanged.
-  - **Honest boundary**: the tool handles file metadata only. **Self-citation in the body text, acknowledgements, grant numbers, and your name in the filename are the far more common ways blinding fails — those still need a human pass.**
-
-
-### 🆕 What's new (v0.12.0 · 2026-08)
-
-- **v0.12.0 — The Taiwan country-code trap: a second case, generalised into a rule (`global-opendata-scout`).** After confirming that World Bank and OECD **contain no Taiwan data at all**, this release verifies a second international system that handles Taiwan differently — and just as treacherously: **UN Comtrade / WITS folds Taiwan into code `490`, "Other Asia, not elsewhere specified."** Verified live: querying `490` returns 218 records; querying `158` (a code often mistaken for Taiwan) returns **0 records without raising an error**. A wrong code yields a silent empty result, which is very easily misread as "this source has no Taiwan data" — leading researchers to abandon an otherwise usable dataset. This release turns the observation into a **general rule**: for any UN-system international database, assume by default that Taiwan will *not* appear under a standard ISO code; check how that particular database handles Taiwan *before* designing around it. Three common patterns are documented (absent entirely / folded into another code / listed under a non-standard name such as "Chinese Taipei"), along with the three things a paper must disclose when using code 490.
-
-### 🆕 What's new (v0.11.0 · 2026-08)
-
-Recent work focused on **data coverage (cross-country)**, **data-acquisition robustness**, and **document preprocessing** — the earliest stages of research, and the ones most prone to "garbage in, garbage out."
-
-- **v0.11.0 — cross-country / international-comparison data (`global-opendata-scout`).** For studies that need other-country or cross-country comparisons, it ships **key-free, tested endpoints and fetch scripts** for World Bank / Eurostat / ILOSTAT / IMF / UN Data, plus a five-step method for locating any country's official statistics office. Its core value isn't finding numbers but **proactively flagging cross-country comparability traps** (three country-code schemes, currency/PPP/base-year, fiscal-year differences, non-mappable industry classifications ISIC/NACE/NAICS, coverage gaps causing selection bias). Taiwan isn't covered (neither World Bank nor OECD includes it) — use official domestic sources.
-- **v0.10.0 — complex-disclosure preprocessing (`text-analytics-architect`).** When the corpus is layout-heavy disclosure (10-Ks, annual reports, ESG/sustainability reports, scans), naive `pdftotext` flattens tables, scrambles columns and mixes footers into the body — **garbage in, garbage out**, poisoning downstream tokenization and sentiment. A new Step 0 says: run layout-aware extraction into clean, structure-preserving text first (verify extraction quality, keep a source map, mask PII), then analyze. Adopts the concept from [KingsleyOWO/Semark](https://github.com/KingsleyOWO/Semark) (Apache 2.0) — **concept only, no dependency**.
-- **v0.9.0 — dynamic-scraping escalation ladder (`public-disclosure-scout`).** When `requests` can't reach a JS-rendered page, a **lightest-to-heaviest escalation ladder** (find the underlying API first → official batch files → headless browser only if needed). Adopts the "turn web pages into LLM-readable structure" concept from [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) (Apache 2.0) — concept only, no dependency — and **explicitly forbids its stealth / anti-detection features**: scholarly scraping that can't reach a page escalates to official channels / a request / manual work, not to evading detection.
-- **v0.8.0 — the literature-reading line (`literature-matrix-builder` + `bilingual-paper-reader`).** Turn dozens of PDFs into something structured: a comparison matrix (PDF→DOI→CrossRef, no key→APA 7→20-column Excel; **CrossRef miss fails loudly, never fills bibliography from memory**) and side-by-side close reading of a single paper (paragraph translation + five-colour marking + offline reader). The two hand off naturally.
-
-The standing discipline holds: **external open source is adopted as concept only, never as a bundled dependency; copyleft is avoided; and every borrowing is credited honestly in `NOTICE.md` and each skill's `ATTRIBUTION.md`.**
-
-> Full version history in [Releases](../../releases). Total skills: **38**.
-> **Install**: the whole-repo ZIP is not a single installable skill — grab the individual `.zip` you want from [`dist/`](dist/) (see Install below).
+> **Install**: the whole-repo ZIP can't be uploaded as a single skill — download the individual `.zip` you need from [`dist/`](dist/) (see Install below).
 
 ### 🧭 Operating principles (three ground rules)
 1. **You fetch your own data.** Every data skill assumes **you (or your institution) hold a legitimate subscription/license and download the data yourself**. Skills only teach *where to look, how to judge feasibility, and how to analyze* — they never fetch data for you and never redistribute any database's proprietary catalog.

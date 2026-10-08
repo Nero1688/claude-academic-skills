@@ -1,15 +1,14 @@
-# 維護與更新流程 / Maintenance
+# 維護流程 / Maintenance
 
-本 repo 的技能在維護者本機(Claude Code, `~/.claude/skills`)持續演進。要把最新版同步到本 repo:
+改完技能、推送之前，請在 repo 根目錄跑這幾項檢查：
 
 ```bash
-# 在 repo 根目錄
-python tools/update_from_local.py --src "C:/Users/<你>/.claude/skills"
-bash scripts/sanitize_check.sh          # 必跑:公開前敏感掃描
-git add -A && git commit -m "feat: sync skills to latest local version"
-git push
+bash scripts/sanitize_check.sh      # 敏感資訊掃描（本機路徑、金鑰、學號樣式等）
+bash scripts/security_scan.sh       # 資安掃描（危險執行、對外連線、混淆、憑證、提示注入）
+python scripts/ci_checks.py .       # 結構一致性（NOTICE、技能數、frontmatter）
+python scripts/build_dist.py        # 重建 dist/ 的個別安裝包
 ```
 
-`update_from_local.py` 會自動:排除不可重製的上游(check-citations)、套用合規版 SKILL.md、剝除訂閱版目錄內容、依「repo 外」的私密置換表去識別化、加上範例模板聲明。
+GitHub 上的 `guard` 工作流程每次 push 都會再跑一次同樣的檢查，任何一項沒過就會擋下。
 
-> 私密樣式/置換表存放於 repo **之外**(建議與 repo 並排的 `PRIVATE_do_not_upload/`),不進版控。掃描腳本與更新腳本本身**不含任何個人資訊**。
+個人化的掃描樣式（例如你的姓名、學號）請放在 repo 外面的檔案，用環境變數 `SANITIZE_PRIVATE` 指定路徑，不要放進版控。

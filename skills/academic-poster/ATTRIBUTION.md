@@ -81,7 +81,7 @@ SlideWeave 來源在查證過程中曾發生一次誤配:最初以 GitHub 名稱
 `RFYoung/slideweaver`(星數少、內容為 python-pptx 圖形庫/QA 檢查,與海報或三層
 閱讀動線設計無關);複核後(2026-09-20,GitHub API 核對 repo 描述/LICENSE/
 README)確認正確來源即上表所列的 `bobyu89/codex-ppt-style-expanded`。過程記錄
-於維護者的 LESSONS 踩坑紀錄 L-031（不隨本包發布）。
+於維護紀錄。
 
 ## 相依套件
 

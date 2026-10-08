@@ -12,8 +12,8 @@
      「三層由巨到微:敘事架構(階段零)→論證力度(進階層)→詞彙層(階段二至四)」,
      對應到 sepia README 的 Pass 1(narrative architecture)→Pass 2(discourse flow)→
      Pass 3(surface style)三段式。實作落在 `references/narrative-architecture-check.md`
-     (敘事架構層);論述流/結構層的對應檢查文件為維護者本機版本專用,公開包不含此檔。
-  2. **「校準到人類分布,而非反轉 AI 分布」**——對應維護者本機版本的論述流檢查文件(不在公開包內)
+     (敘事架構層);論述流/結構層落在 `references/argument-force-check.md`。
+  2. **「校準到人類分布,而非反轉 AI 分布」**——對應 `references/argument-force-check.md`
      caveat 2「本文件的目的不是規避 AI 偵測⋯就算完全不考慮 AI,也都是該修的寫作缺陷」,
      與 sepia README "calibrate to the human distribution, don't invert the AI one"
      為同一治理原則的轉譯。
@@ -23,7 +23,7 @@
      的那個句法量測」為同一訊號選擇邏輯。
 - 引用查核:sepia README 引用的 StoryScope(arXiv:2604.03136)經 2026-09-20 實抓
   arxiv.org/abs/2604.03136 核實存在,標題與內容(人類/AI 小說敘事特徵比較)相符,
-  與本技能維護者本機版本的論述流檢查文件既有引用一致。README 另提到的
+  與本技能 `references/argument-force-check.md` 既有引用一致。README 另提到的
   `SLOPSHAPE-2026`(其自述之 2026 年 StoryScope 於企業部落格文章上的複製研究,
   arXiv:2609.15369)為該 README 自身研究紀錄的自報用語,**本次未獨立核實其論文內容**,
   僅供讀者知悉來源性質。

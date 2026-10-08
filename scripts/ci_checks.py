@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""ci_checks.py — 公開包的結構一致性檢查（CI 用）。
+"""ci_checks.py — 技能包的結構一致性檢查（CI 用）。
 
 每一項都對應一次**實際發生過**的問題，不是假想的：
 
-  1. 私人標記殘留        檔案自述「私人版專屬」卻仍在公開包（2026-09-02 差點外洩三個檔）
+  1. 內部標記殘留        不該發布的檔案標記仍留在包內
   2. 哨兵殘留            PRIVATE-ONLY 標記沒被抽掉，代表 start/end 不成對
   3. NOTICE 覆蓋率       每支技能都要有授權登錄；global-opendata-scout 曾漏登四個月
   4. NOTICE 表格完整     空行會把 Markdown 表格截斷，後半段在 GitHub 上失去表頭
@@ -44,8 +44,8 @@ skill_dirs = sorted(
 )
 print(f"技能數：{len(skill_dirs)}")
 
-# ── 1 & 2：私人標記與哨兵殘留 ─────────────────────────────
-print("\n[1] 私人標記殘留")
+# ── 1 & 2：內部標記與哨兵殘留 ─────────────────────────────
+print("\n[1] 內部標記殘留")
 for dirpath, _, files in os.walk(SKILLS):
     for fn in files:
         if not fn.lower().endswith((".md", ".py", ".sh", ".json", ".txt")):
@@ -55,7 +55,7 @@ for dirpath, _, files in os.walk(SKILLS):
         rel = os.path.relpath(p, ROOT).replace("\\", "/")
         for m in PRIVATE_MARKERS:
             if m in t:
-                err(f"{rel} 殘留私人標記「{m}」")
+                err(f"{rel} 殘留內部標記「{m}」")
                 break
         if "PRIVATE-ONLY" in t:
             err(f"{rel} 殘留 PRIVATE-ONLY 哨兵（start/end 可能不成對）")
@@ -130,8 +130,8 @@ for d in skill_dirs:
 print("  （逐支檢查完畢）")
 
 # ── 8：dist 打包內不得含 PDF ──────────────────────────────
-# 2026-09-02 實測：私人版的 academic-pptx 打包檔內藏著一份第三方 PDF（無授權聲明）。
-# 公開版當時碰巧是乾淨的，但那是靠人工記得排除——沒有任何機制保證下次也記得。
+# 2026-09-02 實測：曾有打包檔內藏一份無授權聲明的第三方 PDF。
+# 靠人工記得排除不可靠，所以在這裡自動擋。
 # PDF 是最常見的「夾帶第三方著作」載體，故在打包層直接擋。
 print("")
 print("[8] dist 打包內無 PDF")

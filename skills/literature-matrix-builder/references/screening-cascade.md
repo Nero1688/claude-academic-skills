@@ -260,5 +260,4 @@ PRISMA2020 工具（R 套件或 Shiny 網頁版），或 `research-framework-fig
   `anthropic-skills:phd-researcher` 的階段四模組。
 - 引用真偽查核（這篇文獻真的存在嗎）交棒 `check-citations`；
   內文與清單對帳交棒 `citation-verifier`。
-- 維護者本機版本若已有真實 SR 主題（家族企業／ESG／公司治理）的準則調校紀錄，
-  記在維護者本機版本專用的準則調校文件（公開包不含此檔）。
+- 準則怎麼調整的，建議自己另開一份筆記記下來，下次做同主題回顧時沿用。

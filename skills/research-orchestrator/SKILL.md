@@ -10,7 +10,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 </role>
 
 <skill_catalog>
-以下是可路由的 37 個公開 skill（公開包共 38 支，含本技能；裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
+以下是可路由的 37 個 skill（本技能包共 38 支，含本技能；裸名列出）。呼叫語法註記：在 Claude Code 環境中，實際呼叫時 skill 名前要加 `anthropic-skills:` 前綴；在對話中對使用者說明時用裸名即可。
 
 方法選擇與研究設計（跨典範，2026-07 新增線）
 - research-method-selector：題目有了但方法未定——依理論成熟度（Edmondson & McManus 方法論適配）判量化/質化/實驗/混合，給 Q1 過程套模與呼叫鏈。**方法未定時，它排在一切之前。**

@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # sanitize_check.sh — 公開前敏感資訊掃描(通用版)
 # 用法: bash scripts/sanitize_check.sh [目標目錄]
-# 個人化樣式(你的姓名、學號、機構名等)請放在 repo「外面」的私密檔:
-#   ../PRIVATE_do_not_upload/private_patterns.txt   (每行一個 regex)
-# 或以環境變數 SANITIZE_PRIVATE 指定路徑。私密檔絕不放進 repo。
+# 個人化樣式(你的姓名、學號、機構名等)請放在 repo「外面」的檔案(每行一個 regex),
+# 預設 ~/.sanitize_patterns.txt,或以環境變數 SANITIZE_PRIVATE 指定路徑。這個檔絕不放進 repo。
 set -u
 ROOT="${1:-.}"
-PRIVATE="${SANITIZE_PRIVATE:-$ROOT/../PRIVATE_do_not_upload/private_patterns.txt}"
+PRIVATE="${SANITIZE_PRIVATE:-$HOME/.sanitize_patterns.txt}"
 hit=0
 scan () {
   local label="$1"; local pattern="$2"
@@ -27,19 +26,18 @@ scan "硬編碼 Bearer"    "Bearer[[:space:]]+[A-Za-z0-9_.=-]{16,}"
 scan "疑似金鑰字串"     "sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}"
 scan "訂閱來源標示"     "擷取自.*帳號|訂閱版導航"
 scan "學號樣式"        "學號[::]? ?[0-9]{8,}"
-# 私密樣式(從 repo 外讀入)
+# 個人化樣式(從 repo 外讀入)
 if [ -f "$PRIVATE" ]; then
   while IFS= read -r pat; do
     [ -z "$pat" ] && continue; case "$pat" in \#*) continue;; esac
-    scan "私密樣式" "$pat"
+    scan "個人化樣式" "$pat"
   done < "$PRIVATE"
 else
   if [ "${SANITIZE_CI:-0}" = "1" ]; then
-    echo; echo "[i] 未找到私密樣式檔($PRIVATE),僅執行通用掃描(SANITIZE_CI=1,CI 環境本無私密檔,放行)。"
+    echo; echo "[i] 未找到個人化樣式檔($PRIVATE),僅執行通用掃描(SANITIZE_CI=1)。"
   else
-    echo; echo "[FAIL] 未找到私密樣式檔($PRIVATE)——本機掃描無效(H3)。"
-    echo "       這台機器可能沒有 clone PRIVATE_do_not_upload/,私密樣式一律不會被攔到。"
-    echo "       若確定是 CI 環境(本來就沒有私密檔),請設定環境變數 SANITIZE_CI=1。"
+    echo; echo "[FAIL] 未找到個人化樣式檔($PRIVATE)——你的姓名、學號這類樣式不會被攔到。"
+    echo "       請用 SANITIZE_PRIVATE 指定路徑;若是 CI 環境,請設定 SANITIZE_CI=1。"
     hit=1
   fi
 fi

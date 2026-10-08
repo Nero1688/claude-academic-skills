@@ -1,62 +1,52 @@
 # 更新紀錄 / Changelog
 
-本檔記錄**公開包**的變更。公開包是私人開發庫的釋出子集，部分技能與參考檔依既定
-政策留在私人庫（原則：公開拿「防止受害」的防線，私人留「研究優勢」的能力）。
+這裡記錄每一版改了什麼，最新的在最上面。
 
 ---
 
 ## v0.16.0 — 2026-10-09
 
-**主題：既有技能的強化，合併三批（2026-10-04 金融方法、10-06、10-08 外部專案借設計）。** 技能數不變（38），未新增技能；
-20 支強化，新增 11 份參考檔。所有外部專案都只借設計概念，未安裝、未執行、未複製其程式碼，致謝見 `NOTICE.md`。
+**這版沒有新增技能（一樣 38 支），而是把其中 20 支練得更扎實，另外多了 11 份參考資料。**
+有些點子參考了其他開源專案的做法，名單都列在 `NOTICE.md`；我們只借想法，沒有搬他們的程式。
 
-### 圖表（借鑑 cathrynlavery/diagram-design，MIT）
-- `research-framework-figure`：
-  - `references/diagram-type-selector.md`：先定論證角色再選版式。含「表格測試」與「目錄測試」，補上研究流程圖、2×2 類型矩陣、多層次巢套、構念樹、DiD 政策時間軸的畫法。
-  - `references/output-tiers.md`：期刊、口試、海報三種用途要重畫，不是縮放。附字級門檻、刪減順序與「省略帳」。
-  - `visual-discipline.md` 補上連線衛生。
-  - **修正**：假說標籤會蓋掉斜線一段，現改為沿法線外推。
-- `management-figure`：
-  - `references/chart-honesty.md`：逐圖種誠實紅線。實算 Okabe-Ito 的黃、淺藍、灰在白底對比不到 3:1，這三色不作細線或文字。
-  - **修正**：森林圖不顯著者改為空心點加 `#767676`（原灰只有 2.83:1）；`interaction_plot` 與 `trend_plot` 內建線型與標記第二線索，黑白印刷也分得出來。
-  - 新增 `car_plot()`：短窗事件研究的 CAAR 曲線（10-04）。
-- `academic-poster`：海報上的圖依欄寬實寸重出。
+### 畫圖更不容易出錯
+- `research-framework-figure`（研究架構圖）
+  - 新增「先想清楚這張圖要說什麼，再決定怎麼畫」的選圖指南，連第一章常見的研究流程圖、2×2 分類表、時間軸都有範例。
+  - 同一張圖要放期刊、口試簡報、海報時，教你怎麼重畫，而不是硬縮小。
+  - 修好一個小毛病：H1、H2 這類標籤以前會把斜線遮掉一段，現在不會了。
+- `management-figure`（統計圖）
+  - 新增「每種圖的誠實規則」，例如哪些顏色印成黑白就分不出來。
+  - 森林圖裡「不顯著」的點以前灰得太淡，現在改成空心點、顏色加深。
+  - 交互作用圖和趨勢圖現在除了顏色，還會用不同線型和記號區分，黑白列印也看得懂。
+  - 新增事件研究常用的平均累積異常報酬（CAAR）曲線。
+- `academic-poster`（海報）：海報上的圖要照欄寬重新出圖，不要直接放大期刊圖。
 
-### 連接器與退路（借鑑 anthropics/knowledge-work-plugins，Apache-2.0）
-- `research-orchestrator`：`references/connector-map.md`。技能以工具類別書寫（文獻管理器、引用脈絡庫……），有接工具走加值路徑，沒接也能跑。原則包括「連上不等於有內容，也不等於有額度」。
-- `citation-verifier`：「查不到不等於不存在」，可比對本機文獻庫。`literature-matrix-builder` 補上連接器退路。
-- `thesis-consistency-audit`：`audit_docx.py` 改為回報掃到幾張表。原本英文表頭的表格會整張被略過。
-- `phd-milestone-tracker`：`deadline_calc.py --ics` 匯出行事曆檔；給事件日可反推申請截止日。
-- `nstc-grant-writer`：`references/assumption-risk-table.md`。「困難與因應」改為把最大風險排在第一年前段先驗證。
+### 有沒有接上外部工具都能用
+- `research-orchestrator`（研究流程總管）：有接 Zotero 這類工具就多用一點，沒接也照樣能跑。也提醒「連得上」不代表「裡面有資料」或「還有額度」。
+- `citation-verifier`：查不到一篇文獻，不等於這篇不存在，要分開說清楚。
+- `thesis-consistency-audit`：現在會告訴你它檢查了幾張表，以前英文表頭的表格會被整張跳過。
+- `phd-milestone-tracker`：可以把所有截止日匯出成行事曆檔（`--ics`），匯入手機就有提醒。
+- `nstc-grant-writer`：「困難與因應」改成先列最大的風險，並安排在第一年前段先驗證。
 
-### 資料（借鑑 public-apis、Agent-Reach、rea，皆 MIT）
-- `global-opendata-scout`：`references/free-api-vetting.md`，免費 API 學術准入檢核，涵蓋：
-  - Auth、HTTPS、CORS 三欄在研究上的意義
-  - 一手源與包裝層的區分
-  - 八項檢核
-  - 判定失效前的五步區辨
-  - 「200 不等於成功」
-  - 健康狀態詞彙與 A–D 用途分級
-- `multi-source-data-integrator`、`public-disclosure-scout`：
-  - 事先宣告取得順序
-  - `_src` 記實際供數者
-  - 備援來源與主源要做重疊期對帳
-  - 回 200 但內容是空的或驗證頁，算取數失敗
-- `spatial-data-architect`：接收座標欄前先查編碼（經度正負號、度分秒打包、格點吸附、地理編碼失敗率）。
-- `phd-researcher`：`references/method-evidence-ledger.md`。方法逆向的判讀分「觀察／推論／未知」，否定陳述要帶搜尋邊界。
+### 找資料、用資料
+- `global-opendata-scout`：新增一份清單，幫你判斷網路上的免費資料 API 能不能拿來寫論文——資料是誰產生的、授權允不允許、版本能不能追溯。也提醒：網站回應「成功」不代表真的拿到資料。
+- `multi-source-data-integrator`、`public-disclosure-scout`：記下每筆資料實際是從哪個來源抓到的；抓到空白頁或驗證頁要算失敗，不能當成「沒有資料」。
+- `spatial-data-architect`：拿到別人的座標資料，先檢查經緯度的正負號和格式對不對。
+- `phd-researcher`：拆解別人論文的方法時，把「原文寫了的」「自己推論的」「查不到的」分開記；說「原文沒做某件事」之前，要先講清楚你查過哪些地方。
 
-### 金融與事件研究方法（2026-10-04）
-- `causal-inference-architect`：`references/event-study-estimation.md`，事件研究估計層。涵蓋窗口、市場模型、AR／CAR／BHAR、跨事件檢定，以及台灣 13:30 順延與漲跌停；完整估計引擎依時間差政策暫留私人庫。
-- `r-spss-syntax-architect`：`references/finance-timeseries-lane.md`，金融時序第五軌。
-- `text-analytics-architect`：`references/text-timestamp-alignment.md`，發布時間對交易日。
-- `q1-journal-reviewer`：實證資產定價與預測論文子類。
-- `tej-data-wrangler`：股價與報酬序列的六項紅旗。
+### 金融與事件研究
+- `causal-inference-architect`：新增事件研究的估計步驟說明（事件窗口、市場模型、異常報酬、檢定方法，以及台灣盤後 13:30 與漲跌停的處理）。
+- `r-spss-syntax-architect`：新增金融時間序列的語法指南。
+- `text-analytics-architect`：新聞或公告的發布時間，要怎麼對到正確的交易日。
+- `q1-journal-reviewer`：新增資產定價與預測類論文的審稿重點。
+- `tej-data-wrangler`：整理股價與報酬資料時要注意的六個地雷。
 
 ### 其他
-- `academic-deck-animator`：open-slide 致謝連結改為新組織 open-slide/open-slide（10-06）。
+- `academic-journal-polisher`、`q1-journal-polisher`：新增「論證力道」檢查。
+- `tej-variable-mapper`：補上常用變數的對照範例。
+- `academic-deck-animator`：更新一個致謝連結。
 
-### 前次釋出後未記入的變更（commit d536e44）
-- 結構層論證力度檢查 `argument-force-check.md`（中英兩支潤飾技能）與變數種子對照表的 A／B／D 區公開。
+---
 
 ## v0.15.0 — 2026-09-20
 
@@ -94,64 +84,23 @@ Nanako0129/sepia、cathrynlavery/diagram-design、bobyu89/codex-ppt-style-expand
 
 ### 新增 3 支技能（35 → 38）
 
-- `journal-submission-scout` — 投稿期刊選擇＋掠奪性期刊篩查（Think.Check.Submit）
-- `research-framework-figure` — 研究架構圖／概念模型圖，輸出可再編輯 SVG 與 PPTX
-- `spatial-data-architect` — 地理編碼驗證、H3 網格聚合、TWD97↔WGS84 座標紀律、空間自相關
+- `journal-submission-scout` — 幫你挑投稿期刊，也幫你避開掠奪性期刊
+- `research-framework-figure` — 畫研究架構圖，可以輸出成能再編輯的 SVG 和 PPTX
+- `spatial-data-architect` — 地理資料分析：地址轉座標的檢查、六角網格、台灣座標系統的轉換
 
-### 公開／私人切分原則改版
-
-切線從「整支技能」改為「**框架 vs 實測答案**」。
-
-先前的做法同時犯了兩個錯：把沒有替代難度的技能整支鎖起來（公開包變薄），
-又把真正稀缺的實測目錄隨技能一起釋出。護城河從來不在方法論——公開文獻都有——
-而在「只有實際用過那個系統才知道」的答案。
-
-因此本版：
-
-- **釋出**上述 3 支（方法論性質，替代難度不高，留著只是延後能見度）
-- **收回** `tej-data-scout` 的資料表索引（Part B）與 `tej-variable-mapper` 的變數種子對照表
-- 兩支 TEJ 技能的**方法論完整保留**：仍教「怎麼把題目拆成變數構念、怎麼判可行性、
-  怎麼把文獻變數對映到資料庫欄位」，只是不附具體答案清單
+### 調整
+- `tej-data-scout`、`tej-variable-mapper`：專注在方法——怎麼把研究題目拆成變數、怎麼判斷資料夠不夠用、怎麼把文獻裡的變數對到資料庫欄位。
 
 ---
 
 ## v0.13.1 — 2026-09-02
 
-### 這次主要是「一致性與合規」的整補，不是新增技能
+這版主要是修正，沒有新增技能（35 支）。
 
-技能數維持 **35 支**。公開包自 2026-08-20 之後未再同步，期間私人庫的多項修訂
-累積成漂移，這次一次補齊，並修掉數個會影響正確性的問題。
-
-#### 修正：路由總管的斷鏈（會實際影響使用者）
-
-`research-orchestrator` 先前列出並路由到 5 支**不在公開包內**的技能
-（check-citations 與 4 支當時尚未釋出的技能；其中 3 支已於 v0.14.0 釋出）。症狀是 Claude 依名錄去叫一個
-不存在的技能，然後無聲降級成一般回答——使用者不會收到任何錯誤，只會覺得
-「怎麼跟說明寫的不一樣」。
-
-本次已移除這些條目與對應路由行，並把宣告的可路由數改為公開包實際的 **34 個**
-（總數 35 減去 orchestrator 自身）。
-
-#### 修正：指向不存在檔案的引用
-
-`global-opendata-scout` 的內文指向兩份未隨公開包釋出的來源目錄
-（`catalog-event-risk-data.md`、`catalog-national-primary.md`）。同上，
-Claude 會去讀一個不存在的參考檔而無聲降級。已改寫。
-
-跨國資料中**台灣在 UN Comtrade／WITS 沒有獨立國碼、被併入 `490`「Other Asia, nes」**
-這項陷阱警告仍保留在公開包——查 `158` 會得到 0 筆卻不報錯，極易誤判「沒有台灣資料」。
-這類「不知道就會踩坑」的警告屬公共利益，一律公開。
-
-#### 內容更新
-
-同步了 2026-08-20 之後的多項修訂，涵蓋 `academic-journal-polisher`、
-`q1-journal-polisher`、`phd-milestone-tracker`、`qualitative-thematic-coder`、
-`r-spss-syntax-architect`、`public-disclosure-scout`、`tej-data-scout`、
-`academic-slides`、`research-method-selector` 等技能的 SKILL.md 與參考檔。
-
-新增 `tej-data-scout/references/tej-access-channels.md`：TEJ 資料的三條取得管道
-（Pro 桌面端／tejapi／TQuant-Lab）對照，含「TEJ Pro 校園帳號不含 API 授權，
-兩套系統不通用」這個常見誤解，以及金鑰與帳號的安全紀律。
+- **修好研究流程總管的「斷鏈」**：`research-orchestrator` 以前會叫用幾支不在本技能包裡的技能。Claude 叫不到時不會報錯，只會默默改成一般回答，讓人以為技能沒作用。現在名單和實際內容一致，可叫用的技能是 34 支。
+- **修好指向不存在檔案的引用**：`global-opendata-scout` 以前會去讀兩份已經不在的參考檔，已改寫。台灣在聯合國貿易資料庫（UN Comtrade／WITS）被併入代碼 `490` 的提醒完整保留——查錯代碼會拿到 0 筆卻不報錯，很容易誤以為「沒有台灣資料」。
+- **內容更新**：多支技能的說明與參考檔更新，包括兩支潤飾技能、`phd-milestone-tracker`、`qualitative-thematic-coder`、`r-spss-syntax-architect`、`public-disclosure-scout`、`tej-data-scout`、`academic-slides`、`research-method-selector`。
+- 新增 `tej-data-scout/references/tej-access-channels.md`：TEJ 資料的三種取得方式比較，並提醒「學校的 TEJ Pro 帳號不能直接拿來用 API」。
 
 ---
 

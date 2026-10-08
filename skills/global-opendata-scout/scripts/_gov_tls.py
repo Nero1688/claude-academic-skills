@@ -4,14 +4,10 @@
 _gov_tls.py — 政府／官方統計網站 TLS 相容層（本家族撈取腳本共用的單一正本）
 
 【M2 修復（2026-09-20 資安審查）】
-本檔原本只放在私人限定的 台灣官方統計的撈取腳本，但它是「防線」不是
-「能力」——防止大家在遇到憑證錯誤時改用 `verify=False`，理應公開。三份實作
-（台灣官方統計來源、global-opendata-scout/intl_fetch.py、
-journal-submission-scout/journal_scout.py 各自內嵌一份）已經漂移：
-intl_fetch.py 那份缺 `proxy_manager_for` 覆寫（公司機走 proxy 時不會套用這個
-相容層），journal_scout.py 那份是內嵌在函式裡的區域類別。現在只留這一份正本，
-`global-opendata-scout/scripts/_gov_tls.py` 改為指向本檔的 re-export 薄殼，
-`intl_fetch.py`／`journal_scout.py` 改為從本檔匯入。
+本檔是「防線」不是「能力」——防止大家在遇到憑證錯誤時改用 `verify=False`。
+過去本家族的撈取腳本各自內嵌一份實作，已經漂移（例如 intl_fetch.py 那份缺
+`proxy_manager_for` 覆寫，走 proxy 時不會套用這個相容層）。現在只留這一份正本，
+`intl_fetch.py`、`journal_scout.py` 等撈取腳本一律從本檔匯入。
 
 【為什麼需要這支】
 Python 3.13 起，`ssl.create_default_context()` 預設開啟 OpenSSL 的嚴格憑證檢查
