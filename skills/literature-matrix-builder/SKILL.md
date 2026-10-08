@@ -52,6 +52,20 @@ Claude Code 環境呼叫同族技能須加 `anthropic-skills:` 前綴。
 
 ## 工作流程
 
+### Step 0｜文獻從哪來（有沒有文獻管理器都能跑）
+
+| 情況 | 走法 |
+|---|---|
+| `~~文獻管理器`已連上且**庫內有東西**（目前是本機 Zotero MCP） | 請使用者指定分類 → `zotero_get_collection_items`（`detail="keys_only"`，大分類用 `offset` 分頁）→ 逐筆 `zotero_get_item_metadata`（`format="json"`）取 DOI → 照樣走 Step 2 `add --doi` |
+| 沒連上、或連上但庫是空的（2026-10-08 實測本機庫 0 筆） | 直接走 PDF 路線（Step 1 起）；不要因為 Zotero 查無就說「沒有文獻」 |
+
+- **Zotero 書目不取代 CrossRef 那一步。**撤稿查核只在 `add` 時做，跳過就等於沒查；
+  庫裡的書目也可能是當年手打、早已過時。
+- 庫內沒有 DOI 的筆數單獨列出，標「需人工建檔」，不用標題去猜 DOI。
+- PDF 註記（`zotero_get_annotations`）可以當 Step 3 一起討論綜整欄的素材，**仍不代填**（原則 1 不變）。
+- 不寫回 Zotero（不新增、不改分類、不加標籤），除非使用者明說要寫、且寫之前列出要動哪幾筆。
+- 連接器分級與健康檢查的全家族規則，見 `research-orchestrator` 的 `references/connector-map.md`。
+
 ### Step 1｜建立文獻庫
 ```bash
 python scripts/litmatrix.py init -d ./lit

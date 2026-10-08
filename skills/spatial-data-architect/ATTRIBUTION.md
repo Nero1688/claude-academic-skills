@@ -22,4 +22,9 @@
 3. **pyproj / PROJ**(座標轉換)、**geopandas / matplotlib**(出圖):
    均為開源標準工具,本技能引用其公開 API,未修改或散布其程式碼。
 
+4. **public-apis/public-apis**(https://github.com/public-apis/public-apis,MIT,2026-10-08 新增)
+   其 Geocoding、Environment 類別是 `references/geocoding-validation.md` 新增的 Nominatim 列、
+   「Geocoding 分類多為 IP 定位」提醒,以及「座標編碼與格點檢查」一節的候選來源。
+   僅當發現層,未複製清單內容;編碼規則為自行實測後抽象寫成。
+
 本技能供學術研究使用。

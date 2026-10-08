@@ -62,6 +62,22 @@
 自行撰寫的規範文件，不含任何程式邏輯；`framework_figure.py` 的排版與繪圖
 程式碼與 `diagram-design` 無關、獨立實作。
 
+**2026-10-08 加深**（專案：https://github.com/cathrynlavery/diagram-design ，
+MIT，GitHub API 核對授權）：深讀其 SKILL.md、style-guide、primitives-core、
+output-spec、semantic-patterns、各 type 參考與 PRIVACY.md 後，再借以下**設計方法**：
+- `references/diagram-type-selector.md`（新增）：先定論證角色再選版式、表格測試、
+  一圖一套文法；流程圖、巢套、樹、2×2、文氏圖、時間軸的文法與反模式。
+- `references/output-tiers.md`（新增）：用途×字級連動（換用途＝重畫）、細節層級與
+  降級階梯、省略帳（fidelity ledger）、措辭層級、自含輸出與內容式替代文字。
+- `references/visual-discipline.md`（擴充）：移除測試四問、連線衛生六條、圖例與旁註紀律、
+  強調給論證焦點、框寬最多兩種。
+- 學術轉譯為自撰：目錄測試、DiD 時間軸、構念樹畫到構面、2×2 標兩極、**拒用「虛線穿框」
+  例外**（學術圖虛線已代表控制變數）、路徑圖保留斜線慣例、以 `--demo` 實測的產生器現況。
+
+**仍未借用**：程式碼、HTML/SVG 範本與外觀（Instrument Serif／Geist 字型、珊瑚色強調、
+點陣底紋、4px 網格數值）、動畫控制器、各 verify 腳本、draw.io／Mermaid／Excalidraw 匯入
+工具、圖示集。該 repo 的任何程式均未執行、未安裝其外掛。
+
 ### frontend-design — 先定調再產出的流程概念
 
 `references/visual-discipline.md`「畫圖前先回答三個問題」一節，借用自

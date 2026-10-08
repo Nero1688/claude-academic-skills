@@ -72,6 +72,10 @@ description: "跨國公開統計資料偵察員。研究要跨國比較、或使
 (requests+BeautifulSoup 優先、速率與 robots.txt/ToS 合規、gov.tw TLS 慣例、
 crawl4ai 與 public-apis 的定位——皆為 REFERENCE-ONLY,不引入其程式碼)。
 
+從清單撿到一個免費 API、要判斷**能不能進論文**時,讀 `references/free-api-vetting.md`:
+Auth/HTTPS/CORS 怎麼讀、一手源 vs 包裝層、授權/條款/版本/引用檢核、
+判定「端點壞了」前的五步區辨,以及「200 但空≠查無」的內容驗收與狀態標註詞彙。
+
 
 > 💡 **做「台灣 vs 他國」的公司層級比較**：台灣走 `public-disclosure-scout`（MOPS），
 > 美國走 SEC EDGAR，兩邊合併交棒 `multi-source-data-integrator`。

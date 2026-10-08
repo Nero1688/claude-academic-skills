@@ -42,6 +42,17 @@
 **未借用什麼**:未借用任何程式碼或範本;`poster_scaffold.py` 與
 `templates/poster-spec.json` 均為本技能自行設計。
 
+### diagram-design(cathrynlavery)— 海報上的圖:重畫不縮放
+
+專案:[cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design),
+授權:MIT License(2026-10-08 以 GitHub API 核對)。
+
+**借用了什麼**(設計方法,非程式碼):尺寸與字級連動(換尺寸就重畫,不縮放)、細節層級
+與省略帳、全張單一強調色、直接標註取代圖例、摘要卡不做三張等寬等重且無陰影。寫入
+`references/poster-layout.md`「海報上的圖」一節。
+
+**未借用什麼**:未借用程式碼、HTML 範本、字型與配色外觀;`poster_scaffold.py` 未改動。
+
 ### Better Poster(Mike Morrison)— 主發現放大、資訊密度精簡的理念
 
 理念引用,非程式碼、非特定 repo。SKILL.md 本文 Step 1 已註明理念來源

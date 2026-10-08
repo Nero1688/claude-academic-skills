@@ -25,6 +25,13 @@ https://github.com/Yuan1z0825/nature-skills
 **未借用程式碼**；本技能的 `scripts/mgmt_figures.py` 與 `diagram-design`
 無關、獨立實作。
 
+**2026-10-08 加深**（https://github.com/cathrynlavery/diagram-design ，MIT）：
+新增 `references/chart-honesty.md`、擴充 `references/figure_style.md` 顏色一節。借的是
+**設計方法**：焦點是編輯決定而非最大值、逐圖種誠實規則（長條從 0 起、折線不平滑且缺值
+斷線、啞鈴圖兩端標值與空心／實心區分、斜率圖同尺度、熱圖單色相 vs 發散的使用條件、
+排序與排除須揭露）、非文字對比 3:1 與「邊框扛對比、形狀扛辨識」。**未借用程式碼**；
+Okabe-Ito 對比與灰階明度為本技能依 WCAG 2.1 公式自行實算，`mgmt_figures.py` 未改動。
+
 ### frontend-design — 先定調再產出的流程概念
 
 同一份共用文件「畫圖前先回答三個問題」一節，借用自 `frontend-design` 技能

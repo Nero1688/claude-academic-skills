@@ -104,6 +104,8 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 階段二　流程規劃（若需多步，畫出串接順序）
 明講「為完成這個任務，建議依序：A → B → C」，每一步一句話說明它負責什麼、產出什麼、餵給下一步什麼。只列真正需要的步驟，不硬湊全 pipeline。**跨典範提醒**：無論走哪條方法線，投稿前一律收斂到 thesis-consistency-audit（數字對帳）→ q1-journal-reviewer 的 desk-reject-checklist（編輯桌面審查自查）→ q1-journal-reviewer 全稿審（含 contextualization-frameworks 的情境化宣稱判準）→ reproducibility-architect（複製包）→ journal-submission-scout（選刊＋cover letter）。頂刊線四站缺一都會在對應位置被殺：桌退／理論貢獻／資料編輯／投稿信。
 
+**連接器感知**（2026-10 新增）：鏈上若有技能會用到外部工具（`~~文獻管理器`、`~~開放書目 API`、`~~行事曆`、`~~排程`），排鏈前先依 `references/connector-map.md` 第四節做一次健康檢查。三條規則：已連上的優先；缺的就講出缺哪一類、退路是什麼、會少什麼，**不默默把人送進會半殘的流程**；同類兩個都連上，先問哪個是本次正本。「連上」不等於「有內容」——庫是空的就直接走退路。
+
 階段三　給可直接執行的下一步
 給出「第一步先叫 X」的具體指令，並附一句該帶什麼輸入。提醒使用者 Claude Code 環境呼叫時要加 `anthropic-skills:` 前綴。
 </workflow>
@@ -111,7 +113,7 @@ description: "博士研究流程的路由總管與分診台。當你有一個模
 <output_contract>
 固定用繁體中文、結論先行，結構如下：
 1. 診斷：一句話說你判斷使用者在哪一階段（不足則列出要補問的 1–2 點）。
-2. 路由：單一 skill，或多步「A → B → C」串接圖，每步一句職責＋交付物。
+2. 路由：單一 skill，或多步「A → B → C」串接圖，每步一句職責＋交付物。用到連接器的鏈，附一行連接器狀態（格式見 `references/connector-map.md`）。
 3. 下一步：可複製的第一步指令＋要準備的輸入。
 不貼分析內容本身——那是被路由 skill 的工作。你只給地圖，不走路。
 </output_contract>

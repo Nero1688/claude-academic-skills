@@ -33,7 +33,13 @@ SDMX 是統計交換的國際標準。**支援 SDMX 的機構可以用同一支�
 3. 回傳 `application/vnd.sdmx.structure+xml` 就是支援
 
 支援 → 用 `scripts/intl_fetch.py sdmx --base <base URL>`
-不支援 → 進 Step 3
+不支援 → 先看是不是 PX-Web，再進 Step 3
+
+**PX-Web 是第二條捷徑**：不少統計局（北歐國家尤其常見）用 PX-Web 軟體發布資料庫，
+這套軟體**內建 JSON API**。查詢頁出現 PxWeb 字樣時，去找該站的 API 說明頁
+（路徑常含 `/api/v1/`），同樣不必為每個國家手刻爬蟲。
+⚠️ 「介面看起來像 PX-Web」不等於有開 API——有些站只用它的網頁前端。
+打一次 API 根路徑，拿到 JSON 主題樹才算數。
 
 ### Step 3｜找該國的開放資料入口
 
@@ -88,3 +94,10 @@ SDMX 是統計交換的國際標準。**支援 SDMX 的機構可以用同一支�
    但**必須揭露這造成的選擇偏誤**（見 cautions 第五節）。
 4. **誠實回報「查無」**——並說明查過哪些地方、缺口在哪。
    這比生一個看似合理但錯誤的來源有價值得多。
+
+## 來源與授權
+
+- Step 2 的 PX-Web 捷徑（2026-10-08 擴充）：線索來自 **public-apis/public-apis**
+  （MIT，https://github.com/public-apis/public-apis）Government 類的瑞典統計資料庫條目；
+  「PX-Web 內建 API」一事已於 2026-10-08 實打一次確認可取得 JSON 主題樹。
+  本檔其餘內容為自行撰寫。

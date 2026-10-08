@@ -58,6 +58,7 @@ description: "模擬 FT50／UTD24／ABS 3*-4* 頂尖商管期刊（AMJ、SMJ、J
 - 樣本建構過程可複製嗎？變數操作型定義清楚嗎？TEJ 欄位有沒有交代來源？
 
 完成六個維度後，才動筆寫報告。
+
 </workflow>
 
 <output_contract>

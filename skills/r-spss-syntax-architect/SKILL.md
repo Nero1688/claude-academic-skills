@@ -1,6 +1,6 @@
 ---
 name: r-spss-syntax-architect
-description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel FE/RE＋Hausman、調節（交乘項＋簡單斜率）、二次項轉折點 -β₁/(2β₂)、中介（bootstrap）。每段語法先附前置資料檢查（遺漏、極端值、相關矩陣，相關逾 0.9 紅旗）、逐行中文註解、再現性聲明（seed、套件版本），並附執行後與迴歸表對帳步驟。何時用：你有資料欄位與假說、要產生實際能跑的分析語法時。與 tej-data-wrangler 劃界：wrangler 負責把 RAW 檔洗成乾淨面板，本技能負責洗好之後的建模語法。觸發詞：R 語法、SPSS syntax、迴歸語法、固定效果、FE、RE、Hausman、VIF、共線性、調節效果、交乘項、簡單斜率、二次項、轉折點、倒U、中介效果、bootstrap、穩健標準誤、叢集標準誤、可重現、reproducible、Python 迴歸、linearmodels、PanelOLS、迴歸表輸出、APA 表格、modelsummary、SEM、結構方程、lavaan SEM、PLS、PLS-SEM、SmartPLS、seminr、HTMT、形成性構念。第三軌 Python(linearmodels)適用 tejapi 直撈資料的全 Python 管線;另附迴歸表直出 Word 配方。"
+description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel FE/RE＋Hausman、調節（交乘項＋簡單斜率）、二次項轉折點 -β₁/(2β₂)、中介（bootstrap）。每段語法先附前置資料檢查（遺漏、極端值、相關矩陣，相關逾 0.9 紅旗）、逐行中文註解、再現性聲明（seed、套件版本），並附執行後與迴歸表對帳步驟。何時用：你有資料欄位與假說、要產生實際能跑的分析語法時。與 tej-data-wrangler 劃界：wrangler 負責把 RAW 檔洗成乾淨面板，本技能負責洗好之後的建模語法。觸發詞：R 語法、SPSS syntax、迴歸語法、固定效果、FE、RE、Hausman、VIF、共線性、調節效果、交乘項、簡單斜率、二次項、轉折點、倒U、中介效果、bootstrap、穩健標準誤、叢集標準誤、可重現、reproducible、Python 迴歸、linearmodels、PanelOLS、迴歸表輸出、APA 表格、modelsummary、SEM、結構方程、lavaan SEM、PLS、PLS-SEM、SmartPLS、seminr、HTMT、形成性構念、CAPM、Fama-French、Carhart、Fama-MacBeth、Newey-West、HAC、滾動 beta、portfolio sort、GARCH、GJR、EGARCH、波動度、HAR、已實現波動、QLIKE、Diebold-Mariano、樣本外 R²、ADF、KPSS、VaR、Kupiec、Markov-switching、Bai-Perron、結構斷點。第三軌 Python(linearmodels)適用 tejapi 直撈資料的全 Python 管線;另附迴歸表直出 Word 配方;第五軌金融時序(資產定價、波動度、預測評估、體制偵測)見 finance-timeseries-lane。"
 ---
 
 # R / SPSS 語法建構師（Syntax Architect）
@@ -77,6 +77,7 @@ description: "把研究假說轉成可重現的 R 或 SPSS 計量語法：panel 
 
 - **`references/python-panel-lane.md`**:第三軌 Python/linearmodels。何時走:資料來自 tejapi 直撈、要與 pandas 清理同腳本、或使用者環境只有 Python。含雙向 FE+叢集 SE 骨架、手工 Hausman、簡單斜率、轉折點、與 TEJ API 的無縫接軌。Step 0 的問題從「R 還是 SPSS」擴為三選一。
 - **`references/sem-pls-lane.md`**(2026-07 新增):SEM 第四軌——CB-SEM(lavaan)與 PLS-SEM(seminr)的選型對照、測量/結構評估慣例(HTMT、bootstrap 5000)、資管行銷的期刊語言。問卷結構模型需求走這軌。
+- **`references/finance-timeseries-lane.md`**(2026-10 新增):第五軌金融時序(R/Python)——CAPM/FF/Carhart＋HAC、滾動 beta、Fama-MacBeth、portfolio sorts、GARCH/GJR/EGARCH、HAR、QLIKE/DM、樣本外 R²、VaR 回測、Markov-switching/Bai-Perron;Y 為報酬或風險時走這軌,先過台灣報酬口徑檢查(含息 vs 價格指數、漲跌幅制度)。
 - **`references/apa-tables-recipe.md`**:迴歸表直出 Word。產完語法一律建議使用者用直出而非手抄(R modelsummary/apaTables、SPSS OUTPUT EXPORT、Python 手工組表),防 L-003 抄寫錯誤。
 
 <examples>

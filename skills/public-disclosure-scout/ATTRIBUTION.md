@@ -16,6 +16,13 @@
   付費牆繞過涉及規避站方存取控制，超出本技能「合規抓取＋引用永久性」的
   設計範圍與紅線（見 `references/dynamic-scraping-escalation.md` 的 🚫 清單）。
 
+- **Panniantong/Agent-Reach**
+  （https://github.com/Panniantong/Agent-Reach，MIT，2026-10-08 讀取）
+  `references/dynamic-scraping-escalation.md` 的「內容驗收」一節借鏡其來源健康檢查的
+  設計概念（空欄位不算成功、辨識驗證頁即停止、只對暫時性失敗重試）。
+  **未借用其以使用者 cookie／登入態存取社群平台的任何機制**（違反平台條款且有封號風險，
+  與本技能合規紅線衝突），未複製其程式碼。
+
 ## 使用的外部服務
 
 - **Internet Archive Wayback Machine**（archive.org / web.archive.org）：

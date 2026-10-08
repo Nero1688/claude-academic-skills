@@ -193,13 +193,26 @@ def arrow(p1, p2, st, label="", dashed=False, curve=0.0) -> str:
         f'stroke-width="{st["stroke_width"]}"{dash} marker-end="url(#ah)"/>'
     ]
     if label:
-        lx, ly = (x1 + x2) / 2, (y1 + y2) / 2
+        # 標籤沿線的法線方向往外推，讓底色方框完全避開線。
+        # 舊版把方框疊在中點正上方：水平線沒事，斜線與直線會被方框蓋掉一段（看起來斷線）。
+        if curve:
+            mx, my = (x1 + 2 * cxp + x2) / 4, (y1 + 2 * cyp + y2) / 4  # 貝茲曲線 t=0.5
+        else:
+            mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+        dx, dy = x2 - x1, y2 - y1
+        n = (dx**2 + dy**2) ** 0.5 or 1.0
+        nx, ny = -dy / n, dx / n
+        if ny > 0 or (ny == 0 and nx < 0):  # 一律放線的上方；垂直線放右側
+            nx, ny = -nx, -ny
+        half_w, half_h, gap = 22, 13, 4
+        off = abs(nx) * half_w + abs(ny) * half_h + gap
+        lx, ly = mx + nx * off, my + ny * off  # 方框中心
         out.append(
-            f'<rect x="{lx - 22:.1f}" y="{ly - 26:.1f}" width="44" height="26" '
-            f'fill="{st["fill"]}" stroke="none"/>'
+            f'<rect x="{lx - half_w:.1f}" y="{ly - half_h:.1f}" width="{2 * half_w}" '
+            f'height="{2 * half_h}" fill="{st["fill"]}" stroke="none"/>'
         )
         out.append(
-            f'<text class="hypo" x="{lx:.1f}" y="{ly - 7:.1f}" text-anchor="middle" '
+            f'<text class="hypo" x="{lx:.1f}" y="{ly + 6:.1f}" text-anchor="middle" '
             f'font-family="{esc(st["font_family"])}" font-size="{st["font_size_hypo"]}" '
             f'font-weight="bold" fill="{st["text_color"]}">{esc(label)}</text>'
         )

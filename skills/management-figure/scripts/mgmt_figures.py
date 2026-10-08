@@ -11,6 +11,13 @@ import matplotlib.pyplot as plt
 # Okabe-Ito 色盲友善調色盤
 PALETTE = ["#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#999999"]
 BAND = "#9ec9e8"
+# 第二線索:系列除了顏色還要靠線型/標記分得出來(黑白印刷、色弱讀者)。
+# Okabe-Ito 的黃(#E69F00)、淺藍(#56B4E9)、灰(#999999)在白底對比 <3:1,
+# 第 5 條以後的系列只靠顏色幾乎看不見,線型與標記是唯一能分辨的線索。
+LINESTYLES = ["-", (0, (5, 2)), (0, (1, 1.5)), (0, (5, 2, 1, 2)), (0, (8, 2)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 3))]
+MARKERS = ["o", "s", "^", "D", "v", "P", "X"]
+# 非顯著係數用的灰:#767676 在白底 4.54:1(原 #9a9a93 只有 2.83:1,細線幾乎看不見)
+MUTED = "#767676"
 
 def set_style():
     plt.rcParams.update({
@@ -87,9 +94,11 @@ def coefficient_forest_plot(names, coefs, ci_low, ci_high, xlabel="Coefficient (
     ax.axvline(0, color="#9a9a93", lw=1, ls=(0, (4, 3)), zorder=1)
     for yi, c, lo, hi in zip(yloc, coefs, ci_low, ci_high):
         sig = (lo > 0) or (hi < 0)
-        col = PALETTE[0] if sig else "#9a9a93"
+        col = PALETTE[0] if sig else MUTED
         ax.plot([lo, hi], [yi, yi], color=col, lw=1.6, zorder=2)
-        ax.scatter([c], [yi], s=42, color=col, zorder=3, edgecolors="white", lw=1)
+        # 顯著=實心、不顯著=空心:不只靠顏色(灰階列印仍分得出來)
+        ax.scatter([c], [yi], s=42, zorder=3, lw=1.4,
+                   facecolors=col if sig else "white", edgecolors=col)
     ax.set_yticks(yloc); ax.set_yticklabels(names)
     ax.set_xlabel(xlabel); _despine(ax)
     fig.tight_layout()
@@ -103,7 +112,8 @@ def interaction_plot(x_grid, lines, xlabel="X", ylabel="Y", labels=None,
     fig, ax = plt.subplots(figsize=(6.2, 4.6))
     labels = labels or [f"{title_moderator} {i}" for i in range(len(lines))]
     for i, (yv, lab) in enumerate(zip(lines, labels)):
-        ax.plot(x_grid, yv, color=PALETTE[i % len(PALETTE)], lw=2.2, label=lab)
+        ax.plot(x_grid, yv, color=PALETTE[i % len(PALETTE)], lw=2.2, label=lab,
+                ls=LINESTYLES[i % len(LINESTYLES)])
     ax.set_xlabel(xlabel); ax.set_ylabel(ylabel)
     _despine(ax); ax.legend(frameon=False, title=title_moderator)
     fig.tight_layout()
@@ -126,8 +136,9 @@ def trend_plot(years, series, labels, ylabel="Value", xlabel="Year"):
     set_style()
     fig, ax = plt.subplots(figsize=(6.4, 4.4))
     for i, (yv, lab) in enumerate(zip(series, labels)):
-        ax.plot(years, yv, color=PALETTE[i % len(PALETTE)], lw=2, marker="o",
-                ms=4, label=lab)
+        ax.plot(years, yv, color=PALETTE[i % len(PALETTE)], lw=2,
+                ls=LINESTYLES[i % len(LINESTYLES)], marker=MARKERS[i % len(MARKERS)],
+                ms=4.5, label=lab)
     ax.set_xlabel(xlabel); ax.set_ylabel(ylabel)
     _despine(ax); ax.legend(frameon=False)
     fig.tight_layout()
@@ -225,3 +236,160 @@ def event_study_plot(rel_time, coef, ci_low, ci_high, ref_period=-1,
     fig.text(0.01, 0.01, note, ha="left", va="bottom", fontsize=7.5, color="#33332f")
     return fig, ax, dict(note=note, ref_period=int(ref_period), n_pre=n_pre, n_post=n_post,
                          pre_joint_p=pre_joint_p, breakdown_M=breakdown_M)
+
+
+def _apply_pub_fonts(font="tw"):
+    """car_plot 的字型設定。font="tw":英數 Times New Roman、中文標楷體(DFKai-SB),
+    逐字形 fallback(matplotlib >= 3.6 支援 font.family 清單逐字形遞補);
+    font="sans":沿用 set_style() 的無襯線(references/figure_style.md)。
+    回傳 (實際字型清單, 缺漏字型清單);缺字型時誠實回報並警告,不假裝已套用。"""
+    if font == "sans":
+        return list(plt.rcParams["font.family"]), []
+    from matplotlib import font_manager
+    avail = {f.name for f in font_manager.fontManager.ttflist}
+    wanted = ["Times New Roman", "DFKai-SB"]
+    missing = [f for f in wanted if f not in avail]
+    family = [f for f in wanted if f in avail]
+    if "Times New Roman" in missing:
+        family.insert(0, "DejaVu Serif")
+    if "DFKai-SB" in missing:  # 標楷體的其他系統名稱,最後才退到正黑體
+        family += [f for f in ("BiauKai", "Microsoft JhengHei") if f in avail][:1]
+    family.append("DejaVu Sans")  # 最後防線:至少不出現方框
+    plt.rcParams.update({"font.family": family, "axes.unicode_minus": False,
+                         "pdf.fonttype": 42, "ps.fonttype": 42})  # 42=內嵌 TrueType,PDF 內文字可選取
+    if missing:
+        import warnings
+        warnings.warn(f"本環境缺字型 {missing},已改用 {family};投稿前請於有字型的機器重出")
+    return family, missing
+
+
+def car_plot(rel_time, series, labels=None, ci=0.95, pct=True, event_day=0,
+             highlight_window=None, lang="en", font="tw", xlabel=None, ylabel=None,
+             note=None, ax=None):
+    """短窗事件研究的平均累積異常報酬(CAAR)曲線:各組平均 CAR 路徑+信賴帶、事件日垂直線,可多組比較。
+    與 event_study_plot 分工:那支畫交錯 DiD 的逐期係數;這支畫市場反應的累積報酬路徑。
+
+    參數
+    ----
+    rel_time : 相對事件日的交易日(整數陣列,例 -10..10)。
+    series   : 一組或多組(多組傳 list,例:家族 vs 非家族)。每組可為
+               (a) 2D 陣列 n_events × len(rel_time):逐事件 CAR 路徑(例:事件研究輸出的長表
+                   依 event_id × rel_day 樞紐成矩陣)。函式算平均與 t 型信賴區間,N 取自事件數;
+               (b) dict(caar=..., ci_low=..., ci_high=..., n=...):已算好的平均與 CI
+                   (例:事件研究輸出 es_caar_path.csv 的同名欄位)。照你給的 CI 畫,圖註會註明。
+    labels   : 各組名稱;圖例自動附 (N = …)。
+    ci       : 信賴水準(只用於 (a))。
+    pct      : True → y 軸以 % 顯示(輸入為小數報酬)。
+    event_day: 事件日 t = 0 的位置(垂直虛線)。
+    highlight_window : 例 (-1, 1),以淡灰底標出主檢定窗。
+    lang     : "en" 英文軸標與圖註(投稿)或 "zh" 中文(口試、中文期刊)。
+    font     : "tw" → 英數 Times New Roman+中文標楷體;"sans" → 沿用 figure_style 的無襯線。
+    note     : 選填,檢定結果字串(例 "CAR(−1, +1): BMP t = 3.10; Kolari–Pynnönen adjusted p = 0.004")。
+               不給就不印任何檢定數字——函式不替你編。
+    回傳 (fig, ax, info);info 含各組 N、事件日 CAAR、實際字型、缺漏字型、圖註字串。
+    """
+    set_style()
+    fonts, missing = _apply_pub_fonts(font)
+    zh = lang == "zh"
+    rel_time = np.asarray(rel_time, float)
+    if isinstance(series, dict) or (isinstance(series, np.ndarray) and series.ndim == 2):
+        series = [series]
+    if labels is None:
+        labels = [(f"組別 {i + 1}" if zh else f"Group {i + 1}") for i in range(len(series))]
+    labels = list(labels)
+    if len(labels) != len(series):
+        raise ValueError("labels 與 series 的組數不一致")
+    scale = 100.0 if pct else 1.0
+    line_styles = ["-", (0, (5, 2)), (0, (1, 1.5)), (0, (5, 2, 1, 2))]
+    markers = ["o", "s", "^", "D"]
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(6.4, 4.4))
+    else:
+        fig = ax.figure
+    if highlight_window is not None:
+        a, b = highlight_window
+        ax.axvspan(a - 0.5, b + 0.5, color="#e6e6e3", alpha=0.6, lw=0, zorder=0)
+    ax.axhline(0, color="#9a9a93", lw=1, ls=(0, (4, 3)), zorder=1)
+    ax.axvline(event_day, color="#33332f", lw=1.0, ls=(0, (4, 3)), zorder=1)
+
+    ns, at_event, sources = [], [], set()
+    for i, (g, lab) in enumerate(zip(series, labels)):
+        if isinstance(g, dict):
+            mean = np.asarray(g["caar"], float)
+            lo = np.asarray(g["ci_low"], float); hi = np.asarray(g["ci_high"], float)
+            n = g.get("n")
+            n = int(np.nanmax(np.asarray(n, float))) if n is not None else None
+            sources.add("supplied")
+        else:
+            P = np.asarray(g, float)
+            if P.ndim != 2 or P.shape[1] != len(rel_time):
+                raise ValueError(f"第 {i + 1} 組 CAR 路徑矩陣須為 n_events × {len(rel_time)}")
+            cnt = np.sum(np.isfinite(P), axis=0)
+            if np.any(cnt < 2):
+                raise ValueError("每個相對日至少需要 2 個事件才能算信賴區間")
+            mean = np.nanmean(P, axis=0); sd = np.nanstd(P, axis=0, ddof=1)
+            try:
+                from scipy import stats as _st
+                crit = _st.t.ppf(0.5 + ci / 2.0, cnt - 1)
+                sources.add("t")
+            except ImportError:  # 無 scipy 時退回常態臨界值,並在圖註明講
+                crit = {0.90: 1.645, 0.95: 1.96, 0.99: 2.576}.get(round(ci, 2), 1.96)
+                sources.add("normal")
+            half = crit * sd / np.sqrt(cnt)
+            lo, hi = mean - half, mean + half
+            n = int(cnt.max())
+        if not (len(mean) == len(lo) == len(hi) == len(rel_time)):
+            raise ValueError("caar / ci_low / ci_high 長度必須與 rel_time 一致")
+        if np.any(lo > mean + 1e-12) or np.any(hi < mean - 1e-12):
+            raise ValueError("CI 端點必須包住 CAAR(ci_low <= caar <= ci_high);請核對來源輸出")
+        col = PALETTE[i % len(PALETTE)]
+        ax.fill_between(rel_time, lo * scale, hi * scale, color=col, alpha=0.16, lw=0, zorder=2)
+        ntxt = f" (N = {n:,})" if n is not None else ""
+        ax.plot(rel_time, mean * scale, color=col, lw=2.0, ls=line_styles[i % 4],
+                marker=markers[i % 4], ms=3.6, zorder=3, label=f"{lab}{ntxt}")
+        ns.append(n)
+        k = np.where(rel_time == event_day)[0]
+        at_event.append(float(mean[k[0]]) if len(k) else None)
+
+    ax.text(event_day, 0.98, (" 事件日" if zh else " Event day"), transform=ax.get_xaxis_transform(),
+            ha="left", va="top", fontsize=8, color="#33332f")
+    span = len(rel_time)
+    step = 1 if span <= 12 else (2 if span <= 25 else 5)
+    ticks = np.arange(np.ceil(rel_time.min() / step) * step, rel_time.max() + 1, step)
+    ax.set_xticks(ticks); ax.set_xticklabels([f"{int(t)}" for t in ticks])
+    ax.set_xlim(rel_time.min() - 0.5, rel_time.max() + 0.5)
+    if xlabel is None:
+        xlabel = "相對事件日（交易日）" if zh else "Trading days relative to the event date"
+    if ylabel is None:
+        unit = ("（%）" if zh else " (%)") if pct else ""
+        ylabel = (f"平均累積異常報酬 CAAR{unit}" if zh else f"CAAR{unit}")
+    ax.set_xlabel(xlabel); ax.set_ylabel(ylabel)
+    _despine(ax); ax.legend(frameon=False, loc="best")
+
+    # 圖註:信賴帶來源與累積起點自動印;檢定數字只印使用者給的 note
+    start = int(rel_time.min())
+    lines = []
+    if zh:
+        if "t" in sources:
+            lines.append(f"陰影為平均 CAR 的 {ci:.0%} 信賴區間（橫斷面 t）；CAR 自第 {start} 日起累積。")
+        if "normal" in sources:
+            lines.append(f"陰影為平均 CAR 的 {ci:.0%} 信賴區間（常態近似，本環境無 scipy）；CAR 自第 {start} 日起累積。")
+        if "supplied" in sources:
+            lines.append("陰影為估計輸出提供的信賴區間。")
+    else:
+        if "t" in sources:
+            lines.append(f"Shaded bands: {ci:.0%} confidence intervals of the mean CAR (cross-sectional t); "
+                         f"CARs cumulate from day {start}.")
+        if "normal" in sources:
+            lines.append(f"Shaded bands: {ci:.0%} confidence intervals (normal approximation; scipy unavailable); "
+                         f"CARs cumulate from day {start}.")
+        if "supplied" in sources:
+            lines.append("Shaded bands: confidence intervals as supplied by the estimation output.")
+    if note:
+        lines.append(str(note))
+    note_txt = "\n".join(lines)
+    fig.tight_layout(rect=(0, 0.03 + 0.035 * len(lines), 1, 1))
+    fig.text(0.01, 0.01, note_txt, ha="left", va="bottom", fontsize=7.5, color="#33332f")
+    return fig, ax, dict(n=ns, caar_at_event=at_event, fonts=fonts, fonts_missing=missing,
+                         note=note_txt, ci_source=sorted(sources))

@@ -1,5 +1,10 @@
 # 一致性稽核 checklist(管理/財務 + APA/TEJ)
 
+## 0. 機械層覆蓋(先做,決定「零發現」能不能信)
+- [ ] `audit_docx.py` 印出的「掃描範圍」表格數 = 論文實際表格數?不等就列出漏掉的表號。
+- [ ] 英文表頭(Min/Max)、圖片表格、文字方塊、內嵌 Excel 物件——這些表腳本讀不到,一律改人工逐格核對。
+- [ ] 報告的機械對帳段寫明「覆蓋 X/Y 張表」;覆蓋不足時不得寫「機械對帳無異常」。
+
 ## 1. 假設 ↔ 迴歸表對齊
 - [ ] 列出 H1…Hk,各自的應變數與預期方向。
 - [ ] 每張迴歸表的「應變數」與其檢定的假設相符(不可把信用評等假設標在 Tobin's Q 表上)。
@@ -42,3 +47,6 @@
       易得 404)。查補或存檔用 `public-disclosure-scout` 的 `scripts/archive_url.py`
       (`lookup <url>` 查現有快照、`save <url>` 補存);無法存檔者須於文中標明「存檔失敗,
       僅記錄擷取日期」,不可留白也不可假裝已存檔。
+
+---
+來源與授權:第 0 節「零發現先看覆蓋」的原則借鑑 anthropics/knowledge-work-plugins(Apache-2.0)的 `small-business/shared/absent-is-not-zero.md`,以自己的話改寫為論文稽核情境,未複製原文。https://github.com/anthropics/knowledge-work-plugins

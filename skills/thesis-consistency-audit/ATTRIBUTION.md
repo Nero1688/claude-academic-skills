@@ -25,3 +25,12 @@ https://github.com/qqfly1to19/awesome_proofreading_auto
   本技能僅汲取此**概念**寫成稽核規則,**未複製其任何程式碼**;實際存檔操作由
   `public-disclosure-scout` 的 `scripts/archive_url.py` 執行,本技能只負責稽核
   「有沒有附存檔證據」,不重複實作存檔功能。
+
+## 補充概念來源(2026-10-08 新增)
+
+- **anthropics/knowledge-work-plugins**
+  (https://github.com/anthropics/knowledge-work-plugins,Apache-2.0,2026-10-08 實抓根目錄 LICENSE)
+  `scripts/audit_docx.py` 新增的「掃描範圍」報告與「機械層覆蓋不足」警示,借鏡該專案
+  `small-business/shared/absent-is-not-zero.md` 的原則:空結果與沒檢查到長得一模一樣,
+  零發現必須先交代掃到多少才有意義。本技能僅汲取此**原則**,以自己的程式與文字實作,
+  **未複製其任何文字或程式碼**;`audit_docx.py` 整體仍依上方 CC BY-NC-SA 4.0 條款釋出。

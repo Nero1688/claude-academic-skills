@@ -71,24 +71,36 @@ def find_reg_obs(g):
 def main(path):
     d = docx.Document(path)
     out=[]; desc_Ns=set(); reg_Ns=set()
+    n_desc_tbl=0; n_reg_tbl=0   # 覆蓋率:實際辨識到幾張敘述統計表/迴歸表
     for ti,t in enumerate(d.tables):
         g=grid(t)
         check_totals(g, ti, out)
         ns=check_desc(g, ti, out)
+        if ns is not None: n_desc_tbl+=1
         if ns: desc_Ns|=ns
         ro=find_reg_obs(g)
         if ro and any("R²" in (r[0] or "") or "R2" in (r[0] or "") for r in g):
-            reg_Ns|=set(ro)
+            reg_Ns|=set(ro); n_reg_tbl+=1
     if desc_Ns and reg_Ns:
         big_desc=max(desc_Ns); 
         for r in sorted(reg_Ns):
             if r < big_desc*0.95:
                 out.append(f"  [N落差] 敘述統計樣本up to {big_desc} 但迴歸觀察值={r},少{big_desc-r}筆,需說明(常見為落後期/listwise)")
     print("=== 一致性稽核機械對帳 ===")
+    # 先報掃描範圍:「零發現」只在範圍足夠時才有意義(查無≠沒有)
+    print(f"掃描範圍: 讀到 Word 表格 {len(d.tables)} 張;辨識為敘述統計表 {n_desc_tbl} 張、迴歸表 {n_reg_tbl} 張")
     print(f"敘述統計樣本數集合: {sorted(desc_Ns)}   迴歸觀察值集合: {sorted(reg_Ns)}")
+    gaps=[]
+    if not d.tables: gaps.append("沒有讀到任何 Word 表格(表格可能是圖片、文字方塊或內嵌 Excel 物件)")
+    if d.tables and not n_desc_tbl: gaps.append("未辨識到敘述統計表(目前只認中文表頭『最小』『最大』;英文表頭 Min/Max 不會被辨識)")
+    if d.tables and not n_reg_tbl: gaps.append("未辨識到迴歸表(需有『觀察值/Observations』列與 R² 列)")
     if out:
         print(f"\n發現 {len(out)} 項待查:")
         print("\n".join(out))
+    elif gaps:
+        print("\n⚠ 機械層覆蓋不足,以下項目實際上沒有檢查——『未發現』不代表沒有問題:")
+        print("\n".join(f"  - {x}" for x in gaps))
+        print("  → 請核對論文實際表格數,未覆蓋的表改人工逐格核對,並在報告註明。")
     else:
         print("未發現機械層面不一致(仍建議人工核對假設↔表、引用)。")
 

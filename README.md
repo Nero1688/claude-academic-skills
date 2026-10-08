@@ -2,7 +2,7 @@
 
 **🌐 Language / 語言：[繁體中文](#繁體中文) · [English](#english)**
 
-**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.15.0 · 2026-09-20（頂刊投稿線深化：20 支升級、40+ 份新附檔與腳本、五類資安掃描進 CI）
+**📋 更新紀錄 / Changelog：[`docs/CHANGELOG.md`](docs/CHANGELOG.md)** — 最新：v0.16.0 · 2026-10-09（既有技能強化：圖表選型與誠實紅線、連接器退路、免費 API 准入檢核、事件研究估計層）
 
 <p align="left">
   <img alt="skills" src="https://img.shields.io/badge/skills-38-blue">
@@ -43,6 +43,17 @@
 如果這裡有哪支技能幫你擋掉一個幻覺引用、省下一下午的洗資料、或讓 reviewer 2 沒那麼可怕——按顆 ⭐ 就是學術版的「被引用」：下一個需要的研究者靠它找到這裡。不用送審、不用 revise & resubmit。**就當它是開源研究工具版的「按讚、訂閱、開小鈴鐺」。** 🔔
 
 > ⚠️ 本專案與 Anthropic **無官方關聯**。部分技能需搭配外部工具或**付費資料庫（如 TEJ）**才能發揮完整功能。
+
+### 🆕 最新更新（v0.16.0 · 2026-10）
+
+技能數不變（38），這一版專做**既有技能的強化**：20 支加深、新增 11 份參考檔。
+
+- **圖表選型與誠實紅線**：先決定這張圖要論證什麼再選版式；期刊、口試、海報三種用途要重畫、不是縮放。修正三個圖表缺陷：架構圖假說標籤會切斷斜線、森林圖不顯著灰太淡（2.83:1）、交互作用圖與趨勢圖只靠顏色區分，現在黑白印刷也分得出來。
+- **沒接工具也能跑**：`research-orchestrator` 以工具類別書寫（文獻管理器、引用脈絡庫……），有接 MCP 走加值路徑，沒接走退路；「連上 ≠ 有內容 ≠ 有額度」。
+- **免費 API 能不能進論文**：`global-opendata-scout` 新增准入檢核，涵蓋一手源與包裝層、授權與條款、版本可追溯、「HTTP 200 不等於成功」。
+- **事件研究估計層**：窗口、市場模型、AR／CAR／BHAR、跨事件檢定，以及台灣 13:30 順延與漲跌停；另有金融時序第五軌、文字時間戳對齊。
+- **方法逆向證據帳**：判讀分「觀察／推論／未知」，「原文沒做 X」要寫明查過哪些範圍。
+- 外部專案只借設計概念，致謝見 `NOTICE.md`；完整清單見 `docs/CHANGELOG.md`。
 
 ### 🆕 最新更新（v0.15.0 · 2026-09）
 
@@ -121,7 +132,7 @@
 
 一貫紀律不變:**融合外部開源都只取概念、不吞依賴、遇 copyleft 就規避、用了就在 `NOTICE.md` 與各技能 `ATTRIBUTION.md` 誠實致謝**。
 
-> 完整版本歷史見各 [Releases](../../releases)。技能總數：**35**。
+> 完整版本歷史見各 [Releases](../../releases)。技能總數：**38**。
 > **安裝**:整個 repo 的 ZIP 無法直接當單一技能上傳;請到 [`dist/`](dist/) 下載你要的個別 `.zip`(見下方安裝說明)。
 
 ### 🧭 運作原則（三條底線）
@@ -240,6 +251,17 @@ If a skill here caught a hallucinated citation, saved you an afternoon of data-w
 
 > ⚠️ **Not affiliated with Anthropic.** Some skills require external tools or a **paid database (e.g., TEJ)** for full functionality.
 
+### 🆕 What's new (v0.16.0 · 2026-10)
+
+Same 38 skills; this release **deepens existing skills** — 20 skills strengthened, 11 new reference files.
+
+- **Figure choice and chart honesty**: decide what argument a figure makes before choosing its form; journal, defense and poster versions are redrawn, not rescaled. Three figure bugs fixed: hypothesis labels no longer cut diagonal paths, the non-significant grey in forest plots was too faint (2.83:1), and interaction/trend plots no longer rely on colour alone — they now survive black-and-white printing.
+- **Works with or without tools**: `research-orchestrator` now names tool *categories* (reference manager, citation-context service…) — MCP connected means the enhanced path, otherwise a fallback; "connected ≠ has content ≠ has quota".
+- **Can this free API go into a paper?**: `global-opendata-scout` adds an admission checklist — primary source vs. wrapper, licence and terms, versioning, and "HTTP 200 is not success".
+- **Event-study estimation layer**: windows, market models, AR/CAR/BHAR, cross-event tests, Taiwan's 13:30 roll-forward and price limits; plus a finance time-series lane and text-timestamp alignment.
+- **Evidence ledger for method reverse-engineering**: every reading is tagged observed / inferred / unknown; "the paper didn't do X" must state where you looked.
+- External projects contributed design ideas only; credits in `NOTICE.md`, full list in `docs/CHANGELOG.md`.
+
 ### 🆕 What's new (v0.15.0 · 2026-09)
 
 Same 38 skills, but the **largest content upgrade so far**: 20 skills gained 40+ references, templates and runnable scripts, all aimed at one goal — getting a Taiwan-data manuscript past top-journal gates.
@@ -317,7 +339,7 @@ Recent work focused on **data coverage (cross-country)**, **data-acquisition rob
 
 The standing discipline holds: **external open source is adopted as concept only, never as a bundled dependency; copyleft is avoided; and every borrowing is credited honestly in `NOTICE.md` and each skill's `ATTRIBUTION.md`.**
 
-> Full version history in [Releases](../../releases). Total skills: **35**.
+> Full version history in [Releases](../../releases). Total skills: **38**.
 > **Install**: the whole-repo ZIP is not a single installable skill — grab the individual `.zip` you want from [`dist/`](dist/) (see Install below).
 
 ### 🧭 Operating principles (three ground rules)

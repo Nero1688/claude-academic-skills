@@ -41,6 +41,8 @@ description: "學術研討會海報產生器。把論文或研究摘要轉成可
   `python scripts/poster_scaffold.py --spec poster-spec.json -o poster.pptx`;
   該腳本會依 `layout`(three-column/better-poster)自動排版、套用三層閱讀動線字級門檻,
   並確保中文 run 正確帶有東亞字型(標楷體)。可用 `--verify` 模式讀回檢查尺寸與字級是否過關。
+- 海報上的圖不直接縮放期刊圖:依 `references/poster-layout.md`「海報上的圖」以欄寬實寸重出
+  (字級達瀏覽層、精簡層級、圖下交代省略了什麼、全張一個強調色)。
 - 產出後縮圖自檢:縮到 10% 大小看——若主發現讀不到,吸睛層失敗,重排。
 - 交付雙格式:.pptx(可編輯)+ 轉 PDF(送印),並提醒印前確認出血與 CMYK 問題
   (校內輸出中心通常收 PDF 即可)。

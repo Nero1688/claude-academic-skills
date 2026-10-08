@@ -1,6 +1,6 @@
 ---
 name: text-analytics-architect
-description: "文字資料研究架構師(行銷/資管/財金的 text-as-data 前緣):把非結構文字(財報 MD&A、法說會逐字稿、消費者評論、社群輿情、客服紀錄)變成可發表的研究變數。涵蓋:語料與構念的效度論證(這些字真的量到你的構念嗎)、方法階梯選型(字典法→主題模型 LDA/STM/BERTopic→嵌入分類→LLM 標註,由可解釋到黑箱)、LLM 輔助標註的信效度紀律(人工雙編碼基準、一致性係數、prompt 凍結與版本記錄、偏誤稽核)、中文特化(CKIP/jieba 斷詞、繁簡、停用詞、中文情緒詞典)、文字變數的敘述統計與效度報告。何時用:想用文字資料做研究、財報語調、評論探勘、輿情變數、要用 GPT/Claude 幫忙標註資料。觸發詞:文字探勘、text mining、文本分析、text-as-data、主題模型、LDA、STM、BERTopic、情緒分析、sentiment、語調、tone、財報文字、MD&A、法說會、評論分析、社群輿情、LLM 標註、AI 標註、機器編碼、斷詞、詞頻、TF-IDF、embedding、NLP 研究。與 qualitative-thematic-coder 劃界:那個是人工深度詮釋(小語料、理論生成、逐字稿),本 skill 是規模化文字量化(大語料、變數建構、進迴歸);兩者可串:先質化編碼建碼本,再放大為自動分類。與 r-spss-syntax-architect/causal-inference-architect 劃界:文字變數建好之後的建模歸它們。"
+description: "文字資料研究架構師(行銷/資管/財金的 text-as-data 前緣):把非結構文字(財報 MD&A、法說會逐字稿、消費者評論、社群輿情、客服紀錄)變成可發表的研究變數。涵蓋:語料與構念的效度論證(這些字真的量到你的構念嗎)、方法階梯選型(字典法→主題模型 LDA/STM/BERTopic→嵌入分類→LLM 標註,由可解釋到黑箱)、LLM 輔助標註的信效度紀律(人工雙編碼基準、一致性係數、prompt 凍結與版本記錄、偏誤稽核)、中文特化(CKIP/jieba 斷詞、繁簡、停用詞、中文情緒詞典)、文字變數的敘述統計與效度報告。何時用:想用文字資料做研究、財報語調、評論探勘、輿情變數、要用 GPT/Claude 幫忙標註資料。觸發詞:文字探勘、text mining、文本分析、text-as-data、主題模型、LDA、STM、BERTopic、情緒分析、sentiment、語調、tone、財報文字、MD&A、法說會、評論分析、社群輿情、LLM 標註、AI 標註、機器編碼、斷詞、詞頻、TF-IDF、embedding、NLP 研究、FinBERT、金融 BERT、領域預訓練模型、新聞情緒、情緒指數、情緒與報酬、時間戳對齊、前視偏誤。與 qualitative-thematic-coder 劃界:那個是人工深度詮釋(小語料、理論生成、逐字稿),本 skill 是規模化文字量化(大語料、變數建構、進迴歸);兩者可串:先質化編碼建碼本,再放大為自動分類。與 r-spss-syntax-architect/causal-inference-architect 劃界:文字變數建好之後的建模歸它們。"
 ---
 
 # 文字資料研究架構師(Text Analytics Architect)
@@ -38,10 +38,22 @@ description: "文字資料研究架構師(行銷/資管/財金的 text-as-data �
 | 1 | 字典法(LM 財金詞典、中文情緒詞典) | 構念有成熟詞典(語調、不確定性) | 高(可解釋、可重現) |
 | 2 | 主題模型(LDA/STM;短文本用 BERTopic) | 探索語料結構、建主題份額變數 | 高(需人工命名+效度檢) |
 | 3 | 監督式分類(嵌入+分類器) | 有標註資料、構念複雜 | 中高(報 out-of-sample 表現) |
+| 3b | 領域預訓練模型(FinBERT 類,現成金融語調分類器) | 構念就是「正/負/中性語調」、無力自建標註 | 中高(英文有期刊背書);**用在別的語言、文體、年代＝領域外,須本地驗證** |
 | 4 | LLM 標註 | 構念需理解語境、標註量大 | 上升中,**紀律見 Step 3** |
 
 原則:低階能解決就不上高階;高階結果用低階方法三角驗證(BERTopic 主題與
 關鍵詞頻是否一致)。STM 可帶共變數(主題隨公司特徵變化),管理研究常用。
+
+**3b 領域預訓練模型的現況與取捨**:英文有兩條線,Araci(2019,arXiv 預印本,以 Reuters 財經新聞
+延伸預訓練、Financial PhraseBank 微調)與 Huang, Wang & Yang(2023, *Contemporary Accounting Research*,
+40(2), 806–841,以年報、法說會逐字稿、分析師報告等財務文本預訓練,再以人工標註句子微調;語料細節以原文為準)。中文金融 BERT 多為社群或業界釋出、訓練語料以簡體與
+中國大陸財經文本為主,例:HuggingFace 上的 `yiyanghkust/finbert-tone-chinese`、熵簡科技 FinBERT、
+Langboat Mengzi-BERT-base-fin(三者的訓練語料、標註來源與授權**一律建議查證**,以模型卡為準)。
+用於繁體台灣新聞、年報或社群貼文即屬**領域外使用**:語言變體、文體(標題 vs 全文)、年代任一不同,
+效度都要重證:隨機抽樣人工雙編碼,報 κ/F1 與混淆矩陣(Step 3 第 1–2 條),未完成前只能稱「探索性」。
+取捨:字典法透明可重現但不懂語境與否定;領域模型便宜、固定 revision 可重現,但構念只有三類語調、
+換領域就失準;LLM 構念彈性大,但成本高、版本漂移,紀律最重。領域模型的標籤進迴歸同樣適用
+Step 3 第 6 條的測量誤差校正。
 
 ## Step 3|LLM 標註的信效度紀律(2026 審稿新戰場)
 
@@ -85,6 +97,9 @@ LLM 標註場景。
 - 敘述統計+分布(文字變數常右偏,考慮轉換)。
 - 效度三角:與已知相關的結構化變數方向一致嗎?(語調悲觀 vs 當期虧損)
 - 極端值人工抽讀 10 則:分數極端的文本讀起來真的是那樣嗎?
+- **有發布時間的文字(新聞、社群、法說會)要對到交易日、或要檢驗情緒→報酬**:先讀
+  `references/text-timestamp-alignment.md`(13:30 切點、只有日期無時分的保守處理、時區、轉載去重、
+  反向 Granger、樣本外 R²、多股指數的加權偏誤)。
 - 交棒:變數進 r-spss-syntax-architect(一般建模)或 causal-inference-architect
   (文字變數當結果/處理的識別設計);出圖 management-figure。
 

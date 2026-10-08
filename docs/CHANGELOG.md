@@ -5,6 +5,59 @@
 
 ---
 
+## v0.16.0 — 2026-10-09
+
+**主題：既有技能的強化，合併三批（2026-10-04 金融方法、10-06、10-08 外部專案借設計）。** 技能數不變（38），未新增技能；
+20 支強化，新增 11 份參考檔。所有外部專案都只借設計概念，未安裝、未執行、未複製其程式碼，致謝見 `NOTICE.md`。
+
+### 圖表（借鑑 cathrynlavery/diagram-design，MIT）
+- `research-framework-figure`：
+  - `references/diagram-type-selector.md`：先定論證角色再選版式。含「表格測試」與「目錄測試」，補上研究流程圖、2×2 類型矩陣、多層次巢套、構念樹、DiD 政策時間軸的畫法。
+  - `references/output-tiers.md`：期刊、口試、海報三種用途要重畫，不是縮放。附字級門檻、刪減順序與「省略帳」。
+  - `visual-discipline.md` 補上連線衛生。
+  - **修正**：假說標籤會蓋掉斜線一段，現改為沿法線外推。
+- `management-figure`：
+  - `references/chart-honesty.md`：逐圖種誠實紅線。實算 Okabe-Ito 的黃、淺藍、灰在白底對比不到 3:1，這三色不作細線或文字。
+  - **修正**：森林圖不顯著者改為空心點加 `#767676`（原灰只有 2.83:1）；`interaction_plot` 與 `trend_plot` 內建線型與標記第二線索，黑白印刷也分得出來。
+  - 新增 `car_plot()`：短窗事件研究的 CAAR 曲線（10-04）。
+- `academic-poster`：海報上的圖依欄寬實寸重出。
+
+### 連接器與退路（借鑑 anthropics/knowledge-work-plugins，Apache-2.0）
+- `research-orchestrator`：`references/connector-map.md`。技能以工具類別書寫（文獻管理器、引用脈絡庫……），有接工具走加值路徑，沒接也能跑。原則包括「連上不等於有內容，也不等於有額度」。
+- `citation-verifier`：「查不到不等於不存在」，可比對本機文獻庫。`literature-matrix-builder` 補上連接器退路。
+- `thesis-consistency-audit`：`audit_docx.py` 改為回報掃到幾張表。原本英文表頭的表格會整張被略過。
+- `phd-milestone-tracker`：`deadline_calc.py --ics` 匯出行事曆檔；給事件日可反推申請截止日。
+- `nstc-grant-writer`：`references/assumption-risk-table.md`。「困難與因應」改為把最大風險排在第一年前段先驗證。
+
+### 資料（借鑑 public-apis、Agent-Reach、rea，皆 MIT）
+- `global-opendata-scout`：`references/free-api-vetting.md`，免費 API 學術准入檢核，涵蓋：
+  - Auth、HTTPS、CORS 三欄在研究上的意義
+  - 一手源與包裝層的區分
+  - 八項檢核
+  - 判定失效前的五步區辨
+  - 「200 不等於成功」
+  - 健康狀態詞彙與 A–D 用途分級
+- `multi-source-data-integrator`、`public-disclosure-scout`：
+  - 事先宣告取得順序
+  - `_src` 記實際供數者
+  - 備援來源與主源要做重疊期對帳
+  - 回 200 但內容是空的或驗證頁，算取數失敗
+- `spatial-data-architect`：接收座標欄前先查編碼（經度正負號、度分秒打包、格點吸附、地理編碼失敗率）。
+- `phd-researcher`：`references/method-evidence-ledger.md`。方法逆向的判讀分「觀察／推論／未知」，否定陳述要帶搜尋邊界。
+
+### 金融與事件研究方法（2026-10-04）
+- `causal-inference-architect`：`references/event-study-estimation.md`，事件研究估計層。涵蓋窗口、市場模型、AR／CAR／BHAR、跨事件檢定，以及台灣 13:30 順延與漲跌停；完整估計引擎依時間差政策暫留私人庫。
+- `r-spss-syntax-architect`：`references/finance-timeseries-lane.md`，金融時序第五軌。
+- `text-analytics-architect`：`references/text-timestamp-alignment.md`，發布時間對交易日。
+- `q1-journal-reviewer`：實證資產定價與預測論文子類。
+- `tej-data-wrangler`：股價與報酬序列的六項紅旗。
+
+### 其他
+- `academic-deck-animator`：open-slide 致謝連結改為新組織 open-slide/open-slide（10-06）。
+
+### 前次釋出後未記入的變更（commit d536e44）
+- 結構層論證力度檢查 `argument-force-check.md`（中英兩支潤飾技能）與變數種子對照表的 A／B／D 區公開。
+
 ## v0.15.0 — 2026-09-20
 
 **主題：面向國際頂級期刊的全面深化。** 技能數不變（38），但 20 支獲得實質升級——新增 40+ 份參考、模板與可執行腳本，

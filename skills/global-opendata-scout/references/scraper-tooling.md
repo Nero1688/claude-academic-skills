@@ -100,6 +100,10 @@
    來源；public-apis 只在「本 skill 沒收錄的領域,不知道有沒有現成 API」時，
    當作起點去搜尋，找到後仍須完整走一遍驗活與可比性檢查（`cross-country-cautions.md`）
    才能真正使用。
+4. **2026-10-08 重讀補充**：清單的 Auth 欄會過時（標「免驗證」、實打要金鑰或已遷移），
+   且新條目大量是把官方資料重新包裝的第三方服務。撿到一個 API 之後怎麼判斷
+   能不能進論文——欄位解讀、一手源 vs 包裝層、授權／條款／版本／引用、
+   判定端點失效前的區辨順序——見 `free-api-vetting.md`。
 
 ## 六、決策速查
 
@@ -109,6 +113,8 @@
 | 資料由 JS 動態載入，但有背後 API | 找到該 API，直接打（優先於無頭瀏覽器） |
 | 真的需要 JS 渲染且無 API 可用 | 本機跑 Playwright（不自架對外服務） |
 | 不知道某領域有沒有現成 API | public-apis 當起點搜尋，找到後自行驗活 |
+| 撿到一個免費 API，要判斷能不能進論文 | `free-api-vetting.md` 准入檢核與用途分級 |
+| 回 200 但結果是空的、或回 HTML 頁 | 先走 `free-api-vetting.md` 第四節區辨，不要直接寫「查無」 |
 | 混台灣與他國資料，要連 .gov.tw | 沿用 `_gov_tls.py` 慣例，不用 `verify=False` |
 | 站方明示禁止自動抓取／有 CAPTCHA | 停止自動化，改官方申請管道或人工 |
 
@@ -117,3 +123,10 @@
 找到適合的抓取方式後，回到 SKILL.md 的 Step 3（撈取）與 Step 4（可比性檢查）；
 台灣資料一律轉台灣官方來源；多源資料整合交棒
 `anthropic-skills:multi-source-data-integrator`。
+
+## 來源與授權
+
+- 第五節第 4 點（2026-10-08 擴充）：據 **public-apis/public-apis**（MIT，
+  https://github.com/public-apis/public-apis）2026-10-08 重讀觀察所寫；完整來源標示見
+  `free-api-vetting.md` 與本技能 `ATTRIBUTION.md`。crawl4ai 與 public-apis 的
+  REFERENCE-ONLY 定位不變，未引入任何外部程式碼。

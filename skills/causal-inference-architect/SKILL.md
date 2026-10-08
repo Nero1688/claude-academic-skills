@@ -1,6 +1,6 @@
 ---
 name: causal-inference-architect
-description: "因果推論架構師(頂刊識別策略,2026 前緣標準):現代差異中之差異 DiD——交錯採用(staggered adoption)下 TWFE 的偏誤、Goodman-Bacon 分解、Callaway & Sant'Anna / Sun & Abraham 等異質穩健估計量、事件研究圖與平行趨勢診斷(含 Rambachan & Roth 誠實區間);工具變數 IV(弱工具診斷、排除限制論證);斷點迴歸 RDD;合成控制 SCM;安慰劑檢定矩陣。輸出:識別策略選擇書+對應 R 語法(fixest/did/rdrobust)+審稿人攻防表。何時用:政策/制度/揭露的採用效果、任何想宣稱因果的檔案資料研究、審稿人質疑內生性與識別。觸發詞:DiD、差異中之差異、雙重差分、交錯採用、staggered、平行趨勢、事件研究圖、event study、事件源、重大訊息事件、MOPS 事件、工具變數、IV、弱工具、2SLS、斷點迴歸、RDD、合成控制、synthetic control、因果推論、識別策略、內生性、自然實驗、政策評估、處理效應、Callaway、Goodman-Bacon、TWFE 偏誤。與 r-spss-syntax-architect 劃界:那個管一般面板 FE/調節/中介的建模語法,本 skill 專攻『因果識別設計』——先在這裡定策略與估計量,一般語法細節可回它。與 research-method-selector 劃界:它判斷量化/質化大方向,本 skill 是量化檔案線內的識別深化。"
+description: "因果推論架構師(頂刊識別策略,2026 前緣標準):現代差異中之差異 DiD——交錯採用(staggered adoption)下 TWFE 的偏誤、Goodman-Bacon 分解、Callaway & Sant'Anna / Sun & Abraham 等異質穩健估計量、事件研究圖與平行趨勢診斷(含 Rambachan & Roth 誠實區間);工具變數 IV(弱工具診斷、排除限制論證);斷點迴歸 RDD;合成控制 SCM;短窗/長窗事件研究估計(市場模型 AR/CAR/BHAR、BMP 與 Kolari-Pynnönen 檢定、calendar-time 組合、台灣 13:30 順延與漲跌停);預測型主張的樣本外評估與資料窺探;安慰劑檢定矩陣。輸出:識別策略選擇書+對應 R/Python 語法(fixest/did/rdrobust/statsmodels)+審稿人攻防表。何時用:政策/制度/揭露的採用效果、任何想宣稱因果的檔案資料研究、審稿人質疑內生性與識別。觸發詞:DiD、差異中之差異、雙重差分、交錯採用、staggered、平行趨勢、事件研究圖、event study、事件源、重大訊息事件、MOPS 事件、工具變數、IV、弱工具、2SLS、斷點迴歸、RDD、合成控制、synthetic control、因果推論、識別策略、內生性、自然實驗、政策評估、處理效應、Callaway、Goodman-Bacon、TWFE 偏誤、CAR、BHAR、累積異常報酬、異常報酬、市場模型、BMP、Patell、Corrado、Kolari-Pynnönen、事件研究估計、樣本外、walk-forward、purged、資料窺探、deflated Sharpe。與 r-spss-syntax-architect 劃界:那個管一般面板 FE/調節/中介的建模語法,本 skill 專攻『因果識別設計』——先在這裡定策略與估計量,一般語法細節可回它。與 research-method-selector 劃界:它判斷量化/質化大方向,本 skill 是量化檔案線內的識別深化。"
 ---
 
 # 因果推論架構師(Causal Inference Architect)
@@ -33,7 +33,9 @@ MOPS 重大訊息(公司「宣布」那一刻=事件日),乾淨且免費。要�
 | 連續指標跨門檻觸發處理 | **RDD**(sharp/fuzzy) | 門檻附近局部隨機、無精準操縱(McCrary 檢定) |
 | 有外生工具 | **IV/2SLS** | 相關性(第一階段 F)+排除限制(只能論證不能檢定) |
 | 單一處理單位(一家公司/一個縣市) | **合成控制 SCM** | 供體池、前期擬合良好 |
+| 揭露/公告事件看股價反應(短窗數日;長窗 12–36 月) | **事件研究**:短窗市場模型 AR/CAR+BMP(叢集時 Kolari-Pynnönen 調整);長窗 calendar-time 組合為主、BHAR 為輔——窗口、模型、檢定與台灣情境見 `references/event-study-estimation.md`,CAAR 圖用 management-figure 的 `car_plot()` | 事件日精確(13:30 後順延)、窗內無混淆事件、估計窗與事件窗不重疊;長窗另需正常報酬模型正確 |
 | 都沒有 | 誠實承認做關聯研究,用選擇模型/配對減緩,不宣稱因果 | — |
+
 
 ## Step 3|現代 DiD 正典(交錯採用必讀,2020 後革命的核心)
 
@@ -64,6 +66,8 @@ MOPS 重大訊息(公司「宣布」那一刻=事件日),乾淨且免費。要�
 分「必做/加分/情境觸發」三級、每項附「審稿人會怎麼問」與 R 套件函式(HonestDiD 誠實區間、
 Roth 前趨勢檢定力、Oster δ、sensemakr、隨機化推論、異質穩健估計量並陳)——見
 `references/robustness-battery.md`;台灣常見「制度變革當自然實驗」設計的專屬必做項也在那裡。
+稿件含預測型主張(樣本外 R²、機器學習分類、特徵組合的異常報酬)時,另依該檔第九節
+「樣本外預測評估與資料窺探」備齊時序切分、purge/embargo、基準比較與多重檢定。
 
 ## Step 5|審稿人攻防表(輸出必附)
 

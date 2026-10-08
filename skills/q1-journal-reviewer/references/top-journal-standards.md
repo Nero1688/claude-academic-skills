@@ -59,6 +59,36 @@
 | C 經濟量級 | 主結果完全沒有經濟量級討論——在這個家族幾乎是必要條件 | 只換算一次、沒有可比基準；效果大得不合理卻沒解釋；用 R² 變化當經濟意義；把「一單位變動」當量級（一單位是什麼？） | "The authors should discuss economic significance." ＝ 必補。"The implied effect is implausibly large." ＝ 你的估計可能有問題。"How does this compare with prior estimates?" ＝ 缺基準 |
 | D 理論貢獻 | 純描述（"we document that…"）而無區辨假說；動機只有「台灣很有趣」 | 兩個機制都能解釋主結果，沒有設計 horse race；「貢獻」寫的是資料新而非知識新；沒有說明為何既有美國證據無法回答這個問題 | "This is a descriptive exercise." ＝ 沒有假說張力。"What do we learn that we did not already know from [U.S. evidence]?" ＝ 情境複製 |
 
+### 子類：實證資產定價與預測論文（2026-10 新增）
+
+主結果是「某特徵或因子解釋（預測）股票報酬」「某變數在樣本外預測報酬或波動」的稿件，
+軸 A 的第一刀換成**證據是否來自資料窺探**，下表各列是審稿人的硬期待。語法層的對應配方見
+`r-spss-syntax-architect` 的 `references/finance-timeseries-lane.md`。
+
+| 期待 | 沒有就退（Fatal） | 有但薄（Major） | 審稿人常見用語（英文原句＋意思） |
+|---|---|---|---|
+| 多重檢定門檻 | 新因子或新預測變數只靠 t ≈ 2 宣稱顯著，未交代試過幾種設定 | 有提多重檢定但沒調整門檻；Harvey, Liu & Zhu（2016, *RFS*）主張新因子的 t 值門檻應提高到約 3 以上，稿件 t 落在 2–3 之間卻未討論 | "Given the number of factors already tested, a t-statistic of 2 is not sufficient." ＝ 門檻要提高 |
+| 因子動物園 | 新因子只對 CAPM 或 FF3 測 alpha | 沒對 FF5＋動能或 q-factor（Hou, Xue & Zhang, 2015, *RFS*）等現行模型測；沒說明新因子相對既有數百個因子增加了什麼（Cochrane, 2011, *JF* 的「因子動物園」；Feng, Giglio & Xiu, 2020, *JF* 的檢定法） | "Is this a new factor or a repackaging of existing ones?" ＝ 要和既有因子賽跑 |
+| 樣本外證據 | 只有全樣本迴歸，卻用「預測」的語言 | 有樣本外但切分點唯一且事後選；只報樣本內 R²；預測檢定沒有歷史均值基準與 Campbell–Thompson 樣本外 R²（Welch & Goyal, 2008, *RFS* 顯示多數預測變數樣本外失效）；沒交代發表後衰減（McLean & Pontiff, 2016, *JF*） | "The out-of-sample evidence is limited to a single split." ＝ 切分要穩健。"How does the predictor perform after publication?" ＝ 衰減 |
+| 經濟顯著性 | 只報 t 值與星號 | alpha 沒換算成每月基點或年化；預測沒換算成效用增益或 Sharpe 改善；量級寫法見第一節「顯著性語言」列的 Mitton（2024） | "What is the economic magnitude of the alpha?" ＝ 必補 |
+| 交易成本與可投資性 | 高換手策略只報毛報酬 | 沒扣成本、沒報換手率；結果集中在微型股或低流動性股（Hou, Xue & Zhang, 2020, *RFS*；Novy-Marx & Velikov, 2016, *RFS*）；台灣稿沒說明漲跌幅限制與流動性對可實現報酬的影響 | "Does the anomaly survive transaction costs and the exclusion of microcaps?" ＝ 可實現性 |
+| 資料窺探 | 規格（窗長、分組數、樣本期、變數定義）明顯是看結果後挑的 | 沒報試過的設定總數；沒做聯合檢定（White, 2000, *Econometrica* 的 reality check；Hansen, 2005, *JBES* 的 SPA）；ML 預測稿的超參數在測試集上調（Gu, Kelly & Xiu, 2020, *RFS* 的切分慣例可作對照） | "The specification appears to have been chosen after observing the results." ＝ 窺探 |
+| 報酬口徑（台灣專屬） | — | 個股用含息報酬、市場用價格指數（如 ^TWII）；跨 2015-06-01 漲跌幅放寬（±7%→±10%）未分段；非交易日補 0 報酬 | "Are returns and the market benchmark measured consistently, including dividends?" ＝ 口徑錯配會製造假 alpha |
+
+文獻：Harvey, C. R., Liu, Y., & Zhu, H. (2016). …and the cross-section of expected returns. *RFS*, 29(1), 5–68；
+Cochrane, J. H. (2011). Presidential address: Discount rates. *JF*, 66(4), 1047–1108；
+Feng, G., Giglio, S., & Xiu, D. (2020). Taming the factor zoo: A test of new factors. *JF*, 75(3), 1327–1370；
+Hou, K., Xue, C., & Zhang, L. (2015). Digesting anomalies: An investment approach. *RFS*, 28(3), 650–705；
+Hou, K., Xue, C., & Zhang, L. (2020). Replicating anomalies. *RFS*, 33(5), 2019–2133；
+McLean, R. D., & Pontiff, J. (2016). Does academic research destroy stock return predictability? *JF*, 71(1), 5–32；
+Welch, I., & Goyal, A. (2008). A comprehensive look at the empirical performance of equity premium prediction. *RFS*, 21(4), 1455–1508；
+Campbell, J. Y., & Thompson, S. B. (2008). Predicting excess stock returns out of sample. *RFS*, 21(4), 1509–1531；
+Novy-Marx, R., & Velikov, M. (2016). A taxonomy of anomalies and their trading costs. *RFS*, 29(1), 104–147；
+White, H. (2000). A reality check for data snooping. *Econometrica*, 68(5), 1097–1126；
+Hansen, P. R. (2005). A test for superior predictive ability. *Journal of Business & Economic Statistics*, 23(4), 365–380；
+Gu, S., Kelly, B., & Xiu, D. (2020). Empirical asset pricing via machine learning. *RFS*, 33(5), 2223–2273。
+（*RFS*＝Review of Financial Studies；*JF*＝Journal of Finance。）
+
 ---
 
 ## 四、「有但薄」審稿語翻譯表（跨家族通用）
@@ -160,7 +190,10 @@
    （事件檔建構走 `public-disclosure-scout`）。
 5. **資料節明寫 TEJ 特有威脅**：欄位回填（backfill）造成的前視偏誤、下市公司是否保留
    （存活偏誤）、會計年度與日曆年度對齊方式。交錯採用時附 Goodman-Bacon（2021）分解表，
-   讓審稿人看到壞比較佔比。
+   讓審稿人看到壞比較佔比。以股價報酬、波動度或預測力為主結果的稿件另加三項：報酬口徑
+   （個股與市場是否同為含息）、漲跌幅制度（2015-06-01 前為 ±7%）、樣本外切分與「試過幾種設定」；
+   後一項的檢核清單見 `causal-inference-architect` 的 `references/robustness-battery.md`
+   「樣本外預測評估與資料窺探」一節，審稿期待見第三節「子類：實證資產定價與預測論文」。
 
 ### 落差 3：只報統計顯著、不報經濟量級與可比基準
 

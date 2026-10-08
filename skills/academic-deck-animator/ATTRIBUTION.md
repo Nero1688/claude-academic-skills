@@ -28,7 +28,7 @@
    增益集;本技能的 --split 模式為 Python 原生重新實作(在產生階段直接展開
    逐步頁面,而非事後拆解),實作路徑完全不同。
 
-5. **1weiho/open-slide**(https://github.com/1weiho/open-slide,MIT)
+5. **open-slide/open-slide**(https://github.com/open-slide/open-slide,MIT；原 1weiho/open-slide，2026-10 移至 open-slide 組織)
    借鑑概念:在開發伺服器裡點選任意元素、附上留言(如「make this red」),留言
    以 `@slide-comment` 標記持久化在原始碼中,之後批次套用修改的互動迴圈。本
    技能將此概念改寫為逐頁編號回饋格式(`p<頁碼>: <修改指示>`)的純文字批次

@@ -53,6 +53,13 @@ python scripts/deadline_calc.py --enroll 112-09 [--suspend-months N] [--qual-pas
 - 主動標記任何逼近的 deadline 與「會導致退學」的硬線（尤其 3 年資格考）。
 - 提醒易被忽略的非研究關卡：學術倫理課程、國際素養 6 點——不難但忘了就卡畢業。
 - 在職生緩衝建議：把有外部依賴、不可控時間的關卡（期刊審查、委員排程）往前抓足提前量；善用休學年限作為風險緩衝而非拖延。
+
+## 階段五　提醒落地（使用者要提醒、或有短窗口逼近時）
+**沒有工具真的建立成功，就不准說「已設定」「會提醒你」。**依可用工具三選一：`~~行事曆`已連上 → 列出事件、同意後建立、讀回核對；`~~排程` → 只做週期性盤點；都沒有 → 跑
+```bash
+python scripts/deadline_calc.py --enroll 112-09 [--candidacy-date 116-03-31 --seminar-date … --defense-date …] --ics milestones.ics
+```
+匯出全天事件（紅線另附倒數 180／60 天、申請截止另附倒數 7 天的獨立事件），並講明「匯入後才會出現」。事件相對窗口要有使用者給的事件日才算。三條路的細節、時區與提前量理由見 `references/reminder-landing.md`。
 </workflow>
 
 <output_contract>

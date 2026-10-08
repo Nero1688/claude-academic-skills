@@ -53,3 +53,16 @@ World Bank、Eurostat、ILOSTAT、IMF（sdmxcentral）、UN Data。
   並記錄其專案自述 0.7.7 版前存在 RCE/SSRF/硬編碼 JWT 等嚴重漏洞。**定位為
   REFERENCE-ONLY**:僅供概念參考與風險提醒,**未引入其程式碼或依賴**,且明確
   建議不自架其 Docker API 對外服務。
+
+## 補充概念來源(2026-10-08 新增)
+
+- **public-apis/public-apis**(MIT,https://github.com/public-apis/public-apis):
+  重讀與政策、財務、經濟、環境、地理相關的類別,寫成 `references/free-api-vetting.md`
+  的欄位解讀與「包裝層」判準;並從中挑候選來源逐一自行實測。定位仍為發現層,
+  未複製清單內容。
+- **morluto/rea**(MIT,https://github.com/morluto/rea):借其證據紀律
+  (缺少證據是未知而非否、不完整比較不得宣稱不存在),寫成 `free-api-vetting.md`
+  第四、五節的失效區辨與狀態詞彙。未使用其程式碼。
+- **Panniantong/Agent-Reach**(MIT,https://github.com/Panniantong/Agent-Reach):
+  借其來源健康檢查的設計概念(實際執行探測、區分失敗型態、只對暫時性失敗重試、
+  空結果與驗證頁不算成功)。**cookie、登入態與帳號相關機制一律不借**,未使用其程式碼。

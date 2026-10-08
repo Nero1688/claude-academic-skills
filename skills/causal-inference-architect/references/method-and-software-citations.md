@@ -56,6 +56,51 @@
   *Sociological Methods & Research* 53(3), 1071–1104(線上首發 2022;已查證 2026-09-20)—
   壞控制變數的速查;robustness-battery 通用層「壞控制變數」列的依據。
 
+## 事件研究估計(完整清單與卷期頁見 `event-study-estimation.md` 第九節)
+
+- **Boehmer, Musumeci & Poulsen (1991)**, *Journal of Financial Economics* — 標準化橫斷面檢定(BMP),
+  處理事件誘發的變異;短窗市場反應的預設主檢定。
+- **Kolari & Pynnönen (2010)**, *Review of Financial Studies* — 異常報酬橫斷面相關的調整;事件日叢集時必引。
+- **Corrado (1989)**, *Journal of Financial Economics*;**Corrado & Zivney (1992)**, *Journal of Financial
+  and Quantitative Analysis* — 等級檢定與標準化等級。
+- **Patell (1976)**, *Journal of Accounting Research*;**Cowan (1992)**, *Review of Quantitative Finance and
+  Accounting* — 標準化檢定與廣義符號檢定。
+- **Barber & Lyon (1997)**、**Kothari & Warner (1997)**,皆 *Journal of Financial Economics*;**Fama (1998)**,
+  *Journal of Financial Economics*;**Mitchell & Stafford (2000)**, *Journal of Business* — 長期事件的
+  BHAR 偏誤與 calendar-time 組合。
+
+## 樣本外預測評估與資料窺探(robustness-battery 第九節)
+
+- **López de Prado (2018)**, *Advances in Financial Machine Learning*, Wiley — purged k-fold 與 embargo(第 7 章)。
+- **Diebold & Mariano (1995)**, "Comparing predictive accuracy," *Journal of Business & Economic Statistics*,
+  13(3), 253–263;**Harvey, Leybourne & Newbold (1997)**, *International Journal of Forecasting*, 13(2),
+  281–291 — 預測準確度比較與小樣本修正。
+- **Clark & West (2007)**, "Approximately normal tests for equal predictive accuracy in nested models,"
+  *Journal of Econometrics*, 138(1), 291–311。
+- **Campbell & Thompson (2008)**, "Predicting excess stock returns out of sample: Can anything beat the
+  historical average?" *Review of Financial Studies*, 21(4), 1509–1531;**Welch & Goyal (2008)**,
+  *Review of Financial Studies*, 21(4), 1455–1508。
+- **Newey & West (1987)**, *Econometrica*, 55(3), 703–708;**Hodrick (1992)**, *Review of Financial
+  Studies*, 5(3), 357–386;**Driscoll & Kraay (1998)**, *Review of Economics and Statistics*, 80(4),
+  549–560 — 重疊標籤與面板的 HAC 標準誤。
+- **Bailey & López de Prado (2014)**, "The deflated Sharpe ratio," *Journal of Portfolio Management*,
+  40(5), 94–107;**Bailey, Borwein, López de Prado & Zhu (2017)**, "The probability of backtest
+  overfitting," *Journal of Computational Finance*, 20(4)(頁碼建議查證)。
+- **Harvey, Liu & Zhu (2016)**, "… and the cross-section of expected returns," *Review of Financial
+  Studies*, 29(1), 5–68;**Harvey (2017)**, "The scientific outlook in financial economics," *Journal of
+  Finance*, 72(4), 1399–1440;**Lo & MacKinlay (1990)**, "Data-snooping biases in tests of financial asset
+  pricing models," *Review of Financial Studies*, 3(3), 431–467。
+- **Benjamini & Yekutieli (2001)**, *Annals of Statistics*, 29(4), 1165–1188;**White (2000)**, "A reality
+  check for data snooping," *Econometrica*, 68(5), 1097–1126;**Hansen (2005)**, "A test for superior
+  predictive ability," *Journal of Business & Economic Statistics*, 23(4), 365–380;**Romano & Wolf (2005)**,
+  "Stepwise multiple testing as formalized data snooping," *Econometrica*, 73(4), 1237–1282。
+- **Gu, Kelly & Xiu (2020)**, "Empirical asset pricing via machine learning," *Review of Financial Studies*,
+  33(5), 2223–2273;**McLean & Pontiff (2016)**, "Does academic research destroy stock return
+  predictability?" *Journal of Finance*, 71(1), 5–32;**Shumway (1997)**, "The delisting bias in CRSP
+  data," *Journal of Finance*, 52(1), 327–340。
+- **Glasserman & Lin (2023)**, 以 GPT 情緒分析預測股票報酬的前視偏誤評估,arXiv 工作論文;
+  期刊版刊名與卷期**建議查證**。
+
 ## R 套件(軟體引用,用 `citation("套件名")` 取官方格式)
 
 - `did` — Callaway & Sant'Anna。

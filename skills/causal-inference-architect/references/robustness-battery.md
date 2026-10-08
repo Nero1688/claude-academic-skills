@@ -137,6 +137,12 @@ Abadie (2021) 的建議是把權重表放正文：權重稀疏且集中在少數
 | 情境觸發 | 小型股薄交易 | "Thin trading biases beta." | Scholes–Williams 型調整或剔除交易日不足樣本 | 附錄表 |
 | 情境觸發 | CAR 的橫斷面迴歸 | "Standard errors should account for event-date clustering." | `fixest::feols(car ~ x, cluster = ~event_date)` | 正文表 |
 
+本節只列審稿人會逐項要的稽核項。**估計配方**（估計窗與緩衝期、市場模型與 TEJ 因子模型、
+AR／CAR／BHAR 與預測誤差變異的公式、上表六種檢定的算式與 Python／R 實作、長期事件的
+calendar-time 組合，以及台灣情境：13:30 後順延、漲跌停延遲反應、薄交易與停牌、價格指數與
+含息報酬口徑不一、財報截止日造成的同日叢集）見 `references/event-study-estimation.md`。
+CAAR 曲線圖交 `management-figure` 的 `car_plot()`。
+
 ---
 
 ## 七、台灣商管稿件在頂刊的常見落差→具體對策
@@ -242,3 +248,44 @@ Roth, Sant'Anna, Bilinski & Poe (2023, *Journal of Econometrics*) 是現代 DiD 
 攻防表（SKILL.md Step 5）每一列的「你的證據」欄，直接填本檔的表號；審稿人問到時，
 回覆信引用同一表號（`response-letter-craftsman` 的
 `references/rr-conventions-top-journals.md` 有對應的回覆句式）。
+
+---
+
+## 九、樣本外預測評估與資料窺探（稿件含預測型主張時）
+
+適用情境：稿件主張某個變數**能預測**未來結果，例如 ESG／TESG 分數預測報酬或違約、年報
+語調預測 CAR、機器學習分類財務危機或舞弊、某公司特徵的多空組合有異常報酬。這類主張的
+審稿問題與因果識別不同：不問「效果是不是處理造成的」，而問「樣本外還在不在」「是不是
+試了很多次才找到」。本節是學術稿件的樣本外評估紀律，**不是個人投資策略回測**（選股策略、
+報酬回測屬個人投資應用，不在本技能家族範圍，見 `tej-data-scout` 的
+`references/tej-access-channels.md` 末段）。完整書目見 `method-and-software-citations.md`。
+
+| 等級 | 項目 | 審稿人會怎麼問 | 做法與套件函式（Python／R） | 報告方式 |
+|---|---|---|---|---|
+| 必做 | 時序切分（walk-forward：擴張窗為主、滾動窗為穩健性） | "Did you randomly split a time series? Your training set contains information from after the test period." | 不得隨機打散；每期只用當時可得的資料重估。Python `sklearn.model_selection.TimeSeriesSplit(n_splits=…, gap=…)`；R `rsample::rolling_origin(cumulative = TRUE)`（滾動窗設 `FALSE`）。面板資料以**日期區塊**切分，不以公司切分：同一日期的不同公司共享市場衝擊，分到訓練與測試兩邊即是洩漏。訓練／驗證／測試三段式時序切分可參照 Gu, Kelly & Xiu (2020, *Review of Financial Studies*) | 附錄圖：各折訓練、驗證、測試期間示意＋各折績效；正文報合併後的樣本外指標 |
+| 必做（標籤跨期時） | purged k-fold＋embargo | "Your labels span overlapping horizons (e.g., 12-month forward returns); adjacent observations leak across folds." | López de Prado (2018, *Advances in Financial Machine Learning*, Wiley) 第 7 章：每筆樣本的標籤有區間〔預測時點, 評估時點〕；訓練集**剔除（purge）**標籤區間與測試折重疊者，測試折之後再**禁用（embargo）**h 期。`TimeSeriesSplit(gap=h)` 只做單側間隔，不等於 purge，需手刻（約 20 行）。台灣情境：年度財報於期末後 3 個月內、季報於 45 日內公告，特徵日期要用**公告日**（或法定期限），不可用會計期末日 | 方法節寫明 purge 規則與 embargo 長度 |
+| 必做 | 重疊標籤的推論 | "Overlapping returns induce serial correlation; your t-statistics are overstated." | 月資料預測未來 h 個月報酬時，誤差有 h − 1 階移動平均結構：Newey & West (1987, *Econometrica*) HAC，落後期數至少 h − 1（Python `OLS(...).fit(cov_type="HAC", cov_kwds={"maxlags": h - 1})`；R `sandwich::NeweyWest(m, lag = h - 1)`）；或 Hodrick (1992, *Review of Financial Studies*) 標準誤；或以不重疊子樣本作穩健性。面板用 Driscoll & Kraay (1998, *Review of Economics and Statistics*)（R `plm::vcovSCC()`）或公司＋時間雙向叢集 | 表註寫明 HAC 落後期數 |
+| 必做 | 與基準比較的預測準確度 | "Out-of-sample R² relative to what benchmark? Is the improvement significant?" | 報酬預測用 Campbell & Thompson (2008, *Review of Financial Studies*) 的 R²_OS = 1 − Σ(r_t − r̂_t)² ／ Σ(r_t − r̄_t)²，基準 r̄_t 是**截至 t − 1 的歷史平均**（擴張窗），不是全樣本平均；Welch & Goyal (2008, *Review of Financial Studies*) 顯示多數報酬預測變數在樣本外贏不了歷史平均。預測模型包含基準（巢狀）時用 Clark & West (2007, *Journal of Econometrics*) 調整 MSPE 檢定（單尾）；非巢狀時用 Diebold & Mariano (1995, *Journal of Business & Economic Statistics*)，小樣本加 Harvey, Leybourne & Newbold (1997, *International Journal of Forecasting*) 修正。R `forecast::dm.test()`；Python 手刻（損失差序列對常數做 HAC 迴歸）。分類問題報 AUC 並與「全猜多數類」基準比較 | 正文表：R²_OS、CW 或 DM 的 p 值、基準名稱 |
+| 必做 | 多重檢定：試了幾次 | "How many predictors and specifications did you try before this one?" | Harvey, Liu & Zhu (2016, *Review of Financial Studies*)：新因子或新異常報酬的 t 門檻應提高到約 3.0；Harvey (2017, *Journal of Finance*) 主張報告全部嘗試；資料窺探偏誤的經典是 Lo & MacKinlay (1990, *Review of Financial Studies*)。做法：變數、窗口、模型、超參數的試驗紀錄全程留檔並報總試驗數 K；p 值以 Holm 或 Benjamini & Yekutieli (2001, *Annals of Statistics*) 調整（Python `statsmodels.stats.multitest.multipletests(p, method="holm")` 或 `"fdr_by"`；R `p.adjust(p, "holm")` 或 `"BY"`）；多模型比較用 White (2000, *Econometrica*) Reality Check、Hansen (2005, *Journal of Business & Economic Statistics*) SPA 或 Romano & Wolf (2005, *Econometrica*) 逐步法 | 正文一句報 K 與調整方法；附錄試驗清單 |
+| 必做 | 存活者偏誤與前視偏誤 | "Do you use point-in-time data? Are delisted firms included?" | (a) 下市公司必須在樣本內（`tej-data-scout` Part D 第 1 點），下市當期報酬不得刪除（Shumway, 1997, *Journal of Finance*）；(b) 特徵用**當時可得值**：財報看公告日、月營收看次月 10 日、評等與 TESG 看首次公布值（Part D 第 2、3 點）；(c) 標準化、補值、縮尾的參數只能用訓練期估計再套到測試期，用全樣本平均與標準差是最常見的隱性前視；(d) 母體以當時的上市櫃名單界定，不以現存公司回推；(e) 以大型語言模型標註文字時，模型訓練資料截止日晚於事件日即有前視疑慮（Glasserman & Lin, 2023, arXiv 工作論文，期刊版刊名**建議查證**），以截止日之後的樣本另做樣本外檢驗 | 資料節逐點交代；附錄「資訊可得日」對照表 |
+| 加分（報 Sharpe ratio 時） | deflated Sharpe ratio | "With K trials, the best Sharpe ratio is inflated by selection." | Bailey & López de Prado (2014, *Journal of Portfolio Management*)：以試驗次數 K、各試驗 Sharpe 的變異、樣本長度、報酬偏態與峰態，算出最佳 Sharpe 超過選擇偏誤門檻的機率；需手刻。用於學術稿件的多空組合證據。Sharpe 先減無風險利率、年化方式寫明，且以各折合併後的報酬計算，不平均各折的 Sharpe（非線性指標不可平均） | 附錄表：K、SR、DSR |
+| 加分 | 回測過擬合機率 PBO | "Is the in-sample winner still good out of sample?" | Bailey, Borwein, López de Prado & Zhu (2017, *Journal of Computational Finance*) 的組合對稱交叉驗證（CSCV）：期間切成 S 塊，取所有 S/2 的組合，每次在樣本內選最佳設定、看它在樣本外的排名，PBO＝樣本外排名落在中位數以下的比例。Python 手刻約 25 行；R 有 `pbo` 套件（**建議查證**） | 附錄圖：樣本外排名 logit 分布＋PBO |
+| 加分 | 保留集只用一次 | "Did you revisit the test set after seeing the results?" | 最終保留集在所有設定凍結後只看一次；看過再調參就不再是樣本外。可預先登記預測規格（變數、窗口、評估指標）。McLean & Pontiff (2016, *Journal of Finance*) 顯示異常報酬在發表後明顯衰減，審稿人會據此追問樣本內發現的可信度 | 方法節一句：保留集期間與使用次數 |
+
+**報告模板**：
+
+> "All forecasts are generated out of sample with an expanding window starting in [year];
+> hyperparameters are tuned within each training window using purged k-fold cross-validation with
+> an [h]-month embargo. Relative to the historical-mean benchmark, the out-of-sample R² is [x]%
+> (Clark–West p = [p]). We evaluated [K] specifications in total; p-values are adjusted with
+> [method], and the deflated Sharpe ratio of the long–short portfolio is [value]."
+
+**與第一節的分工**：第一節的「多重結果變數的多重檢定校正」與「設定曲線」處理因果稿件的
+設定自由度；本節處理預測稿件的資料窺探。稿件同時有因果主張與樣本外預測力佐證時，兩組
+各自報告。
+
+延伸閱讀（書；只借方法模式，未搬程式碼）：Medina Ruiz & Chan (2025), *Generative AI for
+Trading and Asset Management*（Wiley）第 3 章的評估協定（訓練／驗證／測試三分、測試集失敗
+不得回頭調參、跨折不可平均 Sharpe）；Lewinson (2022), *Python for Finance Cookbook*
+（2nd ed., Packt）第 7 章的時序交叉驗證與第 12 章的回測偏誤清單。兩書範例多為美股少數
+標的，書中的績效數字不可當實證證據引用。

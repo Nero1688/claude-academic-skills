@@ -42,3 +42,11 @@
 `references/screening-cascade.md`「judge 可插拔設計」一節。
 
 本技能供學術研究使用。
+
+## 概念啟發:文獻來源分級(2026-10-08 新增)
+
+SKILL.md「Step 0|文獻從哪來」的寫法——工具以類別描述(`~~文獻管理器`)、有接上就加值、
+沒接上或接上但沒內容就走零連接器退路——借鑑 **anthropics/knowledge-work-plugins**
+(https://github.com/anthropics/knowledge-work-plugins ,Apache-2.0,2026-10-08 實抓根目錄
+LICENSE)各外掛的 `CONNECTORS.md` 佔位設計與 small-business 外掛的 connector-map
+三欄表(必要/加值/退路)。僅借設計概念,以自己的話寫成本技能情境,**未複製其文字或程式碼**。
