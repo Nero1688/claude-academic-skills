@@ -5,7 +5,7 @@
 每一項都對應一次**實際發生過**的問題，不是假想的：
 
   1. 內部標記殘留        不該發布的檔案標記仍留在包內
-  2. 哨兵殘留            PRIVATE-ONLY 標記沒被抽掉，代表 start/end 不成對
+  2. 哨兵殘留            區塊哨兵沒被抽掉，代表 start/end 不成對
   3. NOTICE 覆蓋率       每支技能都要有授權登錄；global-opendata-scout 曾漏登四個月
   4. NOTICE 表格完整     空行會把 Markdown 表格截斷，後半段在 GitHub 上失去表頭
   5. README 技能數       badge 與實際數量不符（曾停在 35 而實際 38）
@@ -22,7 +22,14 @@ import sys
 ROOT = sys.argv[1] if len(sys.argv) > 1 else "."
 SKILLS = os.path.join(ROOT, "skills")
 DESC_MAX = 1024
-PRIVATE_MARKERS = ("私人版專屬", "公開版無此檔", "私人版限定")
+# 不該發布的內部標記：清單放在 repo 外（環境變數 INTERNAL_MARKERS_FILE，每行一個字串），
+# 免得清單本身寫進 repo。CI 上沒有這個檔就只檢查下方的未成對哨兵。
+_mf = os.environ.get("INTERNAL_MARKERS_FILE", "")
+INTERNAL_MARKERS = tuple(
+    ln.strip() for ln in (open(_mf, encoding="utf-8").read().splitlines() if _mf and os.path.isfile(_mf) else [])
+    if ln.strip() and not ln.startswith("#")
+)
+SENTINEL = "-".join(("PRIVATE", "ONLY"))  # 同步時應已被抽掉的區塊哨兵
 
 problems = []
 
@@ -53,12 +60,12 @@ for dirpath, _, files in os.walk(SKILLS):
         p = os.path.join(dirpath, fn)
         t = read(p)
         rel = os.path.relpath(p, ROOT).replace("\\", "/")
-        for m in PRIVATE_MARKERS:
+        for m in INTERNAL_MARKERS:
             if m in t:
                 err(f"{rel} 殘留內部標記「{m}」")
                 break
-        if "PRIVATE-ONLY" in t:
-            err(f"{rel} 殘留 PRIVATE-ONLY 哨兵（start/end 可能不成對）")
+        if SENTINEL in t:
+            err(f"{rel} 殘留區塊哨兵（start/end 可能不成對）")
 if not problems:
     print("  OK")
 

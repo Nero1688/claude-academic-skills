@@ -108,7 +108,7 @@ def write_ics(path, events):
     """events: [{'summary', 'day': date, 'desc'}];回傳寫出的事件數。"""
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     lines = ["BEGIN:VCALENDAR", "VERSION:2.0",
-             "PRODID:-//academic-claude-skills//phd-milestone-tracker//ZH-TW",
+             "PRODID:-//claude-academic-skills//phd-milestone-tracker//ZH-TW",
              "CALSCALE:GREGORIAN", "METHOD:PUBLISH"]
     for ev in events:
         uid = hashlib.sha1(f"{ev['summary']}|{ev['day'].isoformat()}".encode("utf-8")).hexdigest()[:16]

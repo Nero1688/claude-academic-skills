@@ -104,7 +104,7 @@ for _s in (sys.stdout, sys.stderr):
     except (AttributeError, ValueError):
         pass
 
-PROJECT_UA_BASE = "academic-claude-skills/public-disclosure-scout archive_url.py (academic research)"
+PROJECT_UA_BASE = "claude-academic-skills/public-disclosure-scout archive_url.py (academic research)"
 ALLOWED_HOSTS = {"archive.org", "web.archive.org"}
 CDX_ENDPOINT = "https://web.archive.org/cdx/search/cdx"
 SAVE_ENDPOINT_ANON = "https://web.archive.org/save/"

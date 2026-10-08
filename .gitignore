@@ -9,7 +9,7 @@ __pycache__/
 *.pyc
 .venv/
 venv/
-# 本機備份（維護者編輯既有檔前的 cp -n 備份；絕不進版控，見私人庫同規則）
+# 本機備份（編輯既有檔前的 cp -n 備份；絕不進版控）
 *.bak-*
 # 認證 / 私密（保險起見，絕不進版控）
 *auth.json
@@ -17,10 +17,9 @@ venv/
 *.key
 *.pem
 secrets.*
-# 私密維護包(絕不進版控)
-PRIVATE_do_not_upload/
-private_patterns.txt
-private_substitutions.txt
+# 個人化掃描樣式(放在 repo 外;萬一被複製進來也絕不進版控)
+*_patterns.txt
+*_substitutions.txt
 
 secrets/
 credentials*
